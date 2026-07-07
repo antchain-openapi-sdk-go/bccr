@@ -1,6 +1,6 @@
 [English](README.md) | 简体中文
 
-# Ant Chain BCCR SDK for Go
+# Ant Chain ABC SDK for Go
 
 ## 要求
 - 您需要确保本地安装的 go 环境版本大于 1.12.0.
@@ -8,7 +8,7 @@
 ## 安装
 你可以使用 `go mod` 来管理你的依赖，
 ```sh
-  go get github.com/antchain-openapi-sdk-go/bccr
+  go get github.com/antchain-openapi-sdk-go/BCCR
 ```
 
 ## 问题

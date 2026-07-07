@@ -6,11 +6,12 @@ import (
 	util "github.com/alibabacloud-go/tea-utils/v2/service"
 	"github.com/alibabacloud-go/tea/tea"
 	antchainutil "github.com/antchain-openapi-sdk-go/antchain-util/service"
+	"io"
 )
 
-/**
- * Model for initing client
- */
+// Description:
+//
+// Model for initing client
 type Config struct {
 	// accesskey id
 	AccessKeyId *string `json:"accessKeyId,omitempty" xml:"accessKeyId,omitempty"`
@@ -19,26 +20,66 @@ type Config struct {
 	// security token
 	SecurityToken *string `json:"securityToken,omitempty" xml:"securityToken,omitempty"`
 	// http protocol
+	//
+	// example:
+	//
+	// http
 	Protocol *string `json:"protocol,omitempty" xml:"protocol,omitempty"`
 	// read timeout
+	//
+	// example:
+	//
+	// 10
 	ReadTimeout *int `json:"readTimeout,omitempty" xml:"readTimeout,omitempty"`
 	// connect timeout
+	//
+	// example:
+	//
+	// 10
 	ConnectTimeout *int `json:"connectTimeout,omitempty" xml:"connectTimeout,omitempty"`
 	// http proxy
+	//
+	// example:
+	//
+	// http://localhost
 	HttpProxy *string `json:"httpProxy,omitempty" xml:"httpProxy,omitempty"`
 	// https proxy
+	//
+	// example:
+	//
+	// https://localhost
 	HttpsProxy *string `json:"httpsProxy,omitempty" xml:"httpsProxy,omitempty"`
 	// endpoint
+	//
+	// example:
+	//
+	// cs.aliyuncs.com
 	Endpoint *string `json:"endpoint,omitempty" xml:"endpoint,omitempty"`
 	// proxy white list
+	//
+	// example:
+	//
+	// http://localhost
 	NoProxy *string `json:"noProxy,omitempty" xml:"noProxy,omitempty"`
 	// max idle conns
+	//
+	// example:
+	//
+	// 3
 	MaxIdleConns *int `json:"maxIdleConns,omitempty" xml:"maxIdleConns,omitempty"`
 	// user agent
+	//
+	// example:
+	//
+	// Alibabacloud/1
 	UserAgent *string `json:"userAgent,omitempty" xml:"userAgent,omitempty"`
 	// socks5 proxy
 	Socks5Proxy *string `json:"socks5Proxy,omitempty" xml:"socks5Proxy,omitempty"`
 	// socks5 network
+	//
+	// example:
+	//
+	// TCP
 	Socks5NetWork *string `json:"socks5NetWork,omitempty" xml:"socks5NetWork,omitempty"`
 	// 长链接最大空闲时长
 	MaxIdleTimeMillis *int `json:"maxIdleTimeMillis,omitempty" xml:"maxIdleTimeMillis,omitempty"`
@@ -151,8 +192,14 @@ func (s *Config) SetMaxRequestsPerHost(v int) *Config {
 // 相似位置信息
 type ResemblePositionData struct {
 	// 起始位置
+	// example:
+	//
+	// 0
 	StartPosition *int64 `json:"start_position,omitempty" xml:"start_position,omitempty" require:"true"`
 	// 结束位置
+	// example:
+	//
+	// 1
 	EndPosition *int64 `json:"end_position,omitempty" xml:"end_position,omitempty" require:"true"`
 }
 
@@ -177,28 +224,64 @@ func (s *ResemblePositionData) SetEndPosition(v int64) *ResemblePositionData {
 // 出证用户（申请人，经办人）
 type NotaryUser struct {
 	// 用户类型
+	// example:
+	//
+	// PERSON 或者 ENTERPRISE
 	UserType *string `json:"user_type,omitempty" xml:"user_type,omitempty" require:"true"`
 	// 用户名称
+	// example:
+	//
+	// 个人用户姓名、企业名称
 	UserName *string `json:"user_name,omitempty" xml:"user_name,omitempty" require:"true"`
 	// 用户账号
+	// example:
+	//
+	// 该用户为业务方注册用户时传入
 	UserAccount *string `json:"user_account,omitempty" xml:"user_account,omitempty"`
 	// 证件类型
+	// example:
+	//
+	// 个人证件类型： identity_card（身份证） 企业证件类型： unified _ social _ credit _ code（统一 社会信用代码） enterprise_registered_number（企 业工商注册号）
 	CertType *string `json:"cert_type,omitempty" xml:"cert_type,omitempty" require:"true"`
 	// 证件号
+	// example:
+	//
+	// 证件类型对应的证件号码
 	CertNo *string `json:"cert_no,omitempty" xml:"cert_no,omitempty" require:"true"`
 	// 联系电话
+	// example:
+	//
+	// 个人手机号或企业联系人手机号码
 	Phone *string `json:"phone,omitempty" xml:"phone,omitempty"`
 	// 法定代表人姓名,用户类型为机构时必填
+	// example:
+	//
+	// 用户类型为机构时必填
 	LegalPersonName *string `json:"legal_person_name,omitempty" xml:"legal_person_name,omitempty"`
 	// 法定代表人证件号码,用户类型为机构时必填
+	// example:
+	//
+	// 法定代表人证件号码
 	LegalPersonCertNo *string `json:"legal_person_cert_no,omitempty" xml:"legal_person_cert_no,omitempty"`
 	// 法定代表人证件类型
+	// example:
+	//
+	// 证件类型： identity_card（身份证，默认） foreign_permanent_resident_id_ca rd(外国人永久居留身份证)
 	LegalPersonCertType *string `json:"legal_person_cert_type,omitempty" xml:"legal_person_cert_type,omitempty"`
 	// 身份证正面
+	// example:
+	//
+	// 类型为个人时，传入个人的证件照片；类型为企业时，传入法人的证件正面
 	CertFrontFile *string `json:"cert_front_file,omitempty" xml:"cert_front_file,omitempty"`
 	// 身份证反面
+	// example:
+	//
+	// 类型为个人时，传入个人的证件照片；类型为企业时，传入法人的证件反面
 	CertBackFile *string `json:"cert_back_file,omitempty" xml:"cert_back_file,omitempty"`
 	// 企业营业执照
+	// example:
+	//
+	// 用户类型为机构时必填
 	EnterpriseCertFile *string `json:"enterprise_cert_file,omitempty" xml:"enterprise_cert_file,omitempty"`
 }
 
@@ -273,14 +356,29 @@ func (s *NotaryUser) SetEnterpriseCertFile(v string) *NotaryUser {
 // 事由
 type Reason struct {
 	// 事由ID
+	// example:
+	//
+	// 123
 	ReasonId *string `json:"reason_id,omitempty" xml:"reason_id,omitempty" require:"true"`
 	// 事由名称
+	// example:
+	//
+	// 商标权/名誉权/著作权
 	ReasonName *string `json:"reason_name,omitempty" xml:"reason_name,omitempty" require:"true"`
 	// 附件文字说明
+	// example:
+	//
+	// 这是一个说明
 	Comment *string `json:"comment,omitempty" xml:"comment,omitempty" require:"true"`
 	// 排序
+	// example:
+	//
+	// 1
 	Sort *int64 `json:"sort,omitempty" xml:"sort,omitempty" require:"true"`
 	// 是否必须上传附件
+	// example:
+	//
+	// true, false
 	IsNeedAttachment *bool `json:"is_need_attachment,omitempty" xml:"is_need_attachment,omitempty" require:"true"`
 }
 
@@ -320,10 +418,19 @@ func (s *Reason) SetIsNeedAttachment(v bool) *Reason {
 // 相似的明细结果
 type ResembleDetail struct {
 	// 相似分数
+	// example:
+	//
+	// 0.99
 	Score *string `json:"score,omitempty" xml:"score,omitempty" require:"true"`
 	// 长度
+	// example:
+	//
+	// 02:59:59
 	Length *string `json:"length,omitempty" xml:"length,omitempty"`
 	// 明细类型，例如VIDEO_SEGMENT表示视频区间相似
+	// example:
+	//
+	// VIDEO_SEGMENT
 	Type *string `json:"type,omitempty" xml:"type,omitempty" require:"true"`
 	// 查询源文件的位置信息
 	QueryPositionData *ResemblePositionData `json:"query_position_data,omitempty" xml:"query_position_data,omitempty" require:"true"`
@@ -367,18 +474,39 @@ func (s *ResembleDetail) SetMatchPositionData(v *ResemblePositionData) *Resemble
 // 收件人信息
 type DeliveryInfo struct {
 	// 收件人姓名
+	// example:
+	//
+	// 这是一个姓名
 	ReceiveName *string `json:"receive_name,omitempty" xml:"receive_name,omitempty" require:"true"`
 	// 联系电话
+	// example:
+	//
+	// 13000000000
 	Contact *string `json:"contact,omitempty" xml:"contact,omitempty" require:"true"`
 	// 省（需要接收纸质文件时必填）
+	// example:
+	//
+	// 浙江省
 	Province *string `json:"province,omitempty" xml:"province,omitempty"`
 	// 市（需要接收纸质文件时必填）
+	// example:
+	//
+	// 杭州市
 	City *string `json:"city,omitempty" xml:"city,omitempty"`
 	// 区（需要接收纸质文件时必填）
+	// example:
+	//
+	// 西湖区
 	Area *string `json:"area,omitempty" xml:"area,omitempty"`
 	// 详细地址（需要接收纸质文件时必填）
+	// example:
+	//
+	// 黄龙时代广场
 	Address *string `json:"address,omitempty" xml:"address,omitempty"`
 	// 电子邮箱（需要接收电子文件时必填）
+	// example:
+	//
+	// xxx@xx.com
 	Email *string `json:"email,omitempty" xml:"email,omitempty"`
 }
 
@@ -428,13 +556,28 @@ func (s *DeliveryInfo) SetEmail(v string) *DeliveryInfo {
 // 作品相似识别结果
 type ResembleRiskData struct {
 	// 重复作品ID
+	// example:
+	//
+	// 重复作品ID
 	WorkId *string `json:"work_id,omitempty" xml:"work_id,omitempty" require:"true"`
+	// 相似作品的名称
+	// example:
+	//
 	// 相似作品的名称
 	WorkName *string `json:"work_name,omitempty" xml:"work_name,omitempty"`
 	// 相似作品的类型
+	// example:
+	//
+	// VIDEO
 	WorkType *string `json:"work_type,omitempty" xml:"work_type,omitempty"`
 	// 相似值
+	// example:
+	//
+	// 相似值
 	Score *string `json:"score,omitempty" xml:"score,omitempty"`
+	// 相似作品下载凭证
+	// example:
+	//
 	// 相似作品下载凭证
 	WorkFileId *string `json:"work_file_id,omitempty" xml:"work_file_id,omitempty"`
 	// 相似明细
@@ -482,8 +625,14 @@ func (s *ResembleRiskData) SetResembleDetails(v []*ResembleDetail) *ResembleRisk
 // 安全识别结果
 type ContentRiskData struct {
 	// 风险名称
+	// example:
+	//
+	// 风险名称
 	RiskName *string `json:"risk_name,omitempty" xml:"risk_name,omitempty" require:"true"`
 	// 风险是否通过审查
+	// example:
+	//
+	// true, false
 	RiskResult *bool `json:"risk_result,omitempty" xml:"risk_result,omitempty" require:"true"`
 }
 
@@ -508,9 +657,18 @@ func (s *ContentRiskData) SetRiskResult(v bool) *ContentRiskData {
 // 作品标签识别结果
 type LabelRiskData struct {
 	// 识别出的标签名称
+	// example:
+	//
+	// 识别出的标签名称
 	LabelName *string `json:"label_name,omitempty" xml:"label_name,omitempty" require:"true"`
 	// 识别出的标签是否与用户选择的标签匹配
+	// example:
+	//
+	// true, false
 	IsMatch *bool `json:"is_match,omitempty" xml:"is_match,omitempty" require:"true"`
+	// 识别出的标签匹配度
+	// example:
+	//
 	// 识别出的标签匹配度
 	MatchValue *string `json:"match_value,omitempty" xml:"match_value,omitempty" require:"true"`
 }
@@ -541,8 +699,14 @@ func (s *LabelRiskData) SetMatchValue(v string) *LabelRiskData {
 // 费用分项
 type FeeDetail struct {
 	// 费用描述
+	// example:
+	//
+	// 网页取证起步费用
 	FeeDesc *string `json:"fee_desc,omitempty" xml:"fee_desc,omitempty" require:"true"`
 	// 费用
+	// example:
+	//
+	// xxxx
 	Amount *string `json:"amount,omitempty" xml:"amount,omitempty" require:"true"`
 }
 
@@ -567,6 +731,9 @@ func (s *FeeDetail) SetAmount(v string) *FeeDetail {
 // 证据文件信息
 type EvidInfo struct {
 	// 取证ID
+	// example:
+	//
+	// RS123
 	EvidenceId *string `json:"evidence_id,omitempty" xml:"evidence_id,omitempty" require:"true"`
 	// 取证人
 	Witness *NotaryUser `json:"witness,omitempty" xml:"witness,omitempty" require:"true"`
@@ -593,6 +760,9 @@ func (s *EvidInfo) SetWitness(v *NotaryUser) *EvidInfo {
 // 公证申请出证规则
 type NotaryOrderRule struct {
 	// 公证出证支持公证书类型
+	// example:
+	//
+	// PAPER,E_PAPER,BOTH
 	OrderType *string `json:"order_type,omitempty" xml:"order_type,omitempty"`
 }
 
@@ -612,12 +782,24 @@ func (s *NotaryOrderRule) SetOrderType(v string) *NotaryOrderRule {
 // 监测提供商能力
 type MonitorProviderCapability struct {
 	// 供应商id
+	// example:
+	//
+	// GOODEYE
 	ProviderId *string `json:"provider_id,omitempty" xml:"provider_id,omitempty" require:"true"`
 	// 供应商名称
+	// example:
+	//
+	// 千里眼
 	ProviderName *string `json:"provider_name,omitempty" xml:"provider_name,omitempty" require:"true"`
 	// 供应商描述
+	// example:
+	//
+	// 描述
 	ProviderDescription *string `json:"provider_description,omitempty" xml:"provider_description,omitempty" require:"true"`
 	// 是否推荐供应商
+	// example:
+	//
+	// true, false
 	IsProvided *bool `json:"is_provided,omitempty" xml:"is_provided,omitempty" require:"true"`
 }
 
@@ -652,20 +834,44 @@ func (s *MonitorProviderCapability) SetIsProvided(v bool) *MonitorProviderCapabi
 // 网页取证具体信息
 type ScreenshotInfo struct {
 	// 全链路取证日志文件下载链接
+	// example:
+	//
+	// https://xxxx
 	ProcessLogFile *string `json:"process_log_file,omitempty" xml:"process_log_file,omitempty"`
 	// 全链路取证日志文件哈希
+	// example:
+	//
+	// xxxx
 	ProcessLogFileHash *string `json:"process_log_file_hash,omitempty" xml:"process_log_file_hash,omitempty"`
 	// 自清洁文件下载链接
+	// example:
+	//
+	// https://xxxx
 	CheckLogFile *string `json:"check_log_file,omitempty" xml:"check_log_file,omitempty"`
 	// 自清洁文件哈希
+	// example:
+	//
+	// xxxx
 	CheckLogFileHash *string `json:"check_log_file_hash,omitempty" xml:"check_log_file_hash,omitempty"`
 	// 网页截图文件下载链接
+	// example:
+	//
+	// https://xxxx
 	ScreenshotFile *string `json:"screenshot_file,omitempty" xml:"screenshot_file,omitempty" require:"true"`
 	// 网页截图文件哈希
+	// example:
+	//
+	// xxxx
 	ScreenshotFileHash *string `json:"screenshot_file_hash,omitempty" xml:"screenshot_file_hash,omitempty"`
 	// 日志打包文件hash
+	// example:
+	//
+	// 0003fa8261d1cd6cb419264d516f9b586687e39a0dc31b2c74ff4948e8b951e61afd
 	LogZipFileHash *string `json:"log_zip_file_hash,omitempty" xml:"log_zip_file_hash,omitempty"`
 	// 日志文件上链hash
+	// example:
+	//
+	// 0003fa8261d1cd6cb419264d516f9b586687e39a0dc31b2c74ff4948e8b951e61afd
 	LogZipTxHash *string `json:"log_zip_tx_hash,omitempty" xml:"log_zip_tx_hash,omitempty"`
 }
 
@@ -720,7 +926,13 @@ func (s *ScreenshotInfo) SetLogZipTxHash(v string) *ScreenshotInfo {
 // 取证网址信息
 type EvidenceWebUrlInfo struct {
 	// 取证网址
+	// example:
+	//
+	// 取证网址
 	WebUrl *string `json:"web_url,omitempty" xml:"web_url,omitempty" require:"true"`
+	// 取证名称
+	// example:
+	//
 	// 取证名称
 	Title *string `json:"title,omitempty" xml:"title,omitempty"`
 }
@@ -746,36 +958,84 @@ func (s *EvidenceWebUrlInfo) SetTitle(v string) *EvidenceWebUrlInfo {
 // 取证文件信息
 type ScreenInfo struct {
 	// 全链路取证日志文件下载链接
+	// example:
+	//
+	// https://xxxx
 	ProcessLogFile *string `json:"process_log_file,omitempty" xml:"process_log_file,omitempty"`
 	// 全链路取证日志文件哈希
+	// example:
+	//
+	// xxxx
 	ProcessLogFileHash *string `json:"process_log_file_hash,omitempty" xml:"process_log_file_hash,omitempty"`
 	// 自清洁文件下载地址
+	// example:
+	//
+	// https://xxxx
 	CheckLogFile *string `json:"check_log_file,omitempty" xml:"check_log_file,omitempty"`
 	// 自清洁文件哈希
+	// example:
+	//
+	// xxxx
 	CheckLogFileHash *string `json:"check_log_file_hash,omitempty" xml:"check_log_file_hash,omitempty"`
 	// 网页截图文件下载链接
+	// example:
+	//
+	// https://xxxx
 	WebScreenshotFile *string `json:"web_screenshot_file,omitempty" xml:"web_screenshot_file,omitempty"`
 	// 网页截图文件哈希
+	// example:
+	//
+	// xxxx
 	WebScreenshotFileHash *string `json:"web_screenshot_file_hash,omitempty" xml:"web_screenshot_file_hash,omitempty"`
 	// 网页源码文件下载链接
+	// example:
+	//
+	// https://xxxx
 	WebSourceFile *string `json:"web_source_file,omitempty" xml:"web_source_file,omitempty"`
 	// 网页源码文件哈希
+	// example:
+	//
+	// xxxx
 	WebSourceFileHash *string `json:"web_source_file_hash,omitempty" xml:"web_source_file_hash,omitempty"`
 	// 视频源文件下载链接
+	// example:
+	//
+	// http://xx
 	VideoFile *string `json:"video_file,omitempty" xml:"video_file,omitempty"`
 	// 视频源文件哈希
+	// example:
+	//
+	// xxxx
 	VideoFileHash *string `json:"video_file_hash,omitempty" xml:"video_file_hash,omitempty"`
 	// 手机自清洁文件下载链接
+	// example:
+	//
+	// https://xxxx
 	ExtendDeviceCheckFile *string `json:"extend_device_check_file,omitempty" xml:"extend_device_check_file,omitempty"`
 	// 手机自清洁文件哈希
+	// example:
+	//
+	// xxxx
 	ExtendDeviceCheckFileHash *string `json:"extend_device_check_file_hash,omitempty" xml:"extend_device_check_file_hash,omitempty"`
 	// 手机操作日志下载链接
+	// example:
+	//
+	// https://xxxx
 	ExtendDeviceProcessFile *string `json:"extend_device_process_file,omitempty" xml:"extend_device_process_file,omitempty"`
 	// 手机操作日志哈希
+	// example:
+	//
+	// xxxx
 	ExtendDeviceProcessFileHash *string `json:"extend_device_process_file_hash,omitempty" xml:"extend_device_process_file_hash,omitempty"`
 	// 日志打包文件hash
+	// example:
+	//
+	// 0003fa8261d1cd6cb419264d516f9b586687e39a0dc31b2c74ff4948e8b951e61afd
 	LogZipFileHash *string `json:"log_zip_file_hash,omitempty" xml:"log_zip_file_hash,omitempty"`
 	// 日志打包文件上链hash
+	// example:
+	//
+	// 0003fa8261d1cd6cb419264d516f9b586687e39a0dc31b2c74ff4948e8b951e61afd
 	LogZipTxHash *string `json:"log_zip_tx_hash,omitempty" xml:"log_zip_tx_hash,omitempty"`
 }
 
@@ -870,22 +1130,49 @@ func (s *ScreenInfo) SetLogZipTxHash(v string) *ScreenInfo {
 // 出证开票信息
 type NotaryInvoiceInfo struct {
 	// 开票类型
+	// example:
+	//
+	// PAPER纸质，ELECTRIC电子
 	BillingType *string `json:"billing_type,omitempty" xml:"billing_type,omitempty" require:"true"`
 	// 发票类型
+	// example:
+	//
+	// NORMAL增值税普通发票、SPECIAL增值税专用发票 个人只能开具普通发票
 	InvoiceType *string `json:"invoice_type,omitempty" xml:"invoice_type,omitempty" require:"true"`
 	// 主体类型
+	// example:
+	//
+	// 个人PERSON，机构ENTERPRISE
 	SubjectType *string `json:"subject_type,omitempty" xml:"subject_type,omitempty" require:"true"`
 	// 发票抬头
+	// example:
+	//
+	// 姓名/单位名称
 	InvoiceName *string `json:"invoice_name,omitempty" xml:"invoice_name,omitempty" require:"true"`
 	// 纳税人识别号
+	// example:
+	//
+	// 发票抬头为机构时必填
 	RatepayerCode *string `json:"ratepayer_code,omitempty" xml:"ratepayer_code,omitempty"`
 	// 开户行
+	// example:
+	//
+	// 发票抬头为机构时必填
 	BankType *string `json:"bank_type,omitempty" xml:"bank_type,omitempty"`
 	// 开户行账号
+	// example:
+	//
+	// 发票抬头为机构时必填
 	BankAccount *string `json:"bank_account,omitempty" xml:"bank_account,omitempty"`
 	// 单位地址
+	// example:
+	//
+	// 发票抬头为机构时必填
 	UnitAddress *string `json:"unit_address,omitempty" xml:"unit_address,omitempty"`
 	// 单位电话
+	// example:
+	//
+	// 发票抬头为机构时必填
 	UnitPhone *string `json:"unit_phone,omitempty" xml:"unit_phone,omitempty"`
 	// 发票收件信息
 	Delivery *DeliveryInfo `json:"delivery,omitempty" xml:"delivery,omitempty"`
@@ -952,8 +1239,14 @@ func (s *NotaryInvoiceInfo) SetDelivery(v *DeliveryInfo) *NotaryInvoiceInfo {
 // 在售摘要信息
 type SaleDigestData struct {
 	// 商品hash值
+	// example:
+	//
+	// hash
 	Hash *string `json:"hash,omitempty" xml:"hash,omitempty" require:"true"`
 	// 物料置信度
+	// example:
+	//
+	// 0.8
 	Score *string `json:"score,omitempty" xml:"score,omitempty" require:"true"`
 }
 
@@ -978,18 +1271,39 @@ func (s *SaleDigestData) SetScore(v string) *SaleDigestData {
 // 取证文件信息
 type EvidenceFile struct {
 	// 证据文件名称
+	// example:
+	//
+	// 文件名称
 	EvidenceFileName *string `json:"evidence_file_name,omitempty" xml:"evidence_file_name,omitempty" require:"true"`
 	// 证据文件备注
+	// example:
+	//
+	// 备注
 	Memo *string `json:"memo,omitempty" xml:"memo,omitempty" require:"true"`
 	// 文件类型
+	// example:
+	//
+	// RECORD_SCREEN
 	EvidenceFileType *string `json:"evidence_file_type,omitempty" xml:"evidence_file_type,omitempty" require:"true"`
 	// 文件大小
+	// example:
+	//
+	// 100
 	EvidenceFileSize *int64 `json:"evidence_file_size,omitempty" xml:"evidence_file_size,omitempty" require:"true"`
 	// 文件时长（单位：秒）
+	// example:
+	//
+	// 100
 	Duration *int64 `json:"duration,omitempty" xml:"duration,omitempty" require:"true"`
 	// 证据文件指纹
+	// example:
+	//
+	// b99bd7628080f2ec55d68bfe15d62a2b
 	EvidenceFileHash *string `json:"evidence_file_hash,omitempty" xml:"evidence_file_hash,omitempty" require:"true"`
 	// 文件url
+	// example:
+	//
+	// https://www.baidu.com
 	FileUrl *string `json:"file_url,omitempty" xml:"file_url,omitempty" require:"true"`
 }
 
@@ -1039,16 +1353,34 @@ func (s *EvidenceFile) SetFileUrl(v string) *EvidenceFile {
 // 申办事由
 type BidReason struct {
 	// 事由类别ID
+	// example:
+	//
+	// 123
 	CategoryId *string `json:"category_id,omitempty" xml:"category_id,omitempty" require:"true"`
 	// 分类名称
+	// example:
+	//
+	// 维权/合同纠纷
 	CategoryName *string `json:"category_name,omitempty" xml:"category_name,omitempty" require:"true"`
 	// 描述
+	// example:
+	//
+	// 这是一个描述
 	Desc *string `json:"desc,omitempty" xml:"desc,omitempty" require:"true"`
 	// 文件上传描述
+	// example:
+	//
+	// 这是一个文件上传描述
 	FileUploadDesc *string `json:"file_upload_desc,omitempty" xml:"file_upload_desc,omitempty" require:"true"`
 	// 排序
+	// example:
+	//
+	// 1
 	Rank *int64 `json:"rank,omitempty" xml:"rank,omitempty" require:"true"`
 	// 是否必须上传证明文件
+	// example:
+	//
+	// true, false
 	IsNeedTestifyFile *bool `json:"is_need_testify_file,omitempty" xml:"is_need_testify_file,omitempty" require:"true"`
 	// reasonArray
 	ReasonArray []*Reason `json:"reason_array,omitempty" xml:"reason_array,omitempty" require:"true" type:"Repeated"`
@@ -1100,12 +1432,24 @@ func (s *BidReason) SetReasonArray(v []*Reason) *BidReason {
 // 存证证明信息
 type EvidenceCertificateInfo struct {
 	// 证书编号
+	// example:
+	//
+	// 5978355373
 	CertificateNo *string `json:"certificate_no,omitempty" xml:"certificate_no,omitempty" require:"true"`
 	// 上链时间
+	// example:
+	//
+	// 2023-06-27T10:50:23+08:00
 	CertificateTime *string `json:"certificate_time,omitempty" xml:"certificate_time,omitempty" require:"true"`
 	// 链上交易hash
+	// example:
+	//
+	// eh5a978s3553c73ee7e2cl22e
 	CertificateHash *string `json:"certificate_hash,omitempty" xml:"certificate_hash,omitempty" require:"true"`
 	// 证书下载url（有效期3天）
+	// example:
+	//
+	// https://xxxx
 	CertificateUrl *string `json:"certificate_url,omitempty" xml:"certificate_url,omitempty" require:"true"`
 }
 
@@ -1140,8 +1484,14 @@ func (s *EvidenceCertificateInfo) SetCertificateUrl(v string) *EvidenceCertifica
 // 公证书送达信息
 type ReceiveInfo struct {
 	// 纸质公证书份数
+	// example:
+	//
+	// 2
 	Copies *int64 `json:"copies,omitempty" xml:"copies,omitempty"`
 	// 公证书类型
+	// example:
+	//
+	// PAPER:纸质公证书 E-PAPER:电子公证书 BOTH:纸质+电子公证书
 	OrderType *string `json:"order_type,omitempty" xml:"order_type,omitempty" require:"true"`
 	// 收件人信息
 	DeliveryInfo *DeliveryInfo `json:"delivery_info,omitempty" xml:"delivery_info,omitempty" require:"true"`
@@ -1173,8 +1523,14 @@ func (s *ReceiveInfo) SetDeliveryInfo(v *DeliveryInfo) *ReceiveInfo {
 // 服务商下工作人员
 type IsvWorkerInfoVO struct {
 	// 工作人员账号id
+	// example:
+	//
+	// AC000100000000011000
 	WorkerAccountId *string `json:"worker_account_id,omitempty" xml:"worker_account_id,omitempty" require:"true"`
 	// 工作人员姓名
+	// example:
+	//
+	// 张三
 	WorkerName *string `json:"worker_name,omitempty" xml:"worker_name,omitempty" require:"true"`
 }
 
@@ -1199,14 +1555,29 @@ func (s *IsvWorkerInfoVO) SetWorkerName(v string) *IsvWorkerInfoVO {
 // 日统计数据模型
 type DayStatisticsInfo struct {
 	// 日期时间戳
+	// example:
+	//
+	// 1661788800000
 	Date *int64 `json:"date,omitempty" xml:"date,omitempty" require:"true"`
 	// 日观看次数
+	// example:
+	//
+	// 100
 	DayViews *string `json:"day_views,omitempty" xml:"day_views,omitempty" require:"true"`
 	// 日观看时长
+	// example:
+	//
+	// 10
 	DayViewDuration *string `json:"day_view_duration,omitempty" xml:"day_view_duration,omitempty" require:"true"`
 	// 日平均观看时长
+	// example:
+	//
+	// 100
 	DayAverageViewDuration *string `json:"day_average_view_duration,omitempty" xml:"day_average_view_duration,omitempty" require:"true"`
 	// 日预计收入
+	// example:
+	//
+	// 100
 	Revenue *string `json:"revenue,omitempty" xml:"revenue,omitempty" require:"true"`
 }
 
@@ -1246,8 +1617,14 @@ func (s *DayStatisticsInfo) SetRevenue(v string) *DayStatisticsInfo {
 // 作品是否包含图片
 type ContainsImageInfo struct {
 	// 是否包含图片
+	// example:
+	//
+	// true
 	ContainsImage *bool `json:"contains_image,omitempty" xml:"contains_image,omitempty"`
 	// 包含图片，处理后的图片副件
+	// example:
+	//
+	// 图片链接
 	ResolvedFileUrl *string `json:"resolved_file_url,omitempty" xml:"resolved_file_url,omitempty"`
 }
 
@@ -1272,9 +1649,18 @@ func (s *ContainsImageInfo) SetResolvedFileUrl(v string) *ContainsImageInfo {
 // 系列图错误原因
 type SeriesDiagramErrorReason struct {
 	// 系列图单个图片所属页码
+	// example:
+	//
+	// 1
 	ImagePdfPageIndex *int64 `json:"image_pdf_page_index,omitempty" xml:"image_pdf_page_index,omitempty" require:"true"`
 	// 错误原因英文
+	// example:
+	//
+	// 错误原因英文
 	Error *string `json:"error,omitempty" xml:"error,omitempty" require:"true"`
+	// 错误原因中文
+	// example:
+	//
 	// 错误原因中文
 	ErrorCn *string `json:"error_cn,omitempty" xml:"error_cn,omitempty" require:"true"`
 }
@@ -1305,10 +1691,19 @@ func (s *SeriesDiagramErrorReason) SetErrorCn(v string) *SeriesDiagramErrorReaso
 // 权利声明核验信息
 type VerifyStatementData struct {
 	// 权利声明书存证交易HASH
+	// example:
+	//
+	// 0003fa8261d1cd6cb419264d516f9b586687e39a0dc31b2c74ff4948e8b951e61afd
 	StatementTxHash *string `json:"statement_tx_hash,omitempty" xml:"statement_tx_hash,omitempty"`
 	// 权利声明书文件ID（和statementFileId 二选一,如果都传使用statementFileHash）
+	// example:
+	//
+	// 111111
 	StatementFileId *string `json:"statement_file_id,omitempty" xml:"statement_file_id,omitempty"`
 	// 权利声明书文件HASH（和statementFileId 二选一,如果都传使用statementFileHash）
+	// example:
+	//
+	// c687c371eb1126d06ef688c97e4a85a38b92c232483600f45597daa233b16948
 	StatementFileHash *string `json:"statement_file_hash,omitempty" xml:"statement_file_hash,omitempty"`
 }
 
@@ -1338,8 +1733,14 @@ func (s *VerifyStatementData) SetStatementFileHash(v string) *VerifyStatementDat
 // 商品sku信息
 type GoodSkuInfo struct {
 	// 授权规格序号
+	// example:
+	//
+	// 001
 	SkuNum *string `json:"sku_num,omitempty" xml:"sku_num,omitempty" require:"true"`
 	// 授权规格价格(单位：分)
+	// example:
+	//
+	// 10
 	Price *int64 `json:"price,omitempty" xml:"price,omitempty" require:"true"`
 }
 
@@ -1364,6 +1765,9 @@ func (s *GoodSkuInfo) SetPrice(v int64) *GoodSkuInfo {
 // 服务商工作人员列表
 type IsvWorkerInfoVOList struct {
 	// 服务商下工作人员信息列表
+	// example:
+	//
+	//   [{ "workerAccountId": "AC000100000000011000","workerName": "testName"  }]
 	IsvWorkerInfoList []*IsvWorkerInfoVO `json:"isv_worker_info_list,omitempty" xml:"isv_worker_info_list,omitempty" require:"true" type:"Repeated"`
 }
 
@@ -1383,8 +1787,14 @@ func (s *IsvWorkerInfoVOList) SetIsvWorkerInfoList(v []*IsvWorkerInfoVO) *IsvWor
 // 订单明细
 type OrderItem struct {
 	// 项目ID
+	// example:
+	//
+	// 11111
 	ItemId *string `json:"item_id,omitempty" xml:"item_id,omitempty" require:"true"`
 	// 项目类型（数登申请）
+	// example:
+	//
+	// 数登申请
 	ItemType *string `json:"item_type,omitempty" xml:"item_type,omitempty" require:"true"`
 }
 
@@ -1409,30 +1819,69 @@ func (s *OrderItem) SetItemType(v string) *OrderItem {
 // 网页截图存证结果
 type ScreenshotCertificateResult struct {
 	// 证据类型
+	// example:
+	//
+	// SCREENSHOT
 	EvidenceType *string `json:"evidence_type,omitempty" xml:"evidence_type,omitempty" require:"true"`
 	// 证据状态
+	// example:
+	//
+	// SUCCESS
 	Status *string `json:"status,omitempty" xml:"status,omitempty" require:"true"`
 	// 网页截取编号
+	// example:
+	//
+	// 8240419000000028693
 	ScreenshotId *string `json:"screenshot_id,omitempty" xml:"screenshot_id,omitempty" require:"true"`
 	// 证据编号
+	// example:
+	//
+	// 8240419000000028693
 	EvidenceId *string `json:"evidence_id,omitempty" xml:"evidence_id,omitempty" require:"true"`
 	// 存证编号
+	// example:
+	//
+	// 20240422173407597000001
 	CertificateNo *string `json:"certificate_no,omitempty" xml:"certificate_no,omitempty" require:"true"`
 	// 上链时间
+	// example:
+	//
+	// 1713779272000
 	CertificateTime *int64 `json:"certificate_time,omitempty" xml:"certificate_time,omitempty" require:"true"`
 	// 证据hash
+	// example:
+	//
+	// dbdd234c35ca275a17b395ad58eff4c2
 	EvidenceHash *string `json:"evidence_hash,omitempty" xml:"evidence_hash,omitempty" require:"true"`
 	// 链上交易hash
+	// example:
+	//
+	// fc044ac2c1d75ed1219b39db86398cc7cd1c67a43d6ea6c4b83f3a7f5b918a14
 	EvidenceTxHash *string `json:"evidence_tx_hash,omitempty" xml:"evidence_tx_hash,omitempty" require:"true"`
 	// 证书下载链接
+	// example:
+	//
+	// https://www.baidu.com
 	CertificateFileUrl *string `json:"certificate_file_url,omitempty" xml:"certificate_file_url,omitempty" require:"true"`
 	// 截图文件下载链接
+	// example:
+	//
+	// https://www.baidu.com
 	ScreenshotFileUrl *string `json:"screenshot_file_url,omitempty" xml:"screenshot_file_url,omitempty" require:"true"`
 	// 证据文件大小
+	// example:
+	//
+	// 100
 	EvidenceFileSize *int64 `json:"evidence_file_size,omitempty" xml:"evidence_file_size,omitempty" require:"true"`
 	// 错误码
+	// example:
+	//
+	// NOTARY_SCREENSHOT_ERROR
 	ErrorCode *string `json:"error_code,omitempty" xml:"error_code,omitempty" require:"true"`
 	// 错误信息
+	// example:
+	//
+	// 公证处网页取证存证失败
 	ErrorMessage *string `json:"error_message,omitempty" xml:"error_message,omitempty" require:"true"`
 }
 
@@ -1512,20 +1961,41 @@ func (s *ScreenshotCertificateResult) SetErrorMessage(v string) *ScreenshotCerti
 // 公证处信息
 type NotaryPublicOffice struct {
 	// 公证处code
+	// example:
+	//
+	// LUJIANG
 	Code *string `json:"code,omitempty" xml:"code,omitempty" require:"true"`
 	// 公证处名称
+	// example:
+	//
+	// 鹭江公证处
 	Name *string `json:"name,omitempty" xml:"name,omitempty" require:"true"`
 	// 公证处所在省（直辖市）
+	// example:
+	//
+	// 福建
 	Province *string `json:"province,omitempty" xml:"province,omitempty" require:"true"`
 	// 公证处所在市
+	// example:
+	//
+	// 厦门
 	City *string `json:"city,omitempty" xml:"city,omitempty" require:"true"`
 	// 公证处完整名称
+	// example:
+	//
+	// 厦门市鹭江公证处
 	OrgName *string `json:"org_name,omitempty" xml:"org_name,omitempty" require:"true"`
 	// 公证处隶属
+	// example:
+	//
+	// EZCUN
 	Belong *string `json:"belong,omitempty" xml:"belong,omitempty" require:"true"`
 	// 公证处出证规则
 	NotaryOrderRule *NotaryOrderRule `json:"notary_order_rule,omitempty" xml:"notary_order_rule,omitempty"`
 	// 是否允许出证
+	// example:
+	//
+	// true, false
 	AllowCertification *bool `json:"allow_certification,omitempty" xml:"allow_certification,omitempty"`
 }
 
@@ -1580,8 +2050,14 @@ func (s *NotaryPublicOffice) SetAllowCertification(v bool) *NotaryPublicOffice {
 // 本次申请中每一类证据的数量明细
 type NotaryFeeEvidTypeData struct {
 	// 证据类型描述
+	// example:
+	//
+	// 网页取证
 	EvidTypeDesc *string `json:"evid_type_desc,omitempty" xml:"evid_type_desc,omitempty" require:"true"`
 	// 证据分类及数量详情
+	// example:
+	//
+	// 10条，11张截图
 	EvidTypeDetail *string `json:"evid_type_detail,omitempty" xml:"evid_type_detail,omitempty" require:"true"`
 }
 
@@ -1606,12 +2082,24 @@ func (s *NotaryFeeEvidTypeData) SetEvidTypeDetail(v string) *NotaryFeeEvidTypeDa
 // dci作品发表信息
 type DciPublicationInfo struct {
 	// 作品发表状态
+	// example:
+	//
+	// PUBLISHED
 	PublicationStatus *string `json:"publication_status,omitempty" xml:"publication_status,omitempty" require:"true"`
 	// 首次发表日期
+	// example:
+	//
+	// yyyy-MM-dd
 	FirstPublicationDate *string `json:"first_publication_date,omitempty" xml:"first_publication_date,omitempty" require:"true"`
 	// 首次发表地址
+	// example:
+	//
+	// 杭州
 	FirstPublicationPlace *string `json:"first_publication_place,omitempty" xml:"first_publication_place,omitempty"`
 	// 首次发表地点地区编码
+	// example:
+	//
+	// 110101
 	FirstPublicationCode *string `json:"first_publication_code,omitempty" xml:"first_publication_code,omitempty" require:"true"`
 }
 
@@ -1646,12 +2134,24 @@ func (s *DciPublicationInfo) SetFirstPublicationCode(v string) *DciPublicationIn
 // dci作品创作信息
 type DciCreationInfo struct {
 	// 作品创作性质
+	// example:
+	//
+	// ORIGINAL
 	CreationNature *string `json:"creation_nature,omitempty" xml:"creation_nature,omitempty" require:"true"`
 	// 创作完成日期
+	// example:
+	//
+	// yyyy-MM-dd
 	CreationCompletionDate *string `json:"creation_completion_date,omitempty" xml:"creation_completion_date,omitempty" require:"true"`
 	// 创作完成地点
+	// example:
+	//
+	// 杭州
 	CreationCompletionPlace *string `json:"creation_completion_place,omitempty" xml:"creation_completion_place,omitempty"`
 	// 作品创作地点地区编码
+	// example:
+	//
+	// 110101
 	CreationCompletionCode *string `json:"creation_completion_code,omitempty" xml:"creation_completion_code,omitempty" require:"true"`
 }
 
@@ -1686,8 +2186,14 @@ func (s *DciCreationInfo) SetCreationCompletionCode(v string) *DciCreationInfo {
 // 本次需支付费用的分项明细
 type NotaryFeeItem struct {
 	// 费用分项描述
+	// example:
+	//
+	// 起步费用
 	FeeItemDesc *string `json:"fee_item_desc,omitempty" xml:"fee_item_desc,omitempty" require:"true"`
 	// 费用分项金额(分)
+	// example:
+	//
+	// 200000
 	FeeItemAmountRmbFen *int64 `json:"fee_item_amount_rmb_fen,omitempty" xml:"fee_item_amount_rmb_fen,omitempty" require:"true"`
 	// 费用分项详情列表
 	FeeDetailList []*FeeDetail `json:"fee_detail_list,omitempty" xml:"fee_detail_list,omitempty" require:"true" type:"Repeated"`
@@ -1719,22 +2225,49 @@ func (s *NotaryFeeItem) SetFeeDetailList(v []*FeeDetail) *NotaryFeeItem {
 // 权利信息
 type RightsInfo struct {
 	// 作品创作完成时间
+	// example:
+	//
+	// 1629364618790
 	CompletedTime *int64 `json:"completed_time,omitempty" xml:"completed_time,omitempty" require:"true"`
 	// 作品创作完成地点（最长128个字符）
+	// example:
+	//
+	// 杭州
 	CompletedPlace *string `json:"completed_place,omitempty" xml:"completed_place,omitempty" require:"true" maxLength:"128"`
 	// 是否发表
+	// example:
+	//
+	// true, false
 	IsPublish *bool `json:"is_publish,omitempty" xml:"is_publish,omitempty" require:"true"`
 	// 发表时间（如果isPublish为true则必填）
+	// example:
+	//
+	// 1629969432519
 	PublishTime *int64 `json:"publish_time,omitempty" xml:"publish_time,omitempty"`
 	// 发表地点（如果isPublish为true则必填，最长128个字符）
+	// example:
+	//
+	// 杭州
 	PublishPlace *string `json:"publish_place,omitempty" xml:"publish_place,omitempty" maxLength:"128"`
 	// 发表网址（如果isPublish为true则必填，最长1024个字符）
+	// example:
+	//
+	// https://xxxx
 	PublishWeb *string `json:"publish_web,omitempty" xml:"publish_web,omitempty" maxLength:"1024"`
 	// 是否是作者
+	// example:
+	//
+	// true, false
 	IsAuthor *bool `json:"is_author,omitempty" xml:"is_author,omitempty" require:"true"`
 	// 作者姓名（如果isAuthor为true则必填，最长32个字符）
+	// example:
+	//
+	// 张三
 	AuthorCertName *string `json:"author_cert_name,omitempty" xml:"author_cert_name,omitempty" maxLength:"32"`
 	// 作者身份证号（如果isAuthor为true则必填）
+	// example:
+	//
+	// 111111
 	AuthorCertNo *string `json:"author_cert_no,omitempty" xml:"author_cert_no,omitempty" maxLength:"30"`
 }
 
@@ -1794,12 +2327,24 @@ func (s *RightsInfo) SetAuthorCertNo(v string) *RightsInfo {
 // 核验用户信息
 type VerifyUserData struct {
 	// 证件名称
+	// example:
+	//
+	// 李四
 	CertName *string `json:"cert_name,omitempty" xml:"cert_name,omitempty"`
 	// 证件号码
+	// example:
+	//
+	// 111111
 	CertNo *string `json:"cert_no,omitempty" xml:"cert_no,omitempty"`
 	// 证件类型
+	// example:
+	//
+	// IDENTITY_CARD
 	CertType *string `json:"cert_type,omitempty" xml:"cert_type,omitempty"`
 	// 登记人信息存证交易HASH
+	// example:
+	//
+	// 0003fa8261d1cd6cb419264d516f9b586687e39a0dc31b2c74ff4948e8b951e61afd
 	RegisterPersonTxHash *string `json:"register_person_tx_hash,omitempty" xml:"register_person_tx_hash,omitempty"`
 }
 
@@ -1834,7 +2379,13 @@ func (s *VerifyUserData) SetRegisterPersonTxHash(v string) *VerifyUserData {
 // 公证出证拒绝办理信息/终止信息
 type RefuseInfo struct {
 	// 拒绝理由/终止备注
+	// example:
+	//
+	// 拒绝理由/终止备注
 	Reason *string `json:"reason,omitempty" xml:"reason,omitempty" require:"true"`
+	// 不予办理决定书路径/终止决定书路径
+	// example:
+	//
 	// 不予办理决定书路径/终止决定书路径
 	NotificationPath *string `json:"notification_path,omitempty" xml:"notification_path,omitempty" require:"true"`
 }
@@ -1860,30 +2411,69 @@ func (s *RefuseInfo) SetNotificationPath(v string) *RefuseInfo {
 // 骑行保平台任务详情
 type InsuranceTaskDetailInfo struct {
 	// 用户备注
+	// example:
+	//
+	// ""
 	UserMemo *string `json:"user_memo,omitempty" xml:"user_memo,omitempty"`
 	// 上门人员姓名
+	// example:
+	//
+	// 张三
 	DoorToDoorWorkerName *string `json:"door_to_door_worker_name,omitempty" xml:"door_to_door_worker_name,omitempty"`
 	// 电池包装码
+	// example:
+	//
+	// ABC
 	BatteryPackagingCode *string `json:"battery_packaging_code,omitempty" xml:"battery_packaging_code,omitempty"`
 	// 电池码
+	// example:
+	//
+	// ABC
 	BatteryCode *string `json:"battery_code,omitempty" xml:"battery_code,omitempty"`
 	// 图片列表
+	// example:
+	//
+	// ["image1", "image2"]
 	InstallImages []*string `json:"install_images,omitempty" xml:"install_images,omitempty" type:"Repeated"`
 	// 任务id
+	// example:
+	//
+	// 12
 	TaskId *string `json:"task_id,omitempty" xml:"task_id,omitempty" require:"true"`
 	// 任务状态
+	// example:
+	//
+	// "doorToDoorFinsh" (已完成)
 	TaskStatus *string `json:"task_status,omitempty" xml:"task_status,omitempty" require:"true"`
 	// 电池型号
+	// example:
+	//
+	// 123
 	BatteryType *string `json:"battery_type,omitempty" xml:"battery_type,omitempty" require:"true"`
 	// 上门地址
+	// example:
+	//
+	// 杭州市西湖区某小区
 	ServiceAddress *string `json:"service_address,omitempty" xml:"service_address,omitempty" require:"true"`
 	// 租赁人姓名
+	// example:
+	//
+	// 张三
 	BatteryRenterName *string `json:"battery_renter_name,omitempty" xml:"battery_renter_name,omitempty" require:"true"`
 	// 租赁人电话
+	// example:
+	//
+	// 15666666666
 	BatteryRenterPhone *string `json:"battery_renter_phone,omitempty" xml:"battery_renter_phone,omitempty" require:"true"`
 	// 上门时间
+	// example:
+	//
+	// 2025-05-16 11:00:00
 	ServiceTime *string `json:"service_time,omitempty" xml:"service_time,omitempty" require:"true"`
 	// 任务所属服务商账号id
+	// example:
+	//
+	// AC000100000000011000
 	IsvAccountId *string `json:"isv_account_id,omitempty" xml:"isv_account_id,omitempty" require:"true"`
 }
 
@@ -1963,8 +2553,14 @@ func (s *InsuranceTaskDetailInfo) SetIsvAccountId(v string) *InsuranceTaskDetail
 // 取证网址信息
 type EvidenceUrlInfo struct {
 	// 取证网址
+	// example:
+	//
+	// www.baidu.com
 	Url *string `json:"url,omitempty" xml:"url,omitempty" require:"true"`
 	// 音视频取证时间
+	// example:
+	//
+	// 10
 	AutoSurfingMinute *int64 `json:"auto_surfing_minute,omitempty" xml:"auto_surfing_minute,omitempty"`
 }
 
@@ -1989,10 +2585,19 @@ func (s *EvidenceUrlInfo) SetAutoSurfingMinute(v int64) *EvidenceUrlInfo {
 // 版权商品库存
 type ItemInventoryVO struct {
 	// 库存数量
+	// example:
+	//
+	// 1000
 	Stock *int64 `json:"stock,omitempty" xml:"stock,omitempty" require:"true"`
 	// 生效时间
+	// example:
+	//
+	// 2025-05-20 08:00:00
 	GmtValid *string `json:"gmt_valid,omitempty" xml:"gmt_valid,omitempty" require:"true"`
 	// 失效时间
+	// example:
+	//
+	// 2025-05-20 09:00:00
 	GmtInvalid *string `json:"gmt_invalid,omitempty" xml:"gmt_invalid,omitempty" require:"true"`
 }
 
@@ -2022,14 +2627,29 @@ func (s *ItemInventoryVO) SetGmtInvalid(v string) *ItemInventoryVO {
 // 出海视频统计数据
 type OverseaContentStatistics struct {
 	// 发布视频id
+	// example:
+	//
+	// 84343147225530369
 	ContentId *string `json:"content_id,omitempty" xml:"content_id,omitempty" require:"true"`
 	// 总观看次数
+	// example:
+	//
+	// 100
 	TotalViews *string `json:"total_views,omitempty" xml:"total_views,omitempty" require:"true"`
 	// 总观看时长
+	// example:
+	//
+	// 10
 	TotalViewDuration *string `json:"total_view_duration,omitempty" xml:"total_view_duration,omitempty" require:"true"`
 	// 总平均观看时长
+	// example:
+	//
+	// 20
 	TotalAverageViewDuration *string `json:"total_average_view_duration,omitempty" xml:"total_average_view_duration,omitempty" require:"true"`
 	// 总预计收入
+	// example:
+	//
+	// 40
 	TotalRevenue *string `json:"total_revenue,omitempty" xml:"total_revenue,omitempty" require:"true"`
 	// 每日详细统计列表
 	DayStatisticsList []*DayStatisticsInfo `json:"day_statistics_list,omitempty" xml:"day_statistics_list,omitempty" require:"true" type:"Repeated"`
@@ -2076,16 +2696,34 @@ func (s *OverseaContentStatistics) SetDayStatisticsList(v []*DayStatisticsInfo) 
 // 定向监测结果
 type DirectMonitorResult struct {
 	// 监测结果id
+	// example:
+	//
+	// xyz
 	MonitorResultId *string `json:"monitor_result_id,omitempty" xml:"monitor_result_id,omitempty" require:"true"`
 	// 相似的资源链接
+	// example:
+	//
+	// xyz
 	SimilarResourceUrl *string `json:"similar_resource_url,omitempty" xml:"similar_resource_url,omitempty" require:"true"`
 	// 相似资源所在的网址链接
+	// example:
+	//
+	// xyz
 	SimilarWebUrl *string `json:"similar_web_url,omitempty" xml:"similar_web_url,omitempty" require:"true"`
 	// 资源标题
+	// example:
+	//
+	// xyz
 	Title *string `json:"title,omitempty" xml:"title,omitempty"`
 	// 资源作者
+	// example:
+	//
+	// xyz
 	Author *string `json:"author,omitempty" xml:"author,omitempty"`
 	// 资源上传时间，格式yyyy-MM-dd HH:mm:ss
+	// example:
+	//
+	// 2022-01-01 10:10:10
 	UploadTime *string `json:"upload_time,omitempty" xml:"upload_time,omitempty"`
 }
 
@@ -2130,6 +2768,9 @@ func (s *DirectMonitorResult) SetUploadTime(v string) *DirectMonitorResult {
 // 内容安全信息
 type SecurityData struct {
 	// 内容安全检查结果
+	// example:
+	//
+	// safe,risky
 	Result *string `json:"result,omitempty" xml:"result,omitempty" require:"true"`
 	// 有风险的内容
 	RiskData []*string `json:"risk_data,omitempty" xml:"risk_data,omitempty" type:"Repeated"`
@@ -2158,48 +2799,114 @@ type OfflineRegisterResult struct {
 	// 取证文件
 	EvidenceFile *EvidenceFile `json:"evidence_file,omitempty" xml:"evidence_file,omitempty"`
 	// 线下取证ID
+	// example:
+	//
+	// 123456
 	OfflineEvidenceId *string `json:"offline_evidence_id,omitempty" xml:"offline_evidence_id,omitempty" require:"true"`
 	// 错误码
+	// example:
+	//
+	// NOTARY_OFFLINE_REGISTER_ERROR
 	ErrorCode *string `json:"error_code,omitempty" xml:"error_code,omitempty"`
 	// 错误信息
+	// example:
+	//
+	// 公证处线下取证存证失败
 	ErrorMessage *string `json:"error_message,omitempty" xml:"error_message,omitempty"`
 	// 取证状态
+	// example:
+	//
+	// SUCCESS
 	Status *string `json:"status,omitempty" xml:"status,omitempty" require:"true"`
 	// 取证时间
+	// example:
+	//
+	// 1713770769000
 	EvidenceTime *int64 `json:"evidence_time,omitempty" xml:"evidence_time,omitempty"`
 	// 委托取证ID
+	// example:
+	//
+	// 123456
 	EvidenceAssignmentId *string `json:"evidence_assignment_id,omitempty" xml:"evidence_assignment_id,omitempty"`
 	// 取证用户ID
+	// example:
+	//
+	// 123456
 	EvidenceUserId *string `json:"evidence_user_id,omitempty" xml:"evidence_user_id,omitempty"`
+	// 取证名称
+	// example:
+	//
 	// 取证名称
 	EvidenceName *string `json:"evidence_name,omitempty" xml:"evidence_name,omitempty"`
 	// 公证处code
+	// example:
+	//
+	// LU_JIANG
 	NotaryOfficeCode *string `json:"notary_office_code,omitempty" xml:"notary_office_code,omitempty"`
 	// 公证处名称
+	// example:
+	//
+	// 鹭江公证处
 	NotaryOfficeName *string `json:"notary_office_name,omitempty" xml:"notary_office_name,omitempty"`
 	// 经度
+	// example:
+	//
+	// 23.35
 	Longitude *string `json:"longitude,omitempty" xml:"longitude,omitempty"`
 	// 纬度
+	// example:
+	//
+	// 23.35
 	Latitude *string `json:"latitude,omitempty" xml:"latitude,omitempty"`
 	// 位置
+	// example:
+	//
+	// xxxx
 	Location *string `json:"location,omitempty" xml:"location,omitempty"`
 	// 取证开始时间
+	// example:
+	//
+	// 1713770769000
 	EvidenceStartTime *int64 `json:"evidence_start_time,omitempty" xml:"evidence_start_time,omitempty"`
 	// 取证结束时间
+	// example:
+	//
+	// 1713770769000
 	EvidenceEndTime *int64 `json:"evidence_end_time,omitempty" xml:"evidence_end_time,omitempty"`
 	// 取证类型
+	// example:
+	//
+	// OFFLINE_PICTURE
 	EvidenceType *string `json:"evidence_type,omitempty" xml:"evidence_type,omitempty" require:"true"`
 	// 存证编号
+	// example:
+	//
+	// 8240401000000013980
 	CertificateNo *string `json:"certificate_no,omitempty" xml:"certificate_no,omitempty"`
 	//
 	// 上链时间
+	// example:
+	//
+	// 1713771170000
 	CertificateTime *int64 `json:"certificate_time,omitempty" xml:"certificate_time,omitempty"`
 	// 证据hash
+	// example:
+	//
+	// 2ed3532c4438f82eef7cdf6a54e7ac11
 	EvidenceHash *string `json:"evidence_hash,omitempty" xml:"evidence_hash,omitempty"`
 	// 链上交易hash
+	// example:
+	//
+	// b251a2d54ea254165c9baf13e8366635b1c90d4a449a35fcdce7b332054c8aac
 	EvidenceTxHash *string `json:"evidence_tx_hash,omitempty" xml:"evidence_tx_hash,omitempty"`
 	// 证书文件下载地址
+	// example:
+	//
+	// https://www.baidu.com
 	CertificateFileUrl *string `json:"certificate_file_url,omitempty" xml:"certificate_file_url,omitempty"`
+	// 备注
+	// example:
+	//
 	// 备注
 	Memo *string `json:"memo,omitempty" xml:"memo,omitempty"`
 }
@@ -2332,20 +3039,44 @@ type InvoiceInfo struct {
 	// 发票类型 InvoiceTypeEnum目前只支持普票
 	// (NORMAL,ELC,普票)
 	// (SPECIAL,VAT,专票)
+	// example:
+	//
+	// NORMAL
 	InvoiceType *string `json:"invoice_type,omitempty" xml:"invoice_type,omitempty" require:"true"`
 	// 发票抬头（著作权人之一）
+	// example:
+	//
+	// 000
 	InvoiceHeader *string `json:"invoice_header,omitempty" xml:"invoice_header,omitempty" require:"true"`
 	// 纳税人识别号（机构必填）
+	// example:
+	//
+	// 纳税人识别号
 	TaxpayerNumber *string `json:"taxpayer_number,omitempty" xml:"taxpayer_number,omitempty"`
 	// 注册地址（专票必填）
+	// example:
+	//
+	// 注册地址
 	RegisteredAddress *string `json:"registered_address,omitempty" xml:"registered_address,omitempty"`
 	// 注册电话（专票必填）
+	// example:
+	//
+	// 注册电话
 	RegisteredTel *string `json:"registered_tel,omitempty" xml:"registered_tel,omitempty"`
 	// 开户电话（专票必填）
+	// example:
+	//
+	// 开户电话
 	OpenAccountTel *string `json:"open_account_tel,omitempty" xml:"open_account_tel,omitempty"`
 	// 开户银行（专票必填）
+	// example:
+	//
+	// 开户银行
 	OpenAccountBank *string `json:"open_account_bank,omitempty" xml:"open_account_bank,omitempty"`
 	// 银行账号（专票必填）
+	// example:
+	//
+	// 银行账号
 	BankAccount *string `json:"bank_account,omitempty" xml:"bank_account,omitempty"`
 }
 
@@ -2400,6 +3131,9 @@ func (s *InvoiceInfo) SetBankAccount(v string) *InvoiceInfo {
 // 公证出证送达信息
 type NotaryReceiveInfo struct {
 	// 公证书类型
+	// example:
+	//
+	// PAPER:纸质公证书 E-PAPER:电子公证书 BOTH:纸质+电子公证书
 	OrderType *string `json:"order_type,omitempty" xml:"order_type,omitempty" require:"true"`
 	// 公证书送达信息
 	ReceiveInfo *ReceiveInfo `json:"receive_info,omitempty" xml:"receive_info,omitempty" require:"true"`
@@ -2433,10 +3167,19 @@ func (s *NotaryReceiveInfo) SetInvoiceInfo(v *NotaryInvoiceInfo) *NotaryReceiveI
 // 账号信息
 type AccountData struct {
 	// 账号id
+	// example:
+	//
+	// 111111
 	AccountId *string `json:"account_id,omitempty" xml:"account_id,omitempty" require:"true"`
 	// 账号名称
+	// example:
+	//
+	// 小明
 	AccountName *string `json:"account_name,omitempty" xml:"account_name,omitempty" require:"true"`
 	// 账号平台（支付宝，淘宝，微信，抖音等）
+	// example:
+	//
+	// WEIXIN
 	AccountPlatform *string `json:"account_platform,omitempty" xml:"account_platform,omitempty" require:"true"`
 }
 
@@ -2466,10 +3209,19 @@ func (s *AccountData) SetAccountPlatform(v string) *AccountData {
 // 著作权人证件信息
 type CopyrightCertInfo struct {
 	// 证件号码
+	// example:
+	//
+	// 111111
 	CertNo *string `json:"cert_no,omitempty" xml:"cert_no,omitempty" require:"true"`
 	// 证件名称
+	// example:
+	//
+	// 张三
 	CertName *string `json:"cert_name,omitempty" xml:"cert_name,omitempty" require:"true"`
 	// 证件类型
+	// example:
+	//
+	// IDENTITY_CARD
 	CertType *string `json:"cert_type,omitempty" xml:"cert_type,omitempty" require:"true"`
 }
 
@@ -2501,33 +3253,60 @@ type MonitorTask struct {
 	// 内容表述
 	//
 	//
+	// example:
+	//
+	// wert
 	ContentDesc *string `json:"content_desc,omitempty" xml:"content_desc,omitempty"`
 	// 监测任务标题
 	//
 	//
+	// example:
+	//
+	// awe
 	ContentTitle *string `json:"content_title,omitempty" xml:"content_title,omitempty"`
 	// 监测文件时长，主要用于视频监测、音频监测的时长记录
+	// example:
+	//
+	// 200
 	FileLengthInSecond *int64 `json:"file_length_in_second,omitempty" xml:"file_length_in_second,omitempty"`
 	// 监测关键字
 	//
 	//
+	// example:
+	//
+	// 111111111111111111
 	Keywords []*string `json:"keywords,omitempty" xml:"keywords,omitempty" require:"true" type:"Repeated"`
 	// 监测任务ID
 	//
+	// example:
+	//
+	// 111111111111111111
 	MonitorTaskId *string `json:"monitor_task_id,omitempty" xml:"monitor_task_id,omitempty" require:"true"`
 	// 任务名称
 	//
 	//
+	// example:
+	//
+	// 111111111111111111
 	Name *string `json:"name,omitempty" xml:"name,omitempty" require:"true"`
 	// 监测供应商id
+	// example:
+	//
+	// GOODEYE
 	ProviderId *string `json:"provider_id,omitempty" xml:"provider_id,omitempty"`
 	// 监测结果数量
 	//
 	//
+	// example:
+	//
+	// 1
 	ResultCount *int64 `json:"result_count,omitempty" xml:"result_count,omitempty"`
 	// 监测范围
 	//
 	//
+	// example:
+	//
+	// 111111111111111111
 	Scopes []*string `json:"scopes,omitempty" xml:"scopes,omitempty" require:"true" type:"Repeated"`
 	// 任务状态
 	//
@@ -2540,18 +3319,30 @@ type MonitorTask struct {
 	// FAILURE
 	//
 	// DELETE
+	// example:
+	//
+	// WORKING
 	Status *string `json:"status,omitempty" xml:"status,omitempty" require:"true"`
 	// 监测时长(天)
 	//
 	//
+	// example:
+	//
+	// 1
 	TaskDuration *int64 `json:"task_duration,omitempty" xml:"task_duration,omitempty" require:"true"`
 	// 任务结束时间
 	//
 	//
+	// example:
+	//
+	// 1592807928
 	TaskEnd *int64 `json:"task_end,omitempty" xml:"task_end,omitempty"`
 	// 任务开始时间
 	//
 	//
+	// example:
+	//
+	// 1592807928
 	TaskStart *int64 `json:"task_start,omitempty" xml:"task_start,omitempty"`
 	// 文件类别
 	//
@@ -2560,18 +3351,36 @@ type MonitorTask struct {
 	// TEXT
 	//
 	// VIDEO
+	// example:
+	//
+	// IMAGE
 	FileType *string `json:"file_type,omitempty" xml:"file_type,omitempty" require:"true"`
 	// 文件大小
+	// example:
+	//
+	// 111111
 	FileSize *int64 `json:"file_size,omitempty" xml:"file_size,omitempty"`
 	// submitType是url就是url地址 submitType 是file就是oss fileId
+	// example:
+	//
+	// https://xxxx
 	SubmitContent *string `json:"submit_content,omitempty" xml:"submit_content,omitempty" require:"true"`
 	// 提交任务的类型:FILE/URL
 	// 不填为FILE
 	// FILE表示文件上传素材，URL表示上传URL
+	// example:
+	//
+	// FILE
 	SubmitType *string `json:"submit_type,omitempty" xml:"submit_type,omitempty"`
 	// 当status为failure时的具体错误信息（中文描述）
+	// example:
+	//
+	// error
 	FailureMsg *string `json:"failure_msg,omitempty" xml:"failure_msg,omitempty"`
 	// 当status为failure时的具体错误信息（错误枚举）
+	// example:
+	//
+	// SERVER_ERROR
 	FailureCode *string `json:"failure_code,omitempty" xml:"failure_code,omitempty"`
 }
 
@@ -2681,15 +3490,33 @@ func (s *MonitorTask) SetFailureCode(v string) *MonitorTask {
 // 物流信息
 type ExpressInfo struct {
 	// 材料类型
+	// example:
+	//
+	// PAPER纸质，ELECTRIC电子
 	Type *string `json:"type,omitempty" xml:"type,omitempty" require:"true"`
 	// 收件人姓名
+	// example:
+	//
+	// 张三
 	Name *string `json:"name,omitempty" xml:"name,omitempty" require:"true"`
 	// 收件人电话号码
+	// example:
+	//
+	// 13000000000
 	Phone *string `json:"phone,omitempty" xml:"phone,omitempty" require:"true"`
 	// 邮箱地址
+	// example:
+	//
+	// xxx@xx.com
 	Email *string `json:"email,omitempty" xml:"email,omitempty" require:"true"`
 	// 快递名称
+	// example:
+	//
+	// 快递名称
 	ExpressName *string `json:"express_name,omitempty" xml:"express_name,omitempty" require:"true"`
+	// 快递单号
+	// example:
+	//
 	// 快递单号
 	TrackingNumber *string `json:"tracking_number,omitempty" xml:"tracking_number,omitempty" require:"true"`
 	// 材料发出时间戳
@@ -2742,26 +3569,50 @@ func (s *ExpressInfo) SetSendTime(v int64) *ExpressInfo {
 // 播放列表实体类
 type PlayListEntity struct {
 	// 播放列表名称，可包含多个视频
+	// example:
+	//
+	// 播放列表1
 	PlayListName *string `json:"play_list_name,omitempty" xml:"play_list_name,omitempty" require:"true"`
 	// 表示授权类型，仅支持EXCLUSIVE，表示独家
 	// 默认EXCLUSIVE
+	// example:
+	//
+	// EXCLUSIVE
 	AuthorizeType *string `json:"authorize_type,omitempty" xml:"authorize_type,omitempty"`
 	// 授权类型范围，仅支持OVERSEA，表示全海外
 	// 默认OVERSEA
+	// example:
+	//
+	// OVERSEA
 	AuthorizeScopeType *string `json:"authorize_scope_type,omitempty" xml:"authorize_scope_type,omitempty"`
 	// 维权类型，仅支持CONTAIN_PROTECT，表示包含维权
 	// 默认CONTAIN_PROTECT
+	// example:
+	//
+	// CONTAIN_PROTECT
 	ProtectRightsType *string `json:"protect_rights_type,omitempty" xml:"protect_rights_type,omitempty"`
 	// 维权类型范围，仅支持OVERSEA，表示全海外
 	// 默认OVERSEA
+	// example:
+	//
+	// OVERSEA
 	ProtectRightsScopeType *string `json:"protect_rights_scope_type,omitempty" xml:"protect_rights_scope_type,omitempty"`
 	// 内容授权开始日期yyyy-MM-dd
+	// example:
+	//
+	// 2022-09-01
 	AuthorizationStartDate *string `json:"authorization_start_date,omitempty" xml:"authorization_start_date,omitempty" require:"true"`
 	// 内容授权时长,单位：年，目前支持1~3年，
 	// 注意结束时间即开始时间 + 授权时长 不能早于当前时间
+	// example:
+	//
+	// 1
 	AuthorizationTimeLength *int64 `json:"authorization_time_length,omitempty" xml:"authorization_time_length,omitempty" require:"true"`
 	// 内容授权平台列表：
 	//        默认授权平台都会进行运营，当前仅支持YOUTUBE
+	// example:
+	//
+	// YOUTUBE
 	AuthPlatform []*string `json:"auth_platform,omitempty" xml:"auth_platform,omitempty" type:"Repeated"`
 }
 
@@ -2816,32 +3667,71 @@ func (s *PlayListEntity) SetAuthPlatform(v []*string) *PlayListEntity {
 // 录屏取证结果
 type RecordScreenResult struct {
 	// 取证类型(SCREEN_RECORDING：录屏取证)
+	// example:
+	//
+	// SCREEN_RECORDING
 	EvidenceType *string `json:"evidence_type,omitempty" xml:"evidence_type,omitempty" require:"true"`
 	// 取证状态
+	// example:
+	//
+	// SUCCESS
 	Status *string `json:"status,omitempty" xml:"status,omitempty" require:"true"`
 	// 证据编号
+	// example:
+	//
+	// 8240401000000013980
 	EvidenceId *string `json:"evidence_id,omitempty" xml:"evidence_id,omitempty" require:"true"`
 	// 存证编号
+	// example:
+	//
+	// 8240401000000013980
 	CertificateNo *string `json:"certificate_no,omitempty" xml:"certificate_no,omitempty" require:"true"`
 	// 上链时间
+	// example:
+	//
+	// 1713771170000
 	CertificateTime *int64 `json:"certificate_time,omitempty" xml:"certificate_time,omitempty" require:"true"`
 	// 证据hash
+	// example:
+	//
+	// 2ed3532c4438f82eef7cdf6a54e7ac11
 	EvidenceHash *string `json:"evidence_hash,omitempty" xml:"evidence_hash,omitempty" require:"true"`
 	// 链上交易hash
+	// example:
+	//
+	// b251a2d54ea254165c9baf13e8366635b1c90d4a449a35fcdce7b332054c8aac
 	EvidenceTxHash *string `json:"evidence_tx_hash,omitempty" xml:"evidence_tx_hash,omitempty" require:"true"`
 	// 证书文件下载地址
+	// example:
+	//
+	// https://www.baidu.com
 	CertificateFileUrl *string `json:"certificate_file_url,omitempty" xml:"certificate_file_url,omitempty"`
 	// 录屏取证文件列表
 	EvidenceFiles []*EvidenceFile `json:"evidence_files,omitempty" xml:"evidence_files,omitempty" type:"Repeated"`
 	// 录屏开始时间
+	// example:
+	//
+	// 1713770769000
 	EvidenceStartTime *int64 `json:"evidence_start_time,omitempty" xml:"evidence_start_time,omitempty" require:"true"`
 	// 录屏结束时间
+	// example:
+	//
+	// 1713770944000
 	EvidenceEndTime *int64 `json:"evidence_end_time,omitempty" xml:"evidence_end_time,omitempty" require:"true"`
 	// 错误码
+	// example:
+	//
+	// NOTARY_SCREENSHOT_ERROR
 	ErrorCode *string `json:"error_code,omitempty" xml:"error_code,omitempty"`
 	// 错误信息
+	// example:
+	//
+	// 公证处网页取证存证失败
 	ErrorMessage *string `json:"error_message,omitempty" xml:"error_message,omitempty" require:"true"`
 	// 云桌面url
+	// example:
+	//
+	// https://www.baidu.com
 	OperateUrl *string `json:"operate_url,omitempty" xml:"operate_url,omitempty" require:"true"`
 }
 
@@ -2926,10 +3816,19 @@ func (s *RecordScreenResult) SetOperateUrl(v string) *RecordScreenResult {
 // 作品信息
 type WorksInfo struct {
 	// 作品名称
+	// example:
+	//
+	// 我的作品
 	WorksName *string `json:"works_name,omitempty" xml:"works_name,omitempty" require:"true"`
 	// 作品类型
+	// example:
+	//
+	// 视频
 	WorksType *string `json:"works_type,omitempty" xml:"works_type,omitempty"`
 	// 作品类型英文标识
+	// example:
+	//
+	// MODEL
 	WorksTypeEn *string `json:"works_type_en,omitempty" xml:"works_type_en,omitempty"`
 }
 
@@ -2959,10 +3858,19 @@ func (s *WorksInfo) SetWorksTypeEn(v string) *WorksInfo {
 // dci权利信息
 type DciRightInfo struct {
 	// 作品权利范围
+	// example:
+	//
+	// PUBLICATION
 	RightScope *string `json:"right_scope,omitempty" xml:"right_scope,omitempty" require:"true"`
 	// 权利取得方式
+	// example:
+	//
+	// ORIGINAL
 	RightObtainWay *string `json:"right_obtain_way,omitempty" xml:"right_obtain_way,omitempty" require:"true"`
 	// 权利归属方式
+	// example:
+	//
+	// PERSONAL
 	OwnershipWay *string `json:"ownership_way,omitempty" xml:"ownership_way,omitempty" require:"true"`
 }
 
@@ -2993,48 +3901,99 @@ func (s *DciRightInfo) SetOwnershipWay(v string) *DciRightInfo {
 type MonitorResult struct {
 	// 监测任务ID
 	//
+	// example:
+	//
+	// 111111111111111111
 	MonitorTaskId *string `json:"monitor_task_id,omitempty" xml:"monitor_task_id,omitempty" require:"true"`
 	// 监测结果ID
 	//
+	// example:
+	//
+	// 1
 	MonitorResultId *string `json:"monitor_result_id,omitempty" xml:"monitor_result_id,omitempty" require:"true"`
 	// 侵权网址
 	//
 	//
+	// example:
+	//
+	// http://a.b.c
 	InfrUrl *string `json:"infr_url,omitempty" xml:"infr_url,omitempty"`
 	// 侵权主体
 	//
 	//
+	// example:
+	//
+	// hhh
 	InfrHost *string `json:"infr_host,omitempty" xml:"infr_host,omitempty"`
 	// 侵权标题
 	//
 	//
+	// example:
+	//
+	// biaoti
 	InfrTitle *string `json:"infr_title,omitempty" xml:"infr_title,omitempty"`
 	// 侵权内容上传时间
 	//
 	//
+	// example:
+	//
+	// 1592807928
 	InfrTime *int64 `json:"infr_time,omitempty" xml:"infr_time,omitempty"`
 	// 侵权详情
 	//
+	// example:
+	//
+	// details
 	Detail *string `json:"detail,omitempty" xml:"detail,omitempty"`
 	// 发布者
+	// example:
+	//
+	// 111111
 	Poster *string `json:"poster,omitempty" xml:"poster,omitempty"`
 	// 侵权内容发布时间
+	// example:
+	//
+	// 1626614711096
 	PostDate *int64 `json:"post_date,omitempty" xml:"post_date,omitempty"`
 	// 侵权内容发现时间
+	// example:
+	//
+	// 1626614711096
 	FindDate *int64 `json:"find_date,omitempty" xml:"find_date,omitempty"`
 	// 观看数
+	// example:
+	//
+	// 1
 	ViewCount *int64 `json:"view_count,omitempty" xml:"view_count,omitempty"`
 	// 点赞数
+	// example:
+	//
+	// 1
 	LikeCount *int64 `json:"like_count,omitempty" xml:"like_count,omitempty"`
 	// 评论数
+	// example:
+	//
+	// 1
 	CommentCount *int64 `json:"comment_count,omitempty" xml:"comment_count,omitempty"`
 	// 转发数
+	// example:
+	//
+	// 1
 	RepostCount *int64 `json:"repost_count,omitempty" xml:"repost_count,omitempty"`
 	// 侵权文件下载链接
+	// example:
+	//
+	// https://xxxx
 	DownloadUrl *string `json:"download_url,omitempty" xml:"download_url,omitempty"`
 	// 疑似侵权反馈时间
+	// example:
+	//
+	// 1592807928
 	InfrFeedbackTime *int64 `json:"infr_feedback_time,omitempty" xml:"infr_feedback_time,omitempty"`
 	// 个人主页链接
+	// example:
+	//
+	// https://xxxx
 	PosterIdUrl *string `json:"poster_id_url,omitempty" xml:"poster_id_url,omitempty"`
 }
 
@@ -3134,24 +4093,54 @@ func (s *MonitorResult) SetPosterIdUrl(v string) *MonitorResult {
 // 用户信息
 type UserData struct {
 	// 用户账号
+	// example:
+	//
+	// 18654362713
 	Account *string `json:"account,omitempty" xml:"account,omitempty" require:"true"`
 	// 账号类型
+	// example:
+	//
+	// COPYRIGHT
 	AccountType *string `json:"account_type,omitempty" xml:"account_type,omitempty" require:"true"`
 	// 证件名称
+	// example:
+	//
+	// 张三
 	CertName *string `json:"cert_name,omitempty" xml:"cert_name,omitempty" require:"true"`
 	// 证件号码
+	// example:
+	//
+	// 11111111111
 	CertNo *string `json:"cert_no,omitempty" xml:"cert_no,omitempty" require:"true"`
 	// 证件类型
+	// example:
+	//
+	// IDENTITY_CARD
 	CertType *string `json:"cert_type,omitempty" xml:"cert_type,omitempty" require:"true"`
 	// 联系方式
+	// example:
+	//
+	// 186534672712
 	ContactInfo *string `json:"contact_info,omitempty" xml:"contact_info,omitempty"`
 	// 企业法人
+	// example:
+	//
+	// 李四
 	LegalPerson *string `json:"legal_person,omitempty" xml:"legal_person,omitempty"`
 	// 注册时间
+	// example:
+	//
+	// 1603162178000
 	RegTime *int64 `json:"reg_time,omitempty" xml:"reg_time,omitempty" require:"true"`
 	// 账号状态
+	// example:
+	//
+	// SUCCESS
 	Status *string `json:"status,omitempty" xml:"status,omitempty" require:"true"`
 	// 用户类型
+	// example:
+	//
+	// PERSON
 	Type *string `json:"type,omitempty" xml:"type,omitempty" require:"true"`
 }
 
@@ -3216,48 +4205,111 @@ func (s *UserData) SetType(v string) *UserData {
 // 录屏取证信息
 type RecordScreenData struct {
 	// 错误原因（状态为FAIL才有数据）
+	// example:
+	//
+	// error
 	ErrorReason *string `json:"error_reason,omitempty" xml:"error_reason,omitempty"`
 	// 录屏文件Hash值
+	// example:
+	//
+	// 00030a38fae767396d499b306c810d2f08c15773f8447d870e5e0235e6634ed10000
 	FileHash *string `json:"file_hash,omitempty" xml:"file_hash,omitempty"`
 	// 录屏结束时间
+	// example:
+	//
+	// 11111
 	GmtEnd *int64 `json:"gmt_end,omitempty" xml:"gmt_end,omitempty" require:"true"`
 	// 录屏开始时间
+	// example:
+	//
+	// 111111
 	GmtStart *int64 `json:"gmt_start,omitempty" xml:"gmt_start,omitempty" require:"true"`
 	// OS版本号
+	// example:
+	//
+	// Microsoft Windows Server 2012 R2 Datacenter 64 位
 	OsVersion *string `json:"os_version,omitempty" xml:"os_version,omitempty" require:"true"`
 	// 录屏文件信息
 	ScreenInfo *ScreenInfo `json:"screen_info,omitempty" xml:"screen_info,omitempty"`
 	// 证据包下载地址（状态为SUCCESS 才有数据）
+	// example:
+	//
+	// https://xxxx
 	ScreenZip *string `json:"screen_zip,omitempty" xml:"screen_zip,omitempty"`
 	// 录屏软件版本号
+	// example:
+	//
+	// 1.0.24
 	SwVersion *string `json:"sw_version,omitempty" xml:"sw_version,omitempty" require:"true"`
 	// 可信时间戳的返回对象
+	// example:
+	//
+	// {"cTSR":"1f8b080000009d0e6c198caccc2c4c","code":"0","hashAlgorithm":"sha256","hashedMessage":"3585100148072894b8","sN":"TTAS_S.0.2_87310861339018912","tS":1602672018916,"version":"2.0"}
 	Tsr *string `json:"tsr,omitempty" xml:"tsr,omitempty"`
 	// 统一证据编号
+	// example:
+	//
+	// 1d642de2e838c809965768d7fd63230c10ad8740809b5bc0a070855397674ea5
 	TxHash *string `json:"tx_hash,omitempty" xml:"tx_hash,omitempty"`
 	// 录屏文件大小
+	// example:
+	//
+	// 111111
 	FileSize *int64 `json:"file_size,omitempty" xml:"file_size,omitempty"`
 	// 录屏文件存证块高
+	// example:
+	//
+	// 1212121
 	BlockHeight *int64 `json:"block_height,omitempty" xml:"block_height,omitempty"`
 	// 录屏文件上链时间
+	// example:
+	//
+	// 1605597503000
 	Timestamp *int64 `json:"timestamp,omitempty" xml:"timestamp,omitempty"`
 	// 录屏文件公证处证书下载链接
+	// example:
+	//
+	// https://xxxx
 	CertificateUrl *string `json:"certificate_url,omitempty" xml:"certificate_url,omitempty"`
 	// 公证处证书编号
+	// example:
+	//
+	// 111111
 	CertificateStorageNo *string `json:"certificate_storage_no,omitempty" xml:"certificate_storage_no,omitempty"`
 	// 证据包存证交易hash
+	// example:
+	//
+	// 0003fa8261d1cd6cb419264d516f9b586687e39a0dc31b2c74ff4948e8b951e61afd
 	ZipTxHash *string `json:"zip_tx_hash,omitempty" xml:"zip_tx_hash,omitempty"`
 	// 取证备注信息
+	// example:
+	//
+	// {    "urls": [       "https://www.baidu.com",       "https://www.mydcs.com"    ] }
 	Inventory *string `json:"inventory,omitempty" xml:"inventory,omitempty"`
 	// 证据包文件hash
+	// example:
+	//
+	// 0003fa8261d1cd6cb419264d516f9b586687e39a0dc31b2c74ff4948e8b951e61afd
 	ZipFileHash *string `json:"zip_file_hash,omitempty" xml:"zip_file_hash,omitempty"`
 	// 主要核心证据文件名称
+	// example:
+	//
+	// test.mp4
 	MainEvidenceName *string `json:"main_evidence_name,omitempty" xml:"main_evidence_name,omitempty"`
 	// 取证申请单号
+	// example:
+	//
+	// xxxx
 	EvidenceOrderNum *string `json:"evidence_order_num,omitempty" xml:"evidence_order_num,omitempty"`
 	// 补正说明函下载地址
+	// example:
+	//
+	// https://xxxx
 	CorrectionUrl *string `json:"correction_url,omitempty" xml:"correction_url,omitempty"`
 	// 录屏取证准备时间
+	// example:
+	//
+	// 1111
 	GmtReady *int64 `json:"gmt_ready,omitempty" xml:"gmt_ready,omitempty"`
 }
 
@@ -3382,15 +4434,33 @@ func (s *RecordScreenData) SetGmtReady(v int64) *RecordScreenData {
 // 取证三方系统信息
 type EvidenceThirdPartyInfo struct {
 	// 三方系统用户提交网址时间
+	// example:
+	//
+	// 2018-10-10T10:10:00Z
 	SubmitTime *string `json:"submit_time,omitempty" xml:"submit_time,omitempty" require:"true" pattern:"\\d{4}[-]\\d{1,2}[-]\\d{1,2}[T]\\d{2}:\\d{2}:\\d{2}([Z]|([\\.]\\d{1,9})?[\\+]\\d{2}[\\:]?\\d{2})"`
+	// 三方系统地址
+	// example:
+	//
 	// 三方系统地址
 	SystemUrl *string `json:"system_url,omitempty" xml:"system_url,omitempty" require:"true"`
 	// 三方系统账号
+	// example:
+	//
+	// 三方系统账号
 	Account *string `json:"account,omitempty" xml:"account,omitempty" require:"true"`
+	// 三方系统名称
+	// example:
+	//
 	// 三方系统名称
 	SystemName *string `json:"system_name,omitempty" xml:"system_name,omitempty" require:"true"`
 	// 用户取证时登录的时间
+	// example:
+	//
+	// 2018-10-10T10:10:00Z
 	LoginTime *string `json:"login_time,omitempty" xml:"login_time,omitempty" require:"true" pattern:"\\d{4}[-]\\d{1,2}[-]\\d{1,2}[T]\\d{2}:\\d{2}:\\d{2}([Z]|([\\.]\\d{1,9})?[\\+]\\d{2}[\\:]?\\d{2})"`
+	// 用户取证时登录的IP
+	// example:
+	//
 	// 用户取证时登录的IP
 	LoginIp *string `json:"login_ip,omitempty" xml:"login_ip,omitempty" require:"true"`
 }
@@ -3436,10 +4506,19 @@ func (s *EvidenceThirdPartyInfo) SetLoginIp(v string) *EvidenceThirdPartyInfo {
 // 推荐分类信息
 type RecommendCategoryDetail struct {
 	// 推荐分类类型
+	// example:
+	//
+	// ART
 	RecommendWorkCategory *string `json:"recommend_work_category,omitempty" xml:"recommend_work_category,omitempty" require:"true"`
 	// 作品类型相似度，保留2位小数
+	// example:
+	//
+	// 0.95
 	CategorySimilarRatio *string `json:"category_similar_ratio,omitempty" xml:"category_similar_ratio,omitempty" require:"true"`
 	// 作品类型风险等级
+	// example:
+	//
+	// LOW
 	CategoryRiskRank *string `json:"category_risk_rank,omitempty" xml:"category_risk_rank,omitempty"`
 }
 
@@ -3469,19 +4548,43 @@ func (s *RecommendCategoryDetail) SetCategoryRiskRank(v string) *RecommendCatego
 // 地址详细信息
 type DciUserAddressInfo struct {
 	// 所在国家
+	// example:
+	//
+	// 所在国家
 	Country *string `json:"country,omitempty" xml:"country,omitempty"`
+	// 所在省份
+	// example:
+	//
 	// 所在省份
 	Province *string `json:"province,omitempty" xml:"province,omitempty"`
 	// 所在城市
+	// example:
+	//
+	// 所在城市
 	City *string `json:"city,omitempty" xml:"city,omitempty"`
+	// 识别出的地区
+	// example:
+	//
 	// 识别出的地区
 	District *string `json:"district,omitempty" xml:"district,omitempty"`
 	// 识别出的街道
+	// example:
+	//
+	// 识别出的街道
 	Town *string `json:"town,omitempty" xml:"town,omitempty"`
+	// 识别出的路
+	// example:
+	//
 	// 识别出的路
 	Road *string `json:"road,omitempty" xml:"road,omitempty"`
 	// 识别出的路号牌
+	// example:
+	//
+	// 识别出的路号牌
 	RoadNo *string `json:"road_no,omitempty" xml:"road_no,omitempty"`
+	// 地址详情
+	// example:
+	//
 	// 地址详情
 	AddressDetail *string `json:"address_detail,omitempty" xml:"address_detail,omitempty"`
 }
@@ -3537,46 +4640,109 @@ func (s *DciUserAddressInfo) SetAddressDetail(v string) *DciUserAddressInfo {
 // 网页取证数据
 type ScreenshotData struct {
 	// 取证地址
+	// example:
+	//
+	// https://xxxx
 	Url *string `json:"url,omitempty" xml:"url,omitempty" require:"true"`
 	// 网页取证时间
+	// example:
+	//
+	// 111111
 	GmtEvidence *int64 `json:"gmt_evidence,omitempty" xml:"gmt_evidence,omitempty"`
 	// 网页取证文件Hash值
+	// example:
+	//
+	// 00030a38fae767396d499b306c810d2f08c15773f8447d870e5e0235e6634ed10000
 	FileHash *string `json:"file_hash,omitempty" xml:"file_hash,omitempty"`
 	// 网页取证文件大小
+	// example:
+	//
+	// 111111
 	FileSize *int64 `json:"file_size,omitempty" xml:"file_size,omitempty"`
 	// 统一证据编号
+	// example:
+	//
+	// 1d642de2e838c809965768d7fd63230c10ad8740809b5bc0a070855397674ea5
 	TxHash *string `json:"tx_hash,omitempty" xml:"tx_hash,omitempty"`
 	// 网页取证文件存证块高
+	// example:
+	//
+	// 111111
 	BlockHeight *int64 `json:"block_height,omitempty" xml:"block_height,omitempty"`
 	// 网页取证文件上链时间
+	// example:
+	//
+	// 111111
 	Timestamp *int64 `json:"timestamp,omitempty" xml:"timestamp,omitempty"`
 	// 可信时间戳的返回对象
+	// example:
+	//
+	// {"cTSR":"1f8b080000009d0e6c198caccc2c4c","code":"0","hashAlgorithm":"sha256","hashedMessage":"3585100148072894b8","sN":"TTAS_S.0.2_87310861339018912","tS":1602672018916,"version":"2.0"}
 	Tsr *string `json:"tsr,omitempty" xml:"tsr,omitempty"`
 	// 网页截图文件公证处证书下载链接
+	// example:
+	//
+	// https://xxxx
 	CertificateUrl *string `json:"certificate_url,omitempty" xml:"certificate_url,omitempty"`
 	// 公证处证书编号
+	// example:
+	//
+	// 111111
 	CertificateStorageNo *string `json:"certificate_storage_no,omitempty" xml:"certificate_storage_no,omitempty"`
 	// 网页取证工具软件版本号
+	// example:
+	//
+	// 0.0.1
 	ToolVersion *string `json:"tool_version,omitempty" xml:"tool_version,omitempty"`
 	// 证据包下载地址（状态为SUCCESS 才有数据）
+	// example:
+	//
+	// https://xxxx
 	ScreenshotZip *string `json:"screenshot_zip,omitempty" xml:"screenshot_zip,omitempty"`
 	// 取证文件信息
+	// example:
+	//
+	// 111111
 	ScreenshotInfo *ScreenshotInfo `json:"screenshot_info,omitempty" xml:"screenshot_info,omitempty"`
 	// 网页title
+	// example:
+	//
+	// 测试
 	HeadTitle *string `json:"head_title,omitempty" xml:"head_title,omitempty"`
 	// 证据包交易hash
+	// example:
+	//
+	// 0003fa8261d1cd6cb419264d516f9b586687e39a0dc31b2c74ff4948e8b951e61afd
 	ZipTxHash *string `json:"zip_tx_hash,omitempty" xml:"zip_tx_hash,omitempty"`
 	// 网页取证失败原因
+	// example:
+	//
+	// error
 	ErrorReason *string `json:"error_reason,omitempty" xml:"error_reason,omitempty"`
+	// 中文失败原因
+	// example:
+	//
 	// 中文失败原因
 	ErrorReasonCn *string `json:"error_reason_cn,omitempty" xml:"error_reason_cn,omitempty"`
 	// 证据包文件hash
+	// example:
+	//
+	// 0003fa8261d1cd6cb419264d516f9b586687e39a0dc31b2c74ff4948e8b951e61afd
 	ZipFileHash *string `json:"zip_file_hash,omitempty" xml:"zip_file_hash,omitempty"`
 	// 核心证据文件名称
+	// example:
+	//
+	// test.jpg
 	MainEvidenceName *string `json:"main_evidence_name,omitempty" xml:"main_evidence_name,omitempty"`
 	// 取证申请单号
+	// example:
+	//
+	// xxxx
 	EvidenceOrderNum *string `json:"evidence_order_num,omitempty" xml:"evidence_order_num,omitempty"`
 	// 取证开始时间
+	// example:
+	//
+	// 123
 	GmtEvidenceStart *int64 `json:"gmt_evidence_start,omitempty" xml:"gmt_evidence_start,omitempty"`
 }
 
@@ -3696,10 +4862,19 @@ func (s *ScreenshotData) SetGmtEvidenceStart(v int64) *ScreenshotData {
 // 类型对应供应商
 type MonitorProviderType struct {
 	// 监测文件类型
+	// example:
+	//
+	// txt
 	FileType *string `json:"file_type,omitempty" xml:"file_type,omitempty" require:"true"`
 	// 提交类型
+	// example:
+	//
+	// FILE
 	SubmitType *string `json:"submit_type,omitempty" xml:"submit_type,omitempty" require:"true"`
 	// 文件格式
+	// example:
+	//
+	// jpg
 	FileFormat *string `json:"file_format,omitempty" xml:"file_format,omitempty"`
 	// 支持的服务商列表，已排序
 	MonitorProviders []*MonitorProviderCapability `json:"monitor_providers,omitempty" xml:"monitor_providers,omitempty" require:"true" type:"Repeated"`
@@ -3736,10 +4911,19 @@ func (s *MonitorProviderType) SetMonitorProviders(v []*MonitorProviderCapability
 // 企业法人信息
 type EnterpriseLegalPersonInfo struct {
 	// 法人姓名
+	// example:
+	//
+	// 张三
 	LegalPersonCertName *string `json:"legal_person_cert_name,omitempty" xml:"legal_person_cert_name,omitempty"`
 	// 法人证件类型
+	// example:
+	//
+	// IDENTITY_CARD
 	LegalPersonCertType *string `json:"legal_person_cert_type,omitempty" xml:"legal_person_cert_type,omitempty"`
 	// 法人证件号
+	// example:
+	//
+	// 341227199711226752
 	LegalPersonCertNo *string `json:"legal_person_cert_no,omitempty" xml:"legal_person_cert_no,omitempty"`
 }
 
@@ -3769,18 +4953,39 @@ func (s *EnterpriseLegalPersonInfo) SetLegalPersonCertNo(v string) *EnterpriseLe
 // 网页截图结果
 type ScreenshotResult struct {
 	// 截图文件下载链接
+	// example:
+	//
+	// https://www.baidu.com
 	ScreenshotFileUrl *string `json:"screenshot_file_url,omitempty" xml:"screenshot_file_url,omitempty" require:"true"`
 	// 网页截取编号
+	// example:
+	//
+	// 8240328000000007919
 	ScreenshotId *string `json:"screenshot_id,omitempty" xml:"screenshot_id,omitempty" require:"true"`
 	// 取证类型(SCREENSHOT: 网页截图)
+	// example:
+	//
+	// SCREENSHOT
 	ScreenshotType *string `json:"screenshot_type,omitempty" xml:"screenshot_type,omitempty" require:"true"`
 	// 取证状态
+	// example:
+	//
+	// SUCCESS
 	Status *string `json:"status,omitempty" xml:"status,omitempty" require:"true"`
 	// 错误码
+	// example:
+	//
+	// NOTARY_SCREENSHOT_ERROR
 	ErrorCode *string `json:"error_code,omitempty" xml:"error_code,omitempty"`
 	// 错误信息
+	// example:
+	//
+	// 公证处网页取证存证失败
 	ErrorMessage *string `json:"error_message,omitempty" xml:"error_message,omitempty"`
 	// 网页截取名称
+	// example:
+	//
+	// 名称
 	ScreenshotName *string `json:"screenshot_name,omitempty" xml:"screenshot_name,omitempty" require:"true"`
 }
 
@@ -3830,24 +5035,48 @@ func (s *ScreenshotResult) SetScreenshotName(v string) *ScreenshotResult {
 // 取证结果
 type EvidenceResult struct {
 	// 取证编号
+	// example:
+	//
+	// 8240327000000001001
 	EvidenceId *string `json:"evidence_id,omitempty" xml:"evidence_id,omitempty" require:"true"`
 	// 取证类型（LIVE：直播，VOD：点播）
+	// example:
+	//
+	// LIVE
 	EvidenceType *string `json:"evidence_type,omitempty" xml:"evidence_type,omitempty" require:"true"`
 	// 公证处code
+	// example:
+	//
+	// LUJIANG
 	NotaryOffice *string `json:"notary_office,omitempty" xml:"notary_office,omitempty" require:"true"`
 	// 取证站点url信息
 	EvidenceUrl *EvidenceWebUrlInfo `json:"evidence_url,omitempty" xml:"evidence_url,omitempty" require:"true"`
 	// 取证结果文件下载url（有效期3天）
+	// example:
+	//
+	// https://www.baidu.com
 	EvidenceResultUrl *string `json:"evidence_result_url,omitempty" xml:"evidence_result_url,omitempty" require:"true"`
 	// 存证证明信息
 	CertificateInfo *EvidenceCertificateInfo `json:"certificate_info,omitempty" xml:"certificate_info,omitempty" require:"true"`
 	// 取证开始时间戳
+	// example:
+	//
+	// 1713589469000
 	EvidenceStartTime *int64 `json:"evidence_start_time,omitempty" xml:"evidence_start_time,omitempty" require:"true"`
 	// 取证状态(SUCCESS:成功, FAIL:取证失败)
+	// example:
+	//
+	// SUCCESS
 	Status *string `json:"status,omitempty" xml:"status,omitempty" require:"true"`
 	// 处理结果码
+	// example:
+	//
+	// 4188
 	Code *string `json:"code,omitempty" xml:"code,omitempty"`
 	// 处理结果信息
+	// example:
+	//
+	// 取证资源不足
 	Message *string `json:"message,omitempty" xml:"message,omitempty" require:"true"`
 }
 
@@ -3912,16 +5141,28 @@ func (s *EvidenceResult) SetMessage(v string) *EvidenceResult {
 // 数登上传文件结构体
 type AdditionalFileInfo struct {
 	// 内容梗概文件fileId
+	// example:
+	//
+	// 202212131900example001.png
 	ContentSummaryFileId *string `json:"content_summary_file_id,omitempty" xml:"content_summary_file_id,omitempty"`
 	// 权利归属证明文件
 	OwnershipFileIds []*string `json:"ownership_file_ids,omitempty" xml:"ownership_file_ids,omitempty" type:"Repeated"`
 	// 肖像权授权文件fileId
+	// example:
+	//
+	// 202212131900example003.png
 	PortraitAuthFileId *string `json:"portrait_auth_file_id,omitempty" xml:"portrait_auth_file_id,omitempty"`
 	// 他人作品授权文件fileId
+	// example:
+	//
+	// 202212131900example004.png
 	OthersWorkAuthFileId *string `json:"others_work_auth_file_id,omitempty" xml:"others_work_auth_file_id,omitempty"`
 	// 其他文件fileId列表
 	OtherFileIdList []*string `json:"other_file_id_list,omitempty" xml:"other_file_id_list,omitempty" type:"Repeated"`
 	// 商用授权字体授权文件fileId
+	// example:
+	//
+	// 202212131900example004.png
 	FontAuthorizeFileId *string `json:"font_authorize_file_id,omitempty" xml:"font_authorize_file_id,omitempty"`
 }
 
@@ -3966,18 +5207,39 @@ func (s *AdditionalFileInfo) SetFontAuthorizeFileId(v string) *AdditionalFileInf
 // 授权信息
 type AuthInfo struct {
 	// 授权权利项
+	// example:
+	//
+	// 授权权利项
 	RightCode *string `json:"right_code,omitempty" xml:"right_code,omitempty" require:"true"`
 	// 许可地域，默认中国境内，不包括香港等
+	// example:
+	//
+	// 全世界
 	RegionCode *string `json:"region_code,omitempty" xml:"region_code,omitempty"`
 	// 许可方式
+	// example:
+	//
+	// 广播
 	UsageCode *string `json:"usage_code,omitempty" xml:"usage_code,omitempty" require:"true"`
 	// 许可终端
+	// example:
+	//
+	// 电视
 	TerminalCode *string `json:"terminal_code,omitempty" xml:"terminal_code,omitempty" require:"true"`
 	// 传播媒介，默认互联网
+	// example:
+	//
+	// 互联网
 	MediaCode *string `json:"media_code,omitempty" xml:"media_code,omitempty"`
 	// 是否独占,默认 普通专有 GENERAL
+	// example:
+	//
+	// GENERAL
 	RightItemCharacter *string `json:"right_item_character,omitempty" xml:"right_item_character,omitempty"`
 	// 是否可转让,默认不可转让
+	// example:
+	//
+	// ENABLE
 	TransferStatus *string `json:"transfer_status,omitempty" xml:"transfer_status,omitempty"`
 }
 
@@ -4027,8 +5289,14 @@ func (s *AuthInfo) SetTransferStatus(v string) *AuthInfo {
 // 放弃取证信息
 type ScreenCancelInfo struct {
 	// 允许放弃时长（分钟）
+	// example:
+	//
+	// 10
 	CancelInMin *int64 `json:"cancel_in_min,omitempty" xml:"cancel_in_min,omitempty" require:"true"`
 	// 可用放弃次数
+	// example:
+	//
+	// 1
 	CancelAttemptLeft *int64 `json:"cancel_attempt_left,omitempty" xml:"cancel_attempt_left,omitempty" require:"true"`
 }
 
@@ -4053,8 +5321,14 @@ func (s *ScreenCancelInfo) SetCancelAttemptLeft(v int64) *ScreenCancelInfo {
 // 联系人信息
 type ContactInfo struct {
 	// 联系人
+	// example:
+	//
+	// 张三
 	ContactName *string `json:"contact_name,omitempty" xml:"contact_name,omitempty" require:"true"`
 	// 联系电话
+	// example:
+	//
+	// 17688887777
 	ContactPhone *string `json:"contact_phone,omitempty" xml:"contact_phone,omitempty" require:"true"`
 }
 
@@ -4079,11 +5353,23 @@ func (s *ContactInfo) SetContactPhone(v string) *ContactInfo {
 // 证书信息
 type CertificateData struct {
 	// 任务ID
+	// example:
+	//
+	// 任务ID
 	TaskId *string `json:"task_id,omitempty" xml:"task_id,omitempty" require:"true"`
+	// 版权用户UID
+	// example:
+	//
 	// 版权用户UID
 	UserId *string `json:"user_id,omitempty" xml:"user_id,omitempty" require:"true"`
 	// DCI码
+	// example:
+	//
+	// DCI码
 	DciCode *string `json:"dci_code,omitempty" xml:"dci_code,omitempty" require:"true"`
+	// 证书下载的链接地址
+	// example:
+	//
 	// 证书下载的链接地址
 	CertificateUrl *string `json:"certificate_url,omitempty" xml:"certificate_url,omitempty" require:"true"`
 }
@@ -4119,10 +5405,19 @@ func (s *CertificateData) SetCertificateUrl(v string) *CertificateData {
 // 代理信息
 type ProxyData struct {
 	// 金融云租户id
+	// example:
+	//
+	// 2088XXXXXX
 	TenantId *string `json:"tenant_id,omitempty" xml:"tenant_id,omitempty" require:"true"`
 	// 租户名称
+	// example:
+	//
+	// FJKDNESX
 	TenantName *string `json:"tenant_name,omitempty" xml:"tenant_name,omitempty" require:"true"`
 	// 是否计量
+	// example:
+	//
+	// true, false
 	IfMeasure *bool `json:"if_measure,omitempty" xml:"if_measure,omitempty"`
 }
 
@@ -4152,6 +5447,9 @@ func (s *ProxyData) SetIfMeasure(v bool) *ProxyData {
 // 公证出证申请信息
 type NotaryApplyInfo struct {
 	// 公证处ID
+	// example:
+	//
+	// 公证处ID
 	OrgId *string `json:"org_id,omitempty" xml:"org_id,omitempty" require:"true"`
 	// 取证人和取证信息列表
 	EvidInfos []*EvidInfo `json:"evid_infos,omitempty" xml:"evid_infos,omitempty" require:"true" type:"Repeated"`
@@ -4166,7 +5464,13 @@ type NotaryApplyInfo struct {
 	// 权利证明材料
 	TestifyFileList []*string `json:"testify_file_list,omitempty" xml:"testify_file_list,omitempty" require:"true" type:"Repeated"`
 	// 保全内容
+	// example:
+	//
+	// xxx
 	PreservationContent *string `json:"preservation_content,omitempty" xml:"preservation_content,omitempty" require:"true"`
+	// 用户申办备注
+	// example:
+	//
 	// 用户申办备注
 	Comments *string `json:"comments,omitempty" xml:"comments,omitempty"`
 }
@@ -4227,8 +5531,14 @@ func (s *NotaryApplyInfo) SetComments(v string) *NotaryApplyInfo {
 // 核验取证信息
 type VerifyEvidenceData struct {
 	// 操作日志交易HASH
+	// example:
+	//
+	// 0003fa8261d1cd6cb419264d516f9b586687e39a0dc31b2c74ff4948e8b951e61afd
 	ProcessLogTxHash *string `json:"process_log_tx_hash,omitempty" xml:"process_log_tx_hash,omitempty"`
 	// 自清洁日志交易HASH
+	// example:
+	//
+	// 0003fa8261d1cd6cb419264d516f9b586687e39a0dc31b2c74ff4948e8b951e61afd
 	CheckLogTxHash *string `json:"check_log_tx_hash,omitempty" xml:"check_log_tx_hash,omitempty"`
 }
 
@@ -4253,16 +5563,31 @@ func (s *VerifyEvidenceData) SetCheckLogTxHash(v string) *VerifyEvidenceData {
 // 公证出证需要用户签署的文件
 type SignDocument struct {
 	// 签署文件
+	// example:
+	//
+	// xxx
 	SignFile *string `json:"sign_file,omitempty" xml:"sign_file,omitempty" require:"true"`
 	// 到期时间戳
 	ExpireTime *int64 `json:"expire_time,omitempty" xml:"expire_time,omitempty" require:"true"`
 	// 签署文件名
+	// example:
+	//
+	// 在线公证申办过程记录.pdf
 	SignFileName *string `json:"sign_file_name,omitempty" xml:"sign_file_name,omitempty" require:"true"`
 	// 签署文件描述
+	// example:
+	//
+	// 在线公证申办过程记录
 	SignFileDesc *string `json:"sign_file_desc,omitempty" xml:"sign_file_desc,omitempty" require:"true"`
 	// 签署文件哈希
+	// example:
+	//
+	// 用于校验文件完整性，计算文件的SHA-256值
 	SignFileHash *string `json:"sign_file_hash,omitempty" xml:"sign_file_hash,omitempty" require:"true"`
 	// 签署文件类型
+	// example:
+	//
+	// NOTARY_PAPER：公证申请表 ONLINE_NOTIFICATION：在线公证受理平台公证受理告知书 EVIDENCE_NOTIFICATION：保全证据通用告知书 ONLINE_RECORD：在线公证申办询问记录
 	SignFileType *string `json:"sign_file_type,omitempty" xml:"sign_file_type,omitempty" require:"true"`
 }
 
@@ -4307,6 +5632,9 @@ func (s *SignDocument) SetSignFileType(v string) *SignDocument {
 // 在售商品的信息
 type SaleData struct {
 	// 摘要数据
+	// example:
+	//
+	// 摘要数据
 	SaleDigiestData *SaleDigestData `json:"sale_digiest_data,omitempty" xml:"sale_digiest_data,omitempty" require:"true"`
 }
 
@@ -4326,18 +5654,39 @@ func (s *SaleData) SetSaleDigiestData(v *SaleDigestData) *SaleData {
 // 商品信息
 type GoodsInfo struct {
 	// 商品id
+	// example:
+	//
+	// 111111
 	GoodsId *string `json:"goods_id,omitempty" xml:"goods_id,omitempty"`
 	// 商品名称
+	// example:
+	//
+	// 测试商品
 	GoodsName *string `json:"goods_name,omitempty" xml:"goods_name,omitempty"`
 	// 商品状态
+	// example:
+	//
+	// UP
 	GoodsStatus *string `json:"goods_status,omitempty" xml:"goods_status,omitempty"`
 	// 商品分类
+	// example:
+	//
+	// 分类
 	Classification *string `json:"classification,omitempty" xml:"classification,omitempty"`
 	// 售卖数量
+	// example:
+	//
+	// 1
 	TotalSoldNum *int64 `json:"total_sold_num,omitempty" xml:"total_sold_num,omitempty"`
 	// 售价（分）
+	// example:
+	//
+	// 1
 	StandardPriceInCent *int64 `json:"standard_price_in_cent,omitempty" xml:"standard_price_in_cent,omitempty"`
 	// 商品标题
+	// example:
+	//
+	// 测试标题
 	Title *string `json:"title,omitempty" xml:"title,omitempty"`
 	// 授权期限起始时间
 	AuthStartTime *int64 `json:"auth_start_time,omitempty" xml:"auth_start_time,omitempty"`
@@ -4448,10 +5797,19 @@ func (s *ReviewData) SetLabelRiskData(v []*LabelRiskData) *ReviewData {
 // 出证的公证书信息
 type NotaryInfo struct {
 	// 公证书编号
+	// example:
+	//
+	// 公证书编号
 	NotarialDeedNo *string `json:"notarial_deed_no,omitempty" xml:"notarial_deed_no,omitempty" require:"true"`
+	// 电子公证书文件路径
+	// example:
+	//
 	// 电子公证书文件路径
 	NotaryPaperPath *string `json:"notary_paper_path,omitempty" xml:"notary_paper_path,omitempty" require:"true"`
 	// 公证书出证日期（yyyy-MM-dd）
+	// example:
+	//
+	// 2022-10-17
 	NotaryTime *string `json:"notary_time,omitempty" xml:"notary_time,omitempty" require:"true"`
 }
 
@@ -4481,12 +5839,24 @@ func (s *NotaryInfo) SetNotaryTime(v string) *NotaryInfo {
 // 数登申请声明：包括创作目的、创作过程、独创性和字体申明
 type DciExplanationInfo struct {
 	// 创作目的，描述作品创作的目的
+	// example:
+	//
+	// xx的创作目的
 	CreationPurpose *string `json:"creation_purpose,omitempty" xml:"creation_purpose,omitempty" require:"true"`
 	// 创作过程，具体的创作过程
+	// example:
+	//
+	// xx的创作过程
 	CreationProcess *string `json:"creation_process,omitempty" xml:"creation_process,omitempty" require:"true"`
 	// 阐述作品的独创性
+	// example:
+	//
+	// 独创性说明
 	Originality *string `json:"originality,omitempty" xml:"originality,omitempty" require:"true"`
 	// 创作过程涉及到字体使用相关版权说明
+	// example:
+	//
+	// 字体申明
 	FontCopyright *string `json:"font_copyright,omitempty" xml:"font_copyright,omitempty"`
 	// 创作过程涉及到字体使用相关版权说明
 	//
@@ -4529,8 +5899,14 @@ func (s *DciExplanationInfo) SetFontTypes(v []*string) *DciExplanationInfo {
 // 监测文件类型
 type MonitorType struct {
 	// 文件类型
+	// example:
+	//
+	// jpg
 	FileType *string `json:"file_type,omitempty" xml:"file_type,omitempty" require:"true"`
 	// 提交类型
+	// example:
+	//
+	// FILE
 	SubmitType *string `json:"submit_type,omitempty" xml:"submit_type,omitempty" require:"true"`
 }
 
@@ -4555,11 +5931,23 @@ func (s *MonitorType) SetSubmitType(v string) *MonitorType {
 // 线下取证水印结果
 type OfflineEvidenceWatermarkResult struct {
 	// 取证编号
+	// example:
+	//
+	// 123456
 	EvidenceNo *string `json:"evidence_no,omitempty" xml:"evidence_no,omitempty" require:"true"`
 	// 水印链接
+	// example:
+	//
+	// https://www.baidu.com
 	WatermarkUrl *string `json:"watermark_url,omitempty" xml:"watermark_url,omitempty"`
 	// 封面链接
+	// example:
+	//
+	// https://www.baidu.com
 	CoverUrl *string `json:"cover_url,omitempty" xml:"cover_url,omitempty"`
+	// 失败原因
+	// example:
+	//
 	// 失败原因
 	FailReason *string `json:"fail_reason,omitempty" xml:"fail_reason,omitempty"`
 }
@@ -4589,6 +5977,882 @@ func (s *OfflineEvidenceWatermarkResult) SetCoverUrl(v string) *OfflineEvidenceW
 
 func (s *OfflineEvidenceWatermarkResult) SetFailReason(v string) *OfflineEvidenceWatermarkResult {
 	s.FailReason = &v
+	return s
+}
+
+type VerifyDciCertRequest struct {
+	// OAuth模式下的授权token
+	AuthToken         *string `json:"auth_token,omitempty" xml:"auth_token,omitempty"`
+	ProductInstanceId *string `json:"product_instance_id,omitempty" xml:"product_instance_id,omitempty"`
+	// 通过上传文件接口上传文件后返回的fileId
+	// 待上传文件
+	FileObject io.Reader `json:"fileObject,omitempty" xml:"fileObject,omitempty"`
+	// 待上传文件名
+	FileObjectName *string `json:"fileObjectName,omitempty" xml:"fileObjectName,omitempty"`
+	FileId         *string `json:"file_id,omitempty" xml:"file_id,omitempty" require:"true"`
+	// 幂等号，用来保证请求幂等性。从您的客户端生成一个参数值，确保不同请求间该参数值唯一。clientToken只支持ASCII字符，且不能超过64个字符。更多详情，请参见如何保证幂等性。
+	ClientToken *string `json:"client_token,omitempty" xml:"client_token,omitempty" require:"true"`
+}
+
+func (s VerifyDciCertRequest) String() string {
+	return tea.Prettify(s)
+}
+
+func (s VerifyDciCertRequest) GoString() string {
+	return s.String()
+}
+
+func (s *VerifyDciCertRequest) SetAuthToken(v string) *VerifyDciCertRequest {
+	s.AuthToken = &v
+	return s
+}
+
+func (s *VerifyDciCertRequest) SetProductInstanceId(v string) *VerifyDciCertRequest {
+	s.ProductInstanceId = &v
+	return s
+}
+
+func (s *VerifyDciCertRequest) SetFileObject(v io.Reader) *VerifyDciCertRequest {
+	s.FileObject = v
+	return s
+}
+
+func (s *VerifyDciCertRequest) SetFileObjectName(v string) *VerifyDciCertRequest {
+	s.FileObjectName = &v
+	return s
+}
+
+func (s *VerifyDciCertRequest) SetFileId(v string) *VerifyDciCertRequest {
+	s.FileId = &v
+	return s
+}
+
+func (s *VerifyDciCertRequest) SetClientToken(v string) *VerifyDciCertRequest {
+	s.ClientToken = &v
+	return s
+}
+
+type VerifyDciCertResponse struct {
+	// 请求唯一ID，用于链路跟踪和问题排查
+	ReqMsgId *string `json:"req_msg_id,omitempty" xml:"req_msg_id,omitempty"`
+	// 结果码，一般OK表示调用成功
+	ResultCode *string `json:"result_code,omitempty" xml:"result_code,omitempty"`
+	// 异常信息的文本描述
+	ResultMsg *string `json:"result_msg,omitempty" xml:"result_msg,omitempty"`
+	// 核验ID，供核验查询结果使用
+	CertificateVerifyId *string `json:"certificate_verify_id,omitempty" xml:"certificate_verify_id,omitempty"`
+}
+
+func (s VerifyDciCertResponse) String() string {
+	return tea.Prettify(s)
+}
+
+func (s VerifyDciCertResponse) GoString() string {
+	return s.String()
+}
+
+func (s *VerifyDciCertResponse) SetReqMsgId(v string) *VerifyDciCertResponse {
+	s.ReqMsgId = &v
+	return s
+}
+
+func (s *VerifyDciCertResponse) SetResultCode(v string) *VerifyDciCertResponse {
+	s.ResultCode = &v
+	return s
+}
+
+func (s *VerifyDciCertResponse) SetResultMsg(v string) *VerifyDciCertResponse {
+	s.ResultMsg = &v
+	return s
+}
+
+func (s *VerifyDciCertResponse) SetCertificateVerifyId(v string) *VerifyDciCertResponse {
+	s.CertificateVerifyId = &v
+	return s
+}
+
+type ResultDciCertRequest struct {
+	// OAuth模式下的授权token
+	AuthToken         *string `json:"auth_token,omitempty" xml:"auth_token,omitempty"`
+	ProductInstanceId *string `json:"product_instance_id,omitempty" xml:"product_instance_id,omitempty"`
+	// DCI证书凭证核验ID
+	CertificateVerifyId *string `json:"certificate_verify_id,omitempty" xml:"certificate_verify_id,omitempty" require:"true"`
+}
+
+func (s ResultDciCertRequest) String() string {
+	return tea.Prettify(s)
+}
+
+func (s ResultDciCertRequest) GoString() string {
+	return s.String()
+}
+
+func (s *ResultDciCertRequest) SetAuthToken(v string) *ResultDciCertRequest {
+	s.AuthToken = &v
+	return s
+}
+
+func (s *ResultDciCertRequest) SetProductInstanceId(v string) *ResultDciCertRequest {
+	s.ProductInstanceId = &v
+	return s
+}
+
+func (s *ResultDciCertRequest) SetCertificateVerifyId(v string) *ResultDciCertRequest {
+	s.CertificateVerifyId = &v
+	return s
+}
+
+type ResultDciCertResponse struct {
+	// 请求唯一ID，用于链路跟踪和问题排查
+	ReqMsgId *string `json:"req_msg_id,omitempty" xml:"req_msg_id,omitempty"`
+	// 结果码，一般OK表示调用成功
+	ResultCode *string `json:"result_code,omitempty" xml:"result_code,omitempty"`
+	// 异常信息的文本描述
+	ResultMsg *string `json:"result_msg,omitempty" xml:"result_msg,omitempty"`
+	// 核验结果
+	Success *bool `json:"success,omitempty" xml:"success,omitempty"`
+}
+
+func (s ResultDciCertResponse) String() string {
+	return tea.Prettify(s)
+}
+
+func (s ResultDciCertResponse) GoString() string {
+	return s.String()
+}
+
+func (s *ResultDciCertResponse) SetReqMsgId(v string) *ResultDciCertResponse {
+	s.ReqMsgId = &v
+	return s
+}
+
+func (s *ResultDciCertResponse) SetResultCode(v string) *ResultDciCertResponse {
+	s.ResultCode = &v
+	return s
+}
+
+func (s *ResultDciCertResponse) SetResultMsg(v string) *ResultDciCertResponse {
+	s.ResultMsg = &v
+	return s
+}
+
+func (s *ResultDciCertResponse) SetSuccess(v bool) *ResultDciCertResponse {
+	s.Success = &v
+	return s
+}
+
+type QueryapplyformCopyrightregistrationDigitalregistrationRequest struct {
+	// OAuth模式下的授权token
+	AuthToken         *string `json:"auth_token,omitempty" xml:"auth_token,omitempty"`
+	ProductInstanceId *string `json:"product_instance_id,omitempty" xml:"product_instance_id,omitempty"`
+	// 数登ID
+	DigitalRegisterId *string `json:"digital_register_id,omitempty" xml:"digital_register_id,omitempty" require:"true"`
+}
+
+func (s QueryapplyformCopyrightregistrationDigitalregistrationRequest) String() string {
+	return tea.Prettify(s)
+}
+
+func (s QueryapplyformCopyrightregistrationDigitalregistrationRequest) GoString() string {
+	return s.String()
+}
+
+func (s *QueryapplyformCopyrightregistrationDigitalregistrationRequest) SetAuthToken(v string) *QueryapplyformCopyrightregistrationDigitalregistrationRequest {
+	s.AuthToken = &v
+	return s
+}
+
+func (s *QueryapplyformCopyrightregistrationDigitalregistrationRequest) SetProductInstanceId(v string) *QueryapplyformCopyrightregistrationDigitalregistrationRequest {
+	s.ProductInstanceId = &v
+	return s
+}
+
+func (s *QueryapplyformCopyrightregistrationDigitalregistrationRequest) SetDigitalRegisterId(v string) *QueryapplyformCopyrightregistrationDigitalregistrationRequest {
+	s.DigitalRegisterId = &v
+	return s
+}
+
+type QueryapplyformCopyrightregistrationDigitalregistrationResponse struct {
+	// 请求唯一ID，用于链路跟踪和问题排查
+	ReqMsgId *string `json:"req_msg_id,omitempty" xml:"req_msg_id,omitempty"`
+	// 结果码，一般OK表示调用成功
+	ResultCode *string `json:"result_code,omitempty" xml:"result_code,omitempty"`
+	// 异常信息的文本描述
+	ResultMsg *string `json:"result_msg,omitempty" xml:"result_msg,omitempty"`
+	// 数登申请表OSS下载链接
+	FileUrl *string `json:"file_url,omitempty" xml:"file_url,omitempty"`
+}
+
+func (s QueryapplyformCopyrightregistrationDigitalregistrationResponse) String() string {
+	return tea.Prettify(s)
+}
+
+func (s QueryapplyformCopyrightregistrationDigitalregistrationResponse) GoString() string {
+	return s.String()
+}
+
+func (s *QueryapplyformCopyrightregistrationDigitalregistrationResponse) SetReqMsgId(v string) *QueryapplyformCopyrightregistrationDigitalregistrationResponse {
+	s.ReqMsgId = &v
+	return s
+}
+
+func (s *QueryapplyformCopyrightregistrationDigitalregistrationResponse) SetResultCode(v string) *QueryapplyformCopyrightregistrationDigitalregistrationResponse {
+	s.ResultCode = &v
+	return s
+}
+
+func (s *QueryapplyformCopyrightregistrationDigitalregistrationResponse) SetResultMsg(v string) *QueryapplyformCopyrightregistrationDigitalregistrationResponse {
+	s.ResultMsg = &v
+	return s
+}
+
+func (s *QueryapplyformCopyrightregistrationDigitalregistrationResponse) SetFileUrl(v string) *QueryapplyformCopyrightregistrationDigitalregistrationResponse {
+	s.FileUrl = &v
+	return s
+}
+
+type QueryautosealauthCopyrightregistrationDigitalregistrationRequest struct {
+	// OAuth模式下的授权token
+	AuthToken         *string `json:"auth_token,omitempty" xml:"auth_token,omitempty"`
+	ProductInstanceId *string `json:"product_instance_id,omitempty" xml:"product_instance_id,omitempty"`
+	// 数登申请ID
+	DigitalRegisterId *string `json:"digital_register_id,omitempty" xml:"digital_register_id,omitempty" require:"true"`
+}
+
+func (s QueryautosealauthCopyrightregistrationDigitalregistrationRequest) String() string {
+	return tea.Prettify(s)
+}
+
+func (s QueryautosealauthCopyrightregistrationDigitalregistrationRequest) GoString() string {
+	return s.String()
+}
+
+func (s *QueryautosealauthCopyrightregistrationDigitalregistrationRequest) SetAuthToken(v string) *QueryautosealauthCopyrightregistrationDigitalregistrationRequest {
+	s.AuthToken = &v
+	return s
+}
+
+func (s *QueryautosealauthCopyrightregistrationDigitalregistrationRequest) SetProductInstanceId(v string) *QueryautosealauthCopyrightregistrationDigitalregistrationRequest {
+	s.ProductInstanceId = &v
+	return s
+}
+
+func (s *QueryautosealauthCopyrightregistrationDigitalregistrationRequest) SetDigitalRegisterId(v string) *QueryautosealauthCopyrightregistrationDigitalregistrationRequest {
+	s.DigitalRegisterId = &v
+	return s
+}
+
+type QueryautosealauthCopyrightregistrationDigitalregistrationResponse struct {
+	// 请求唯一ID，用于链路跟踪和问题排查
+	ReqMsgId *string `json:"req_msg_id,omitempty" xml:"req_msg_id,omitempty"`
+	// 结果码，一般OK表示调用成功
+	ResultCode *string `json:"result_code,omitempty" xml:"result_code,omitempty"`
+	// 异常信息的文本描述
+	ResultMsg *string `json:"result_msg,omitempty" xml:"result_msg,omitempty"`
+	// 是否支持静默签，true 支持 false  不支持
+	IsAutoSeal *bool `json:"is_auto_seal,omitempty" xml:"is_auto_seal,omitempty"`
+}
+
+func (s QueryautosealauthCopyrightregistrationDigitalregistrationResponse) String() string {
+	return tea.Prettify(s)
+}
+
+func (s QueryautosealauthCopyrightregistrationDigitalregistrationResponse) GoString() string {
+	return s.String()
+}
+
+func (s *QueryautosealauthCopyrightregistrationDigitalregistrationResponse) SetReqMsgId(v string) *QueryautosealauthCopyrightregistrationDigitalregistrationResponse {
+	s.ReqMsgId = &v
+	return s
+}
+
+func (s *QueryautosealauthCopyrightregistrationDigitalregistrationResponse) SetResultCode(v string) *QueryautosealauthCopyrightregistrationDigitalregistrationResponse {
+	s.ResultCode = &v
+	return s
+}
+
+func (s *QueryautosealauthCopyrightregistrationDigitalregistrationResponse) SetResultMsg(v string) *QueryautosealauthCopyrightregistrationDigitalregistrationResponse {
+	s.ResultMsg = &v
+	return s
+}
+
+func (s *QueryautosealauthCopyrightregistrationDigitalregistrationResponse) SetIsAutoSeal(v bool) *QueryautosealauthCopyrightregistrationDigitalregistrationResponse {
+	s.IsAutoSeal = &v
+	return s
+}
+
+type CreateapplyformsealflowCopyrightregistrationDigitalregistrationRequest struct {
+	// OAuth模式下的授权token
+	AuthToken         *string `json:"auth_token,omitempty" xml:"auth_token,omitempty"`
+	ProductInstanceId *string `json:"product_instance_id,omitempty" xml:"product_instance_id,omitempty"`
+	// 数登申请ID
+	DigitalRegisterId *string `json:"digital_register_id,omitempty" xml:"digital_register_id,omitempty"`
+	// 客户端幂等号
+	ClientToken *string `json:"client_token,omitempty" xml:"client_token,omitempty" require:"true"`
+}
+
+func (s CreateapplyformsealflowCopyrightregistrationDigitalregistrationRequest) String() string {
+	return tea.Prettify(s)
+}
+
+func (s CreateapplyformsealflowCopyrightregistrationDigitalregistrationRequest) GoString() string {
+	return s.String()
+}
+
+func (s *CreateapplyformsealflowCopyrightregistrationDigitalregistrationRequest) SetAuthToken(v string) *CreateapplyformsealflowCopyrightregistrationDigitalregistrationRequest {
+	s.AuthToken = &v
+	return s
+}
+
+func (s *CreateapplyformsealflowCopyrightregistrationDigitalregistrationRequest) SetProductInstanceId(v string) *CreateapplyformsealflowCopyrightregistrationDigitalregistrationRequest {
+	s.ProductInstanceId = &v
+	return s
+}
+
+func (s *CreateapplyformsealflowCopyrightregistrationDigitalregistrationRequest) SetDigitalRegisterId(v string) *CreateapplyformsealflowCopyrightregistrationDigitalregistrationRequest {
+	s.DigitalRegisterId = &v
+	return s
+}
+
+func (s *CreateapplyformsealflowCopyrightregistrationDigitalregistrationRequest) SetClientToken(v string) *CreateapplyformsealflowCopyrightregistrationDigitalregistrationRequest {
+	s.ClientToken = &v
+	return s
+}
+
+type CreateapplyformsealflowCopyrightregistrationDigitalregistrationResponse struct {
+	// 请求唯一ID，用于链路跟踪和问题排查
+	ReqMsgId *string `json:"req_msg_id,omitempty" xml:"req_msg_id,omitempty"`
+	// 结果码，一般OK表示调用成功
+	ResultCode *string `json:"result_code,omitempty" xml:"result_code,omitempty"`
+	// 异常信息的文本描述
+	ResultMsg *string `json:"result_msg,omitempty" xml:"result_msg,omitempty"`
+	// 创建签署流程是否成功
+	Completed *bool `json:"completed,omitempty" xml:"completed,omitempty"`
+}
+
+func (s CreateapplyformsealflowCopyrightregistrationDigitalregistrationResponse) String() string {
+	return tea.Prettify(s)
+}
+
+func (s CreateapplyformsealflowCopyrightregistrationDigitalregistrationResponse) GoString() string {
+	return s.String()
+}
+
+func (s *CreateapplyformsealflowCopyrightregistrationDigitalregistrationResponse) SetReqMsgId(v string) *CreateapplyformsealflowCopyrightregistrationDigitalregistrationResponse {
+	s.ReqMsgId = &v
+	return s
+}
+
+func (s *CreateapplyformsealflowCopyrightregistrationDigitalregistrationResponse) SetResultCode(v string) *CreateapplyformsealflowCopyrightregistrationDigitalregistrationResponse {
+	s.ResultCode = &v
+	return s
+}
+
+func (s *CreateapplyformsealflowCopyrightregistrationDigitalregistrationResponse) SetResultMsg(v string) *CreateapplyformsealflowCopyrightregistrationDigitalregistrationResponse {
+	s.ResultMsg = &v
+	return s
+}
+
+func (s *CreateapplyformsealflowCopyrightregistrationDigitalregistrationResponse) SetCompleted(v bool) *CreateapplyformsealflowCopyrightregistrationDigitalregistrationResponse {
+	s.Completed = &v
+	return s
+}
+
+type QueryapplyformsealurlCopyrightregistrationDigitalregistrationRequest struct {
+	// OAuth模式下的授权token
+	AuthToken         *string `json:"auth_token,omitempty" xml:"auth_token,omitempty"`
+	ProductInstanceId *string `json:"product_instance_id,omitempty" xml:"product_instance_id,omitempty"`
+	// 数登申请ID
+	DigitalRegisterId *string `json:"digital_register_id,omitempty" xml:"digital_register_id,omitempty" require:"true"`
+}
+
+func (s QueryapplyformsealurlCopyrightregistrationDigitalregistrationRequest) String() string {
+	return tea.Prettify(s)
+}
+
+func (s QueryapplyformsealurlCopyrightregistrationDigitalregistrationRequest) GoString() string {
+	return s.String()
+}
+
+func (s *QueryapplyformsealurlCopyrightregistrationDigitalregistrationRequest) SetAuthToken(v string) *QueryapplyformsealurlCopyrightregistrationDigitalregistrationRequest {
+	s.AuthToken = &v
+	return s
+}
+
+func (s *QueryapplyformsealurlCopyrightregistrationDigitalregistrationRequest) SetProductInstanceId(v string) *QueryapplyformsealurlCopyrightregistrationDigitalregistrationRequest {
+	s.ProductInstanceId = &v
+	return s
+}
+
+func (s *QueryapplyformsealurlCopyrightregistrationDigitalregistrationRequest) SetDigitalRegisterId(v string) *QueryapplyformsealurlCopyrightregistrationDigitalregistrationRequest {
+	s.DigitalRegisterId = &v
+	return s
+}
+
+type QueryapplyformsealurlCopyrightregistrationDigitalregistrationResponse struct {
+	// 请求唯一ID，用于链路跟踪和问题排查
+	ReqMsgId *string `json:"req_msg_id,omitempty" xml:"req_msg_id,omitempty"`
+	// 结果码，一般OK表示调用成功
+	ResultCode *string `json:"result_code,omitempty" xml:"result_code,omitempty"`
+	// 异常信息的文本描述
+	ResultMsg *string `json:"result_msg,omitempty" xml:"result_msg,omitempty"`
+	// 签署链接
+	SealUrl *string `json:"seal_url,omitempty" xml:"seal_url,omitempty"`
+}
+
+func (s QueryapplyformsealurlCopyrightregistrationDigitalregistrationResponse) String() string {
+	return tea.Prettify(s)
+}
+
+func (s QueryapplyformsealurlCopyrightregistrationDigitalregistrationResponse) GoString() string {
+	return s.String()
+}
+
+func (s *QueryapplyformsealurlCopyrightregistrationDigitalregistrationResponse) SetReqMsgId(v string) *QueryapplyformsealurlCopyrightregistrationDigitalregistrationResponse {
+	s.ReqMsgId = &v
+	return s
+}
+
+func (s *QueryapplyformsealurlCopyrightregistrationDigitalregistrationResponse) SetResultCode(v string) *QueryapplyformsealurlCopyrightregistrationDigitalregistrationResponse {
+	s.ResultCode = &v
+	return s
+}
+
+func (s *QueryapplyformsealurlCopyrightregistrationDigitalregistrationResponse) SetResultMsg(v string) *QueryapplyformsealurlCopyrightregistrationDigitalregistrationResponse {
+	s.ResultMsg = &v
+	return s
+}
+
+func (s *QueryapplyformsealurlCopyrightregistrationDigitalregistrationResponse) SetSealUrl(v string) *QueryapplyformsealurlCopyrightregistrationDigitalregistrationResponse {
+	s.SealUrl = &v
+	return s
+}
+
+type CompleteapplyformsealCopyrightregistrationDigitalregistrationRequest struct {
+	// OAuth模式下的授权token
+	AuthToken         *string `json:"auth_token,omitempty" xml:"auth_token,omitempty"`
+	ProductInstanceId *string `json:"product_instance_id,omitempty" xml:"product_instance_id,omitempty"`
+	// 数登申请ID
+	DigitalRegisterId *string `json:"digital_register_id,omitempty" xml:"digital_register_id,omitempty" require:"true"`
+}
+
+func (s CompleteapplyformsealCopyrightregistrationDigitalregistrationRequest) String() string {
+	return tea.Prettify(s)
+}
+
+func (s CompleteapplyformsealCopyrightregistrationDigitalregistrationRequest) GoString() string {
+	return s.String()
+}
+
+func (s *CompleteapplyformsealCopyrightregistrationDigitalregistrationRequest) SetAuthToken(v string) *CompleteapplyformsealCopyrightregistrationDigitalregistrationRequest {
+	s.AuthToken = &v
+	return s
+}
+
+func (s *CompleteapplyformsealCopyrightregistrationDigitalregistrationRequest) SetProductInstanceId(v string) *CompleteapplyformsealCopyrightregistrationDigitalregistrationRequest {
+	s.ProductInstanceId = &v
+	return s
+}
+
+func (s *CompleteapplyformsealCopyrightregistrationDigitalregistrationRequest) SetDigitalRegisterId(v string) *CompleteapplyformsealCopyrightregistrationDigitalregistrationRequest {
+	s.DigitalRegisterId = &v
+	return s
+}
+
+type CompleteapplyformsealCopyrightregistrationDigitalregistrationResponse struct {
+	// 请求唯一ID，用于链路跟踪和问题排查
+	ReqMsgId *string `json:"req_msg_id,omitempty" xml:"req_msg_id,omitempty"`
+	// 结果码，一般OK表示调用成功
+	ResultCode *string `json:"result_code,omitempty" xml:"result_code,omitempty"`
+	// 异常信息的文本描述
+	ResultMsg *string `json:"result_msg,omitempty" xml:"result_msg,omitempty"`
+	// true:完成
+	// false：未完成
+	Completed *bool `json:"completed,omitempty" xml:"completed,omitempty"`
+}
+
+func (s CompleteapplyformsealCopyrightregistrationDigitalregistrationResponse) String() string {
+	return tea.Prettify(s)
+}
+
+func (s CompleteapplyformsealCopyrightregistrationDigitalregistrationResponse) GoString() string {
+	return s.String()
+}
+
+func (s *CompleteapplyformsealCopyrightregistrationDigitalregistrationResponse) SetReqMsgId(v string) *CompleteapplyformsealCopyrightregistrationDigitalregistrationResponse {
+	s.ReqMsgId = &v
+	return s
+}
+
+func (s *CompleteapplyformsealCopyrightregistrationDigitalregistrationResponse) SetResultCode(v string) *CompleteapplyformsealCopyrightregistrationDigitalregistrationResponse {
+	s.ResultCode = &v
+	return s
+}
+
+func (s *CompleteapplyformsealCopyrightregistrationDigitalregistrationResponse) SetResultMsg(v string) *CompleteapplyformsealCopyrightregistrationDigitalregistrationResponse {
+	s.ResultMsg = &v
+	return s
+}
+
+func (s *CompleteapplyformsealCopyrightregistrationDigitalregistrationResponse) SetCompleted(v bool) *CompleteapplyformsealCopyrightregistrationDigitalregistrationResponse {
+	s.Completed = &v
+	return s
+}
+
+type QueryDigitalregistrationApplyformRequest struct {
+	// OAuth模式下的授权token
+	AuthToken         *string `json:"auth_token,omitempty" xml:"auth_token,omitempty"`
+	ProductInstanceId *string `json:"product_instance_id,omitempty" xml:"product_instance_id,omitempty"`
+	// 数登ID
+	DigitalRegisterId *string `json:"digital_register_id,omitempty" xml:"digital_register_id,omitempty" require:"true"`
+}
+
+func (s QueryDigitalregistrationApplyformRequest) String() string {
+	return tea.Prettify(s)
+}
+
+func (s QueryDigitalregistrationApplyformRequest) GoString() string {
+	return s.String()
+}
+
+func (s *QueryDigitalregistrationApplyformRequest) SetAuthToken(v string) *QueryDigitalregistrationApplyformRequest {
+	s.AuthToken = &v
+	return s
+}
+
+func (s *QueryDigitalregistrationApplyformRequest) SetProductInstanceId(v string) *QueryDigitalregistrationApplyformRequest {
+	s.ProductInstanceId = &v
+	return s
+}
+
+func (s *QueryDigitalregistrationApplyformRequest) SetDigitalRegisterId(v string) *QueryDigitalregistrationApplyformRequest {
+	s.DigitalRegisterId = &v
+	return s
+}
+
+type QueryDigitalregistrationApplyformResponse struct {
+	// 请求唯一ID，用于链路跟踪和问题排查
+	ReqMsgId *string `json:"req_msg_id,omitempty" xml:"req_msg_id,omitempty"`
+	// 结果码，一般OK表示调用成功
+	ResultCode *string `json:"result_code,omitempty" xml:"result_code,omitempty"`
+	// 异常信息的文本描述
+	ResultMsg *string `json:"result_msg,omitempty" xml:"result_msg,omitempty"`
+	// 数登申请表OSS下载链接
+	FileUrl *string `json:"file_url,omitempty" xml:"file_url,omitempty"`
+}
+
+func (s QueryDigitalregistrationApplyformResponse) String() string {
+	return tea.Prettify(s)
+}
+
+func (s QueryDigitalregistrationApplyformResponse) GoString() string {
+	return s.String()
+}
+
+func (s *QueryDigitalregistrationApplyformResponse) SetReqMsgId(v string) *QueryDigitalregistrationApplyformResponse {
+	s.ReqMsgId = &v
+	return s
+}
+
+func (s *QueryDigitalregistrationApplyformResponse) SetResultCode(v string) *QueryDigitalregistrationApplyformResponse {
+	s.ResultCode = &v
+	return s
+}
+
+func (s *QueryDigitalregistrationApplyformResponse) SetResultMsg(v string) *QueryDigitalregistrationApplyformResponse {
+	s.ResultMsg = &v
+	return s
+}
+
+func (s *QueryDigitalregistrationApplyformResponse) SetFileUrl(v string) *QueryDigitalregistrationApplyformResponse {
+	s.FileUrl = &v
+	return s
+}
+
+type QueryDigitalregistrationSealauthRequest struct {
+	// OAuth模式下的授权token
+	AuthToken         *string `json:"auth_token,omitempty" xml:"auth_token,omitempty"`
+	ProductInstanceId *string `json:"product_instance_id,omitempty" xml:"product_instance_id,omitempty"`
+	// 数登ID
+	DigitalRegisterId *string `json:"digital_register_id,omitempty" xml:"digital_register_id,omitempty" require:"true"`
+}
+
+func (s QueryDigitalregistrationSealauthRequest) String() string {
+	return tea.Prettify(s)
+}
+
+func (s QueryDigitalregistrationSealauthRequest) GoString() string {
+	return s.String()
+}
+
+func (s *QueryDigitalregistrationSealauthRequest) SetAuthToken(v string) *QueryDigitalregistrationSealauthRequest {
+	s.AuthToken = &v
+	return s
+}
+
+func (s *QueryDigitalregistrationSealauthRequest) SetProductInstanceId(v string) *QueryDigitalregistrationSealauthRequest {
+	s.ProductInstanceId = &v
+	return s
+}
+
+func (s *QueryDigitalregistrationSealauthRequest) SetDigitalRegisterId(v string) *QueryDigitalregistrationSealauthRequest {
+	s.DigitalRegisterId = &v
+	return s
+}
+
+type QueryDigitalregistrationSealauthResponse struct {
+	// 请求唯一ID，用于链路跟踪和问题排查
+	ReqMsgId *string `json:"req_msg_id,omitempty" xml:"req_msg_id,omitempty"`
+	// 结果码，一般OK表示调用成功
+	ResultCode *string `json:"result_code,omitempty" xml:"result_code,omitempty"`
+	// 异常信息的文本描述
+	ResultMsg *string `json:"result_msg,omitempty" xml:"result_msg,omitempty"`
+	// 是否支持静默授权
+	IsAutoSeal *bool `json:"is_auto_seal,omitempty" xml:"is_auto_seal,omitempty"`
+}
+
+func (s QueryDigitalregistrationSealauthResponse) String() string {
+	return tea.Prettify(s)
+}
+
+func (s QueryDigitalregistrationSealauthResponse) GoString() string {
+	return s.String()
+}
+
+func (s *QueryDigitalregistrationSealauthResponse) SetReqMsgId(v string) *QueryDigitalregistrationSealauthResponse {
+	s.ReqMsgId = &v
+	return s
+}
+
+func (s *QueryDigitalregistrationSealauthResponse) SetResultCode(v string) *QueryDigitalregistrationSealauthResponse {
+	s.ResultCode = &v
+	return s
+}
+
+func (s *QueryDigitalregistrationSealauthResponse) SetResultMsg(v string) *QueryDigitalregistrationSealauthResponse {
+	s.ResultMsg = &v
+	return s
+}
+
+func (s *QueryDigitalregistrationSealauthResponse) SetIsAutoSeal(v bool) *QueryDigitalregistrationSealauthResponse {
+	s.IsAutoSeal = &v
+	return s
+}
+
+type CreateDigitalregistrationApplyformsealflowRequest struct {
+	// OAuth模式下的授权token
+	AuthToken         *string `json:"auth_token,omitempty" xml:"auth_token,omitempty"`
+	ProductInstanceId *string `json:"product_instance_id,omitempty" xml:"product_instance_id,omitempty"`
+	// 数登ID
+	DigitalRegisterId *string `json:"digital_register_id,omitempty" xml:"digital_register_id,omitempty" require:"true"`
+	// ewrwrwerwr
+	ClientToken *string `json:"client_token,omitempty" xml:"client_token,omitempty" require:"true"`
+}
+
+func (s CreateDigitalregistrationApplyformsealflowRequest) String() string {
+	return tea.Prettify(s)
+}
+
+func (s CreateDigitalregistrationApplyformsealflowRequest) GoString() string {
+	return s.String()
+}
+
+func (s *CreateDigitalregistrationApplyformsealflowRequest) SetAuthToken(v string) *CreateDigitalregistrationApplyformsealflowRequest {
+	s.AuthToken = &v
+	return s
+}
+
+func (s *CreateDigitalregistrationApplyformsealflowRequest) SetProductInstanceId(v string) *CreateDigitalregistrationApplyformsealflowRequest {
+	s.ProductInstanceId = &v
+	return s
+}
+
+func (s *CreateDigitalregistrationApplyformsealflowRequest) SetDigitalRegisterId(v string) *CreateDigitalregistrationApplyformsealflowRequest {
+	s.DigitalRegisterId = &v
+	return s
+}
+
+func (s *CreateDigitalregistrationApplyformsealflowRequest) SetClientToken(v string) *CreateDigitalregistrationApplyformsealflowRequest {
+	s.ClientToken = &v
+	return s
+}
+
+type CreateDigitalregistrationApplyformsealflowResponse struct {
+	// 请求唯一ID，用于链路跟踪和问题排查
+	ReqMsgId *string `json:"req_msg_id,omitempty" xml:"req_msg_id,omitempty"`
+	// 结果码，一般OK表示调用成功
+	ResultCode *string `json:"result_code,omitempty" xml:"result_code,omitempty"`
+	// 异常信息的文本描述
+	ResultMsg *string `json:"result_msg,omitempty" xml:"result_msg,omitempty"`
+	// 是否创建签署流程成功
+	Completed *bool `json:"completed,omitempty" xml:"completed,omitempty"`
+}
+
+func (s CreateDigitalregistrationApplyformsealflowResponse) String() string {
+	return tea.Prettify(s)
+}
+
+func (s CreateDigitalregistrationApplyformsealflowResponse) GoString() string {
+	return s.String()
+}
+
+func (s *CreateDigitalregistrationApplyformsealflowResponse) SetReqMsgId(v string) *CreateDigitalregistrationApplyformsealflowResponse {
+	s.ReqMsgId = &v
+	return s
+}
+
+func (s *CreateDigitalregistrationApplyformsealflowResponse) SetResultCode(v string) *CreateDigitalregistrationApplyformsealflowResponse {
+	s.ResultCode = &v
+	return s
+}
+
+func (s *CreateDigitalregistrationApplyformsealflowResponse) SetResultMsg(v string) *CreateDigitalregistrationApplyformsealflowResponse {
+	s.ResultMsg = &v
+	return s
+}
+
+func (s *CreateDigitalregistrationApplyformsealflowResponse) SetCompleted(v bool) *CreateDigitalregistrationApplyformsealflowResponse {
+	s.Completed = &v
+	return s
+}
+
+type QueryDigitalregistrationApplyformsealurlRequest struct {
+	// OAuth模式下的授权token
+	AuthToken         *string `json:"auth_token,omitempty" xml:"auth_token,omitempty"`
+	ProductInstanceId *string `json:"product_instance_id,omitempty" xml:"product_instance_id,omitempty"`
+	// 数登ID
+	DigitalRegisterId *string `json:"digital_register_id,omitempty" xml:"digital_register_id,omitempty" require:"true"`
+}
+
+func (s QueryDigitalregistrationApplyformsealurlRequest) String() string {
+	return tea.Prettify(s)
+}
+
+func (s QueryDigitalregistrationApplyformsealurlRequest) GoString() string {
+	return s.String()
+}
+
+func (s *QueryDigitalregistrationApplyformsealurlRequest) SetAuthToken(v string) *QueryDigitalregistrationApplyformsealurlRequest {
+	s.AuthToken = &v
+	return s
+}
+
+func (s *QueryDigitalregistrationApplyformsealurlRequest) SetProductInstanceId(v string) *QueryDigitalregistrationApplyformsealurlRequest {
+	s.ProductInstanceId = &v
+	return s
+}
+
+func (s *QueryDigitalregistrationApplyformsealurlRequest) SetDigitalRegisterId(v string) *QueryDigitalregistrationApplyformsealurlRequest {
+	s.DigitalRegisterId = &v
+	return s
+}
+
+type QueryDigitalregistrationApplyformsealurlResponse struct {
+	// 请求唯一ID，用于链路跟踪和问题排查
+	ReqMsgId *string `json:"req_msg_id,omitempty" xml:"req_msg_id,omitempty"`
+	// 结果码，一般OK表示调用成功
+	ResultCode *string `json:"result_code,omitempty" xml:"result_code,omitempty"`
+	// 异常信息的文本描述
+	ResultMsg *string `json:"result_msg,omitempty" xml:"result_msg,omitempty"`
+	// 数登申请表签署url
+	SealUrl *string `json:"seal_url,omitempty" xml:"seal_url,omitempty"`
+}
+
+func (s QueryDigitalregistrationApplyformsealurlResponse) String() string {
+	return tea.Prettify(s)
+}
+
+func (s QueryDigitalregistrationApplyformsealurlResponse) GoString() string {
+	return s.String()
+}
+
+func (s *QueryDigitalregistrationApplyformsealurlResponse) SetReqMsgId(v string) *QueryDigitalregistrationApplyformsealurlResponse {
+	s.ReqMsgId = &v
+	return s
+}
+
+func (s *QueryDigitalregistrationApplyformsealurlResponse) SetResultCode(v string) *QueryDigitalregistrationApplyformsealurlResponse {
+	s.ResultCode = &v
+	return s
+}
+
+func (s *QueryDigitalregistrationApplyformsealurlResponse) SetResultMsg(v string) *QueryDigitalregistrationApplyformsealurlResponse {
+	s.ResultMsg = &v
+	return s
+}
+
+func (s *QueryDigitalregistrationApplyformsealurlResponse) SetSealUrl(v string) *QueryDigitalregistrationApplyformsealurlResponse {
+	s.SealUrl = &v
+	return s
+}
+
+type CompleteDigitalregistrationApplyformsealRequest struct {
+	// OAuth模式下的授权token
+	AuthToken         *string `json:"auth_token,omitempty" xml:"auth_token,omitempty"`
+	ProductInstanceId *string `json:"product_instance_id,omitempty" xml:"product_instance_id,omitempty"`
+	// 数登申请ID
+	DigitalRegisterId *string `json:"digital_register_id,omitempty" xml:"digital_register_id,omitempty" require:"true"`
+}
+
+func (s CompleteDigitalregistrationApplyformsealRequest) String() string {
+	return tea.Prettify(s)
+}
+
+func (s CompleteDigitalregistrationApplyformsealRequest) GoString() string {
+	return s.String()
+}
+
+func (s *CompleteDigitalregistrationApplyformsealRequest) SetAuthToken(v string) *CompleteDigitalregistrationApplyformsealRequest {
+	s.AuthToken = &v
+	return s
+}
+
+func (s *CompleteDigitalregistrationApplyformsealRequest) SetProductInstanceId(v string) *CompleteDigitalregistrationApplyformsealRequest {
+	s.ProductInstanceId = &v
+	return s
+}
+
+func (s *CompleteDigitalregistrationApplyformsealRequest) SetDigitalRegisterId(v string) *CompleteDigitalregistrationApplyformsealRequest {
+	s.DigitalRegisterId = &v
+	return s
+}
+
+type CompleteDigitalregistrationApplyformsealResponse struct {
+	// 请求唯一ID，用于链路跟踪和问题排查
+	ReqMsgId *string `json:"req_msg_id,omitempty" xml:"req_msg_id,omitempty"`
+	// 结果码，一般OK表示调用成功
+	ResultCode *string `json:"result_code,omitempty" xml:"result_code,omitempty"`
+	// 异常信息的文本描述
+	ResultMsg *string `json:"result_msg,omitempty" xml:"result_msg,omitempty"`
+	// 是否完成签署
+	Completed *bool `json:"completed,omitempty" xml:"completed,omitempty"`
+}
+
+func (s CompleteDigitalregistrationApplyformsealResponse) String() string {
+	return tea.Prettify(s)
+}
+
+func (s CompleteDigitalregistrationApplyformsealResponse) GoString() string {
+	return s.String()
+}
+
+func (s *CompleteDigitalregistrationApplyformsealResponse) SetReqMsgId(v string) *CompleteDigitalregistrationApplyformsealResponse {
+	s.ReqMsgId = &v
+	return s
+}
+
+func (s *CompleteDigitalregistrationApplyformsealResponse) SetResultCode(v string) *CompleteDigitalregistrationApplyformsealResponse {
+	s.ResultCode = &v
+	return s
+}
+
+func (s *CompleteDigitalregistrationApplyformsealResponse) SetResultMsg(v string) *CompleteDigitalregistrationApplyformsealResponse {
+	s.ResultMsg = &v
+	return s
+}
+
+func (s *CompleteDigitalregistrationApplyformsealResponse) SetCompleted(v bool) *CompleteDigitalregistrationApplyformsealResponse {
+	s.Completed = &v
 	return s
 }
 
@@ -8298,7 +10562,7 @@ type QueryDciUserRequest struct {
 	// 证件号
 	CertificateNumber *string `json:"certificate_number,omitempty" xml:"certificate_number,omitempty" require:"true"`
 	// 手机号
-	Phone *string `json:"phone,omitempty" xml:"phone,omitempty" require:"true"`
+	Phone *string `json:"phone,omitempty" xml:"phone,omitempty"`
 	// 版权认证方式:UGC-用户生成内容，AIGC-AI生成内容，SOFTWARE_WORKS：软件作品认证，如果不传默认为UGC
 	CopyrightCertificationType *string `json:"copyright_certification_type,omitempty" xml:"copyright_certification_type,omitempty"`
 }
@@ -14527,6 +16791,168 @@ func (s *SubmitDigregReviewResponse) SetResultMsg(v string) *SubmitDigregReviewR
 	return s
 }
 
+type VerifyDciCertificateRequest struct {
+	// OAuth模式下的授权token
+	AuthToken         *string `json:"auth_token,omitempty" xml:"auth_token,omitempty"`
+	ProductInstanceId *string `json:"product_instance_id,omitempty" xml:"product_instance_id,omitempty"`
+	// 文件ID（支持PDF/图片）
+	// 待上传文件
+	FileObject io.Reader `json:"fileObject,omitempty" xml:"fileObject,omitempty"`
+	// 待上传文件名
+	FileObjectName *string `json:"fileObjectName,omitempty" xml:"fileObjectName,omitempty"`
+	FileId         *string `json:"file_id,omitempty" xml:"file_id,omitempty" require:"true"`
+	// 幂等号，用来保证请求幂等性。从您的客户端生成一个参数值，确保不同请求间该参数值唯一。clientToken只支持ASCII字符，且不能超过64个字符。更多详情，请参见如何保证幂等性。
+	// }
+	ClientToken *string `json:"client_token,omitempty" xml:"client_token,omitempty" require:"true"`
+}
+
+func (s VerifyDciCertificateRequest) String() string {
+	return tea.Prettify(s)
+}
+
+func (s VerifyDciCertificateRequest) GoString() string {
+	return s.String()
+}
+
+func (s *VerifyDciCertificateRequest) SetAuthToken(v string) *VerifyDciCertificateRequest {
+	s.AuthToken = &v
+	return s
+}
+
+func (s *VerifyDciCertificateRequest) SetProductInstanceId(v string) *VerifyDciCertificateRequest {
+	s.ProductInstanceId = &v
+	return s
+}
+
+func (s *VerifyDciCertificateRequest) SetFileObject(v io.Reader) *VerifyDciCertificateRequest {
+	s.FileObject = v
+	return s
+}
+
+func (s *VerifyDciCertificateRequest) SetFileObjectName(v string) *VerifyDciCertificateRequest {
+	s.FileObjectName = &v
+	return s
+}
+
+func (s *VerifyDciCertificateRequest) SetFileId(v string) *VerifyDciCertificateRequest {
+	s.FileId = &v
+	return s
+}
+
+func (s *VerifyDciCertificateRequest) SetClientToken(v string) *VerifyDciCertificateRequest {
+	s.ClientToken = &v
+	return s
+}
+
+type VerifyDciCertificateResponse struct {
+	// 请求唯一ID，用于链路跟踪和问题排查
+	ReqMsgId *string `json:"req_msg_id,omitempty" xml:"req_msg_id,omitempty"`
+	// 结果码，一般OK表示调用成功
+	ResultCode *string `json:"result_code,omitempty" xml:"result_code,omitempty"`
+	// 异常信息的文本描述
+	ResultMsg *string `json:"result_msg,omitempty" xml:"result_msg,omitempty"`
+	// 核验ID
+	CertificateVerifyId *string `json:"certificate_verify_id,omitempty" xml:"certificate_verify_id,omitempty"`
+}
+
+func (s VerifyDciCertificateResponse) String() string {
+	return tea.Prettify(s)
+}
+
+func (s VerifyDciCertificateResponse) GoString() string {
+	return s.String()
+}
+
+func (s *VerifyDciCertificateResponse) SetReqMsgId(v string) *VerifyDciCertificateResponse {
+	s.ReqMsgId = &v
+	return s
+}
+
+func (s *VerifyDciCertificateResponse) SetResultCode(v string) *VerifyDciCertificateResponse {
+	s.ResultCode = &v
+	return s
+}
+
+func (s *VerifyDciCertificateResponse) SetResultMsg(v string) *VerifyDciCertificateResponse {
+	s.ResultMsg = &v
+	return s
+}
+
+func (s *VerifyDciCertificateResponse) SetCertificateVerifyId(v string) *VerifyDciCertificateResponse {
+	s.CertificateVerifyId = &v
+	return s
+}
+
+type QueryDciCertificateresultRequest struct {
+	// OAuth模式下的授权token
+	AuthToken         *string `json:"auth_token,omitempty" xml:"auth_token,omitempty"`
+	ProductInstanceId *string `json:"product_instance_id,omitempty" xml:"product_instance_id,omitempty"`
+	// DCI证书核验ID
+	CertificateVerifyId *string `json:"certificate_verify_id,omitempty" xml:"certificate_verify_id,omitempty" require:"true"`
+}
+
+func (s QueryDciCertificateresultRequest) String() string {
+	return tea.Prettify(s)
+}
+
+func (s QueryDciCertificateresultRequest) GoString() string {
+	return s.String()
+}
+
+func (s *QueryDciCertificateresultRequest) SetAuthToken(v string) *QueryDciCertificateresultRequest {
+	s.AuthToken = &v
+	return s
+}
+
+func (s *QueryDciCertificateresultRequest) SetProductInstanceId(v string) *QueryDciCertificateresultRequest {
+	s.ProductInstanceId = &v
+	return s
+}
+
+func (s *QueryDciCertificateresultRequest) SetCertificateVerifyId(v string) *QueryDciCertificateresultRequest {
+	s.CertificateVerifyId = &v
+	return s
+}
+
+type QueryDciCertificateresultResponse struct {
+	// 请求唯一ID，用于链路跟踪和问题排查
+	ReqMsgId *string `json:"req_msg_id,omitempty" xml:"req_msg_id,omitempty"`
+	// 结果码，一般OK表示调用成功
+	ResultCode *string `json:"result_code,omitempty" xml:"result_code,omitempty"`
+	// 异常信息的文本描述
+	ResultMsg *string `json:"result_msg,omitempty" xml:"result_msg,omitempty"`
+	// 核验结果
+	Status *string `json:"status,omitempty" xml:"status,omitempty"`
+}
+
+func (s QueryDciCertificateresultResponse) String() string {
+	return tea.Prettify(s)
+}
+
+func (s QueryDciCertificateresultResponse) GoString() string {
+	return s.String()
+}
+
+func (s *QueryDciCertificateresultResponse) SetReqMsgId(v string) *QueryDciCertificateresultResponse {
+	s.ReqMsgId = &v
+	return s
+}
+
+func (s *QueryDciCertificateresultResponse) SetResultCode(v string) *QueryDciCertificateresultResponse {
+	s.ResultCode = &v
+	return s
+}
+
+func (s *QueryDciCertificateresultResponse) SetResultMsg(v string) *QueryDciCertificateresultResponse {
+	s.ResultMsg = &v
+	return s
+}
+
+func (s *QueryDciCertificateresultResponse) SetStatus(v string) *QueryDciCertificateresultResponse {
+	s.Status = &v
+	return s
+}
+
 type AddContentRequest struct {
 	// OAuth模式下的授权token
 	AuthToken         *string `json:"auth_token,omitempty" xml:"auth_token,omitempty"`
@@ -15389,10 +17815,11 @@ type Client struct {
 	MaxRequestsPerHost      *int
 }
 
-/**
- * Init client with Config
- * @param config config contains the necessary information to create a client
- */
+// Description:
+//
+// # Init client with Config
+//
+// @param config - config contains the necessary information to create a client
 func NewClient(config *Config) (*Client, error) {
 	client := new(Client)
 	err := client.Init(config)
@@ -15400,7 +17827,7 @@ func NewClient(config *Config) (*Client, error) {
 }
 
 func (client *Client) Init(config *Config) (_err error) {
-	if tea.BoolValue(util.IsUnset(tea.ToMap(config))) {
+	if tea.BoolValue(util.IsUnset(config)) {
 		_err = tea.NewSDKError(map[string]interface{}{
 			"code":    "ParameterMissing",
 			"message": "'config' can not be unset",
@@ -15429,16 +17856,23 @@ func (client *Client) Init(config *Config) (_err error) {
 	return nil
 }
 
-/**
- * Encapsulate the request and invoke the network
- * @param action api name
- * @param protocol http or https
- * @param method e.g. GET
- * @param pathname pathname of every api
- * @param request which contains request params
- * @param runtime which controls some details of call api, such as retry times
- * @return the response
- */
+// Description:
+//
+// # Encapsulate the request and invoke the network
+//
+// @param action - api name
+//
+// @param protocol - http or https
+//
+// @param method - e.g. GET
+//
+// @param pathname - pathname of every api
+//
+// @param request - which contains request params
+//
+// @param runtime - which controls some details of call api, such as retry times
+//
+// @return the response
 func (client *Client) DoRequest(version *string, action *string, protocol *string, method *string, pathname *string, request map[string]interface{}, headers map[string]*string, runtime *util.RuntimeOptions) (_result map[string]interface{}, _err error) {
 	_err = tea.Validate(runtime)
 	if _err != nil {
@@ -15489,7 +17923,7 @@ func (client *Client) DoRequest(version *string, action *string, protocol *strin
 				"req_msg_id":       antchainutil.GetNonce(),
 				"access_key":       client.AccessKeyId,
 				"base_sdk_version": tea.String("TeaSDK-2.0"),
-				"sdk_version":      tea.String("1.19.77"),
+				"sdk_version":      tea.String("1.21.2"),
 				"_prod_code":       tea.String("BCCR"),
 				"_prod_channel":    tea.String("undefined"),
 			}
@@ -15547,10 +17981,443 @@ func (client *Client) DoRequest(version *string, action *string, protocol *strin
 	return _resp, _err
 }
 
-/**
- * Description: 调用接口获取版权开放平台授权访问oss链接
- * Summary: 获取授权访问oss链接
- */
+// Description:
+//
+// Description: DCI发证之后，用户可以上传发出的证书来版权核验真伪
+//
+// Summary: DCI发证之后，用户可以上传发出的证书来版权核验真伪
+func (client *Client) VerifyDciCert(request *VerifyDciCertRequest) (_result *VerifyDciCertResponse, _err error) {
+	runtime := &util.RuntimeOptions{}
+	headers := make(map[string]*string)
+	_result = &VerifyDciCertResponse{}
+	_body, _err := client.VerifyDciCertEx(request, headers, runtime)
+	if _err != nil {
+		return _result, _err
+	}
+	_result = _body
+	return _result, _err
+}
+
+// Description:
+//
+// Description: DCI发证之后，用户可以上传发出的证书来版权核验真伪
+//
+// Summary: DCI发证之后，用户可以上传发出的证书来版权核验真伪
+func (client *Client) VerifyDciCertEx(request *VerifyDciCertRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *VerifyDciCertResponse, _err error) {
+	_err = util.ValidateModel(request)
+	if _err != nil {
+		return _result, _err
+	}
+	_result = &VerifyDciCertResponse{}
+	_body, _err := client.DoRequest(tea.String("1.0"), tea.String("blockchain.bccr.dci.cert.verify"), tea.String("HTTPS"), tea.String("POST"), tea.String("/gateway.do"), tea.ToMap(request), headers, runtime)
+	if _err != nil {
+		return _result, _err
+	}
+	_err = tea.Convert(_body, &_result)
+	return _result, _err
+}
+
+// Description:
+//
+// Description: 查询DCI凭证核验结果
+//
+// Summary: 查询DCI凭证核验结果
+func (client *Client) ResultDciCert(request *ResultDciCertRequest) (_result *ResultDciCertResponse, _err error) {
+	runtime := &util.RuntimeOptions{}
+	headers := make(map[string]*string)
+	_result = &ResultDciCertResponse{}
+	_body, _err := client.ResultDciCertEx(request, headers, runtime)
+	if _err != nil {
+		return _result, _err
+	}
+	_result = _body
+	return _result, _err
+}
+
+// Description:
+//
+// Description: 查询DCI凭证核验结果
+//
+// Summary: 查询DCI凭证核验结果
+func (client *Client) ResultDciCertEx(request *ResultDciCertRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *ResultDciCertResponse, _err error) {
+	_err = util.ValidateModel(request)
+	if _err != nil {
+		return _result, _err
+	}
+	_result = &ResultDciCertResponse{}
+	_body, _err := client.DoRequest(tea.String("1.0"), tea.String("blockchain.bccr.dci.cert.result"), tea.String("HTTPS"), tea.String("POST"), tea.String("/gateway.do"), tea.ToMap(request), headers, runtime)
+	if _err != nil {
+		return _result, _err
+	}
+	_err = tea.Convert(_body, &_result)
+	return _result, _err
+}
+
+// Description:
+//
+// Description: 版权登记-数登申请-查询数登申请表
+//
+// Summary: 版权登记-数登申请-查询数登申请表
+func (client *Client) QueryapplyformCopyrightregistrationDigitalregistration(request *QueryapplyformCopyrightregistrationDigitalregistrationRequest) (_result *QueryapplyformCopyrightregistrationDigitalregistrationResponse, _err error) {
+	runtime := &util.RuntimeOptions{}
+	headers := make(map[string]*string)
+	_result = &QueryapplyformCopyrightregistrationDigitalregistrationResponse{}
+	_body, _err := client.QueryapplyformCopyrightregistrationDigitalregistrationEx(request, headers, runtime)
+	if _err != nil {
+		return _result, _err
+	}
+	_result = _body
+	return _result, _err
+}
+
+// Description:
+//
+// Description: 版权登记-数登申请-查询数登申请表
+//
+// Summary: 版权登记-数登申请-查询数登申请表
+func (client *Client) QueryapplyformCopyrightregistrationDigitalregistrationEx(request *QueryapplyformCopyrightregistrationDigitalregistrationRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *QueryapplyformCopyrightregistrationDigitalregistrationResponse, _err error) {
+	_err = util.ValidateModel(request)
+	if _err != nil {
+		return _result, _err
+	}
+	_result = &QueryapplyformCopyrightregistrationDigitalregistrationResponse{}
+	_body, _err := client.DoRequest(tea.String("1.0"), tea.String("blockchain.bccr.copyrightregistration.digitalregistration.queryapplyform"), tea.String("HTTPS"), tea.String("POST"), tea.String("/gateway.do"), tea.ToMap(request), headers, runtime)
+	if _err != nil {
+		return _result, _err
+	}
+	_err = tea.Convert(_body, &_result)
+	return _result, _err
+}
+
+// Description:
+//
+// Description: 查询当前数登申请是否支持静默签授权
+//
+// Summary: 查询当前数登申请是否支持静默签授权
+func (client *Client) QueryautosealauthCopyrightregistrationDigitalregistration(request *QueryautosealauthCopyrightregistrationDigitalregistrationRequest) (_result *QueryautosealauthCopyrightregistrationDigitalregistrationResponse, _err error) {
+	runtime := &util.RuntimeOptions{}
+	headers := make(map[string]*string)
+	_result = &QueryautosealauthCopyrightregistrationDigitalregistrationResponse{}
+	_body, _err := client.QueryautosealauthCopyrightregistrationDigitalregistrationEx(request, headers, runtime)
+	if _err != nil {
+		return _result, _err
+	}
+	_result = _body
+	return _result, _err
+}
+
+// Description:
+//
+// Description: 查询当前数登申请是否支持静默签授权
+//
+// Summary: 查询当前数登申请是否支持静默签授权
+func (client *Client) QueryautosealauthCopyrightregistrationDigitalregistrationEx(request *QueryautosealauthCopyrightregistrationDigitalregistrationRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *QueryautosealauthCopyrightregistrationDigitalregistrationResponse, _err error) {
+	_err = util.ValidateModel(request)
+	if _err != nil {
+		return _result, _err
+	}
+	_result = &QueryautosealauthCopyrightregistrationDigitalregistrationResponse{}
+	_body, _err := client.DoRequest(tea.String("1.0"), tea.String("blockchain.bccr.copyrightregistration.digitalregistration.queryautosealauth"), tea.String("HTTPS"), tea.String("POST"), tea.String("/gateway.do"), tea.ToMap(request), headers, runtime)
+	if _err != nil {
+		return _result, _err
+	}
+	_err = tea.Convert(_body, &_result)
+	return _result, _err
+}
+
+// Description:
+//
+// Description: 创建数登申请表签署流程
+//
+// Summary: 创建数登申请表签署流程
+func (client *Client) CreateapplyformsealflowCopyrightregistrationDigitalregistration(request *CreateapplyformsealflowCopyrightregistrationDigitalregistrationRequest) (_result *CreateapplyformsealflowCopyrightregistrationDigitalregistrationResponse, _err error) {
+	runtime := &util.RuntimeOptions{}
+	headers := make(map[string]*string)
+	_result = &CreateapplyformsealflowCopyrightregistrationDigitalregistrationResponse{}
+	_body, _err := client.CreateapplyformsealflowCopyrightregistrationDigitalregistrationEx(request, headers, runtime)
+	if _err != nil {
+		return _result, _err
+	}
+	_result = _body
+	return _result, _err
+}
+
+// Description:
+//
+// Description: 创建数登申请表签署流程
+//
+// Summary: 创建数登申请表签署流程
+func (client *Client) CreateapplyformsealflowCopyrightregistrationDigitalregistrationEx(request *CreateapplyformsealflowCopyrightregistrationDigitalregistrationRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *CreateapplyformsealflowCopyrightregistrationDigitalregistrationResponse, _err error) {
+	_err = util.ValidateModel(request)
+	if _err != nil {
+		return _result, _err
+	}
+	_result = &CreateapplyformsealflowCopyrightregistrationDigitalregistrationResponse{}
+	_body, _err := client.DoRequest(tea.String("1.0"), tea.String("blockchain.bccr.copyrightregistration.digitalregistration.createapplyformsealflow"), tea.String("HTTPS"), tea.String("POST"), tea.String("/gateway.do"), tea.ToMap(request), headers, runtime)
+	if _err != nil {
+		return _result, _err
+	}
+	_err = tea.Convert(_body, &_result)
+	return _result, _err
+}
+
+// Description:
+//
+// Description: 获取签署链接
+//
+// Summary: 获取签署链接
+func (client *Client) QueryapplyformsealurlCopyrightregistrationDigitalregistration(request *QueryapplyformsealurlCopyrightregistrationDigitalregistrationRequest) (_result *QueryapplyformsealurlCopyrightregistrationDigitalregistrationResponse, _err error) {
+	runtime := &util.RuntimeOptions{}
+	headers := make(map[string]*string)
+	_result = &QueryapplyformsealurlCopyrightregistrationDigitalregistrationResponse{}
+	_body, _err := client.QueryapplyformsealurlCopyrightregistrationDigitalregistrationEx(request, headers, runtime)
+	if _err != nil {
+		return _result, _err
+	}
+	_result = _body
+	return _result, _err
+}
+
+// Description:
+//
+// Description: 获取签署链接
+//
+// Summary: 获取签署链接
+func (client *Client) QueryapplyformsealurlCopyrightregistrationDigitalregistrationEx(request *QueryapplyformsealurlCopyrightregistrationDigitalregistrationRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *QueryapplyformsealurlCopyrightregistrationDigitalregistrationResponse, _err error) {
+	_err = util.ValidateModel(request)
+	if _err != nil {
+		return _result, _err
+	}
+	_result = &QueryapplyformsealurlCopyrightregistrationDigitalregistrationResponse{}
+	_body, _err := client.DoRequest(tea.String("1.0"), tea.String("blockchain.bccr.copyrightregistration.digitalregistration.queryapplyformsealurl"), tea.String("HTTPS"), tea.String("POST"), tea.String("/gateway.do"), tea.ToMap(request), headers, runtime)
+	if _err != nil {
+		return _result, _err
+	}
+	_err = tea.Convert(_body, &_result)
+	return _result, _err
+}
+
+// Description:
+//
+// Description: 完成数登表签署
+//
+// Summary: 完成数登表签署
+func (client *Client) CompleteapplyformsealCopyrightregistrationDigitalregistration(request *CompleteapplyformsealCopyrightregistrationDigitalregistrationRequest) (_result *CompleteapplyformsealCopyrightregistrationDigitalregistrationResponse, _err error) {
+	runtime := &util.RuntimeOptions{}
+	headers := make(map[string]*string)
+	_result = &CompleteapplyformsealCopyrightregistrationDigitalregistrationResponse{}
+	_body, _err := client.CompleteapplyformsealCopyrightregistrationDigitalregistrationEx(request, headers, runtime)
+	if _err != nil {
+		return _result, _err
+	}
+	_result = _body
+	return _result, _err
+}
+
+// Description:
+//
+// Description: 完成数登表签署
+//
+// Summary: 完成数登表签署
+func (client *Client) CompleteapplyformsealCopyrightregistrationDigitalregistrationEx(request *CompleteapplyformsealCopyrightregistrationDigitalregistrationRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *CompleteapplyformsealCopyrightregistrationDigitalregistrationResponse, _err error) {
+	_err = util.ValidateModel(request)
+	if _err != nil {
+		return _result, _err
+	}
+	_result = &CompleteapplyformsealCopyrightregistrationDigitalregistrationResponse{}
+	_body, _err := client.DoRequest(tea.String("1.0"), tea.String("blockchain.bccr.copyrightregistration.digitalregistration.completeapplyformseal"), tea.String("HTTPS"), tea.String("POST"), tea.String("/gateway.do"), tea.ToMap(request), headers, runtime)
+	if _err != nil {
+		return _result, _err
+	}
+	_err = tea.Convert(_body, &_result)
+	return _result, _err
+}
+
+// Description:
+//
+// Description: 版权登记-数登申请-查询数登申请表
+//
+// Summary: 版权登记-数登申请-查询数登申请表
+func (client *Client) QueryDigitalregistrationApplyform(request *QueryDigitalregistrationApplyformRequest) (_result *QueryDigitalregistrationApplyformResponse, _err error) {
+	runtime := &util.RuntimeOptions{}
+	headers := make(map[string]*string)
+	_result = &QueryDigitalregistrationApplyformResponse{}
+	_body, _err := client.QueryDigitalregistrationApplyformEx(request, headers, runtime)
+	if _err != nil {
+		return _result, _err
+	}
+	_result = _body
+	return _result, _err
+}
+
+// Description:
+//
+// Description: 版权登记-数登申请-查询数登申请表
+//
+// Summary: 版权登记-数登申请-查询数登申请表
+func (client *Client) QueryDigitalregistrationApplyformEx(request *QueryDigitalregistrationApplyformRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *QueryDigitalregistrationApplyformResponse, _err error) {
+	_err = util.ValidateModel(request)
+	if _err != nil {
+		return _result, _err
+	}
+	_result = &QueryDigitalregistrationApplyformResponse{}
+	_body, _err := client.DoRequest(tea.String("1.0"), tea.String("blockchain.bccr.digitalregistration.applyform.query"), tea.String("HTTPS"), tea.String("POST"), tea.String("/gateway.do"), tea.ToMap(request), headers, runtime)
+	if _err != nil {
+		return _result, _err
+	}
+	_err = tea.Convert(_body, &_result)
+	return _result, _err
+}
+
+// Description:
+//
+// Description: 数登申请表签章静默授权查询
+//
+// Summary: 数登申请表签章静默授权查询
+func (client *Client) QueryDigitalregistrationSealauth(request *QueryDigitalregistrationSealauthRequest) (_result *QueryDigitalregistrationSealauthResponse, _err error) {
+	runtime := &util.RuntimeOptions{}
+	headers := make(map[string]*string)
+	_result = &QueryDigitalregistrationSealauthResponse{}
+	_body, _err := client.QueryDigitalregistrationSealauthEx(request, headers, runtime)
+	if _err != nil {
+		return _result, _err
+	}
+	_result = _body
+	return _result, _err
+}
+
+// Description:
+//
+// Description: 数登申请表签章静默授权查询
+//
+// Summary: 数登申请表签章静默授权查询
+func (client *Client) QueryDigitalregistrationSealauthEx(request *QueryDigitalregistrationSealauthRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *QueryDigitalregistrationSealauthResponse, _err error) {
+	_err = util.ValidateModel(request)
+	if _err != nil {
+		return _result, _err
+	}
+	_result = &QueryDigitalregistrationSealauthResponse{}
+	_body, _err := client.DoRequest(tea.String("1.0"), tea.String("blockchain.bccr.digitalregistration.sealauth.query"), tea.String("HTTPS"), tea.String("POST"), tea.String("/gateway.do"), tea.ToMap(request), headers, runtime)
+	if _err != nil {
+		return _result, _err
+	}
+	_err = tea.Convert(_body, &_result)
+	return _result, _err
+}
+
+// Description:
+//
+// Description: 数登申请表创建签署流程
+//
+// Summary: 数登申请表创建签署流程
+func (client *Client) CreateDigitalregistrationApplyformsealflow(request *CreateDigitalregistrationApplyformsealflowRequest) (_result *CreateDigitalregistrationApplyformsealflowResponse, _err error) {
+	runtime := &util.RuntimeOptions{}
+	headers := make(map[string]*string)
+	_result = &CreateDigitalregistrationApplyformsealflowResponse{}
+	_body, _err := client.CreateDigitalregistrationApplyformsealflowEx(request, headers, runtime)
+	if _err != nil {
+		return _result, _err
+	}
+	_result = _body
+	return _result, _err
+}
+
+// Description:
+//
+// Description: 数登申请表创建签署流程
+//
+// Summary: 数登申请表创建签署流程
+func (client *Client) CreateDigitalregistrationApplyformsealflowEx(request *CreateDigitalregistrationApplyformsealflowRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *CreateDigitalregistrationApplyformsealflowResponse, _err error) {
+	_err = util.ValidateModel(request)
+	if _err != nil {
+		return _result, _err
+	}
+	_result = &CreateDigitalregistrationApplyformsealflowResponse{}
+	_body, _err := client.DoRequest(tea.String("1.0"), tea.String("blockchain.bccr.digitalregistration.applyformsealflow.create"), tea.String("HTTPS"), tea.String("POST"), tea.String("/gateway.do"), tea.ToMap(request), headers, runtime)
+	if _err != nil {
+		return _result, _err
+	}
+	_err = tea.Convert(_body, &_result)
+	return _result, _err
+}
+
+// Description:
+//
+// Description: 查询数登申请表签章url
+//
+// Summary: 查询数登申请表签章url
+func (client *Client) QueryDigitalregistrationApplyformsealurl(request *QueryDigitalregistrationApplyformsealurlRequest) (_result *QueryDigitalregistrationApplyformsealurlResponse, _err error) {
+	runtime := &util.RuntimeOptions{}
+	headers := make(map[string]*string)
+	_result = &QueryDigitalregistrationApplyformsealurlResponse{}
+	_body, _err := client.QueryDigitalregistrationApplyformsealurlEx(request, headers, runtime)
+	if _err != nil {
+		return _result, _err
+	}
+	_result = _body
+	return _result, _err
+}
+
+// Description:
+//
+// Description: 查询数登申请表签章url
+//
+// Summary: 查询数登申请表签章url
+func (client *Client) QueryDigitalregistrationApplyformsealurlEx(request *QueryDigitalregistrationApplyformsealurlRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *QueryDigitalregistrationApplyformsealurlResponse, _err error) {
+	_err = util.ValidateModel(request)
+	if _err != nil {
+		return _result, _err
+	}
+	_result = &QueryDigitalregistrationApplyformsealurlResponse{}
+	_body, _err := client.DoRequest(tea.String("1.0"), tea.String("blockchain.bccr.digitalregistration.applyformsealurl.query"), tea.String("HTTPS"), tea.String("POST"), tea.String("/gateway.do"), tea.ToMap(request), headers, runtime)
+	if _err != nil {
+		return _result, _err
+	}
+	_err = tea.Convert(_body, &_result)
+	return _result, _err
+}
+
+// Description:
+//
+// Description: 完成数登申请表签署
+//
+// Summary: 完成数登申请表签署
+func (client *Client) CompleteDigitalregistrationApplyformseal(request *CompleteDigitalregistrationApplyformsealRequest) (_result *CompleteDigitalregistrationApplyformsealResponse, _err error) {
+	runtime := &util.RuntimeOptions{}
+	headers := make(map[string]*string)
+	_result = &CompleteDigitalregistrationApplyformsealResponse{}
+	_body, _err := client.CompleteDigitalregistrationApplyformsealEx(request, headers, runtime)
+	if _err != nil {
+		return _result, _err
+	}
+	_result = _body
+	return _result, _err
+}
+
+// Description:
+//
+// Description: 完成数登申请表签署
+//
+// Summary: 完成数登申请表签署
+func (client *Client) CompleteDigitalregistrationApplyformsealEx(request *CompleteDigitalregistrationApplyformsealRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *CompleteDigitalregistrationApplyformsealResponse, _err error) {
+	_err = util.ValidateModel(request)
+	if _err != nil {
+		return _result, _err
+	}
+	_result = &CompleteDigitalregistrationApplyformsealResponse{}
+	_body, _err := client.DoRequest(tea.String("1.0"), tea.String("blockchain.bccr.digitalregistration.applyformseal.complete"), tea.String("HTTPS"), tea.String("POST"), tea.String("/gateway.do"), tea.ToMap(request), headers, runtime)
+	if _err != nil {
+		return _result, _err
+	}
+	_err = tea.Convert(_body, &_result)
+	return _result, _err
+}
+
+// Description:
+//
+// Description: 调用接口获取版权开放平台授权访问oss链接
+//
+// Summary: 获取授权访问oss链接
 func (client *Client) GetUploadurl(request *GetUploadurlRequest) (_result *GetUploadurlResponse, _err error) {
 	runtime := &util.RuntimeOptions{}
 	headers := make(map[string]*string)
@@ -15563,10 +18430,11 @@ func (client *Client) GetUploadurl(request *GetUploadurlRequest) (_result *GetUp
 	return _result, _err
 }
 
-/**
- * Description: 调用接口获取版权开放平台授权访问oss链接
- * Summary: 获取授权访问oss链接
- */
+// Description:
+//
+// Description: 调用接口获取版权开放平台授权访问oss链接
+//
+// Summary: 获取授权访问oss链接
 func (client *Client) GetUploadurlEx(request *GetUploadurlRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *GetUploadurlResponse, _err error) {
 	_err = util.ValidateModel(request)
 	if _err != nil {
@@ -15581,10 +18449,11 @@ func (client *Client) GetUploadurlEx(request *GetUploadurlRequest, headers map[s
 	return _result, _err
 }
 
-/**
- * Description: 版权开发平台hash登记
- * Summary: 新增HASH版权登记
- */
+// Description:
+//
+// Description: 版权开发平台hash登记
+//
+// Summary: 新增HASH版权登记
 func (client *Client) AddHashregister(request *AddHashregisterRequest) (_result *AddHashregisterResponse, _err error) {
 	runtime := &util.RuntimeOptions{}
 	headers := make(map[string]*string)
@@ -15597,10 +18466,11 @@ func (client *Client) AddHashregister(request *AddHashregisterRequest) (_result 
 	return _result, _err
 }
 
-/**
- * Description: 版权开发平台hash登记
- * Summary: 新增HASH版权登记
- */
+// Description:
+//
+// Description: 版权开发平台hash登记
+//
+// Summary: 新增HASH版权登记
 func (client *Client) AddHashregisterEx(request *AddHashregisterRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *AddHashregisterResponse, _err error) {
 	_err = util.ValidateModel(request)
 	if _err != nil {
@@ -15615,10 +18485,11 @@ func (client *Client) AddHashregisterEx(request *AddHashregisterRequest, headers
 	return _result, _err
 }
 
-/**
- * Description: 版权平台新增版权登记
- * Summary: 新增版权登记
- */
+// Description:
+//
+// Description: 版权平台新增版权登记
+//
+// Summary: 新增版权登记
 func (client *Client) AddRegister(request *AddRegisterRequest) (_result *AddRegisterResponse, _err error) {
 	runtime := &util.RuntimeOptions{}
 	headers := make(map[string]*string)
@@ -15631,10 +18502,11 @@ func (client *Client) AddRegister(request *AddRegisterRequest) (_result *AddRegi
 	return _result, _err
 }
 
-/**
- * Description: 版权平台新增版权登记
- * Summary: 新增版权登记
- */
+// Description:
+//
+// Description: 版权平台新增版权登记
+//
+// Summary: 新增版权登记
 func (client *Client) AddRegisterEx(request *AddRegisterRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *AddRegisterResponse, _err error) {
 	_err = util.ValidateModel(request)
 	if _err != nil {
@@ -15649,10 +18521,11 @@ func (client *Client) AddRegisterEx(request *AddRegisterRequest, headers map[str
 	return _result, _err
 }
 
-/**
- * Description: 版权平台查询版权登记状态
- * Summary: 查询版权登记状态
- */
+// Description:
+//
+// Description: 版权平台查询版权登记状态
+//
+// Summary: 查询版权登记状态
 func (client *Client) QueryRegisterstatus(request *QueryRegisterstatusRequest) (_result *QueryRegisterstatusResponse, _err error) {
 	runtime := &util.RuntimeOptions{}
 	headers := make(map[string]*string)
@@ -15665,10 +18538,11 @@ func (client *Client) QueryRegisterstatus(request *QueryRegisterstatusRequest) (
 	return _result, _err
 }
 
-/**
- * Description: 版权平台查询版权登记状态
- * Summary: 查询版权登记状态
- */
+// Description:
+//
+// Description: 版权平台查询版权登记状态
+//
+// Summary: 查询版权登记状态
 func (client *Client) QueryRegisterstatusEx(request *QueryRegisterstatusRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *QueryRegisterstatusResponse, _err error) {
 	_err = util.ValidateModel(request)
 	if _err != nil {
@@ -15683,10 +18557,11 @@ func (client *Client) QueryRegisterstatusEx(request *QueryRegisterstatusRequest,
 	return _result, _err
 }
 
-/**
- * Description: 版权平台生成版权登记证书
- * Summary: 生成版权登记证书
- */
+// Description:
+//
+// Description: 版权平台生成版权登记证书
+//
+// Summary: 生成版权登记证书
 func (client *Client) CreateCertificate(request *CreateCertificateRequest) (_result *CreateCertificateResponse, _err error) {
 	runtime := &util.RuntimeOptions{}
 	headers := make(map[string]*string)
@@ -15699,10 +18574,11 @@ func (client *Client) CreateCertificate(request *CreateCertificateRequest) (_res
 	return _result, _err
 }
 
-/**
- * Description: 版权平台生成版权登记证书
- * Summary: 生成版权登记证书
- */
+// Description:
+//
+// Description: 版权平台生成版权登记证书
+//
+// Summary: 生成版权登记证书
 func (client *Client) CreateCertificateEx(request *CreateCertificateRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *CreateCertificateResponse, _err error) {
 	_err = util.ValidateModel(request)
 	if _err != nil {
@@ -15717,10 +18593,11 @@ func (client *Client) CreateCertificateEx(request *CreateCertificateRequest, hea
 	return _result, _err
 }
 
-/**
- * Description: 版权平台获取版权登记证书
- * Summary: 获取版权登记证书
- */
+// Description:
+//
+// Description: 版权平台获取版权登记证书
+//
+// Summary: 获取版权登记证书
 func (client *Client) GetCertificate(request *GetCertificateRequest) (_result *GetCertificateResponse, _err error) {
 	runtime := &util.RuntimeOptions{}
 	headers := make(map[string]*string)
@@ -15733,10 +18610,11 @@ func (client *Client) GetCertificate(request *GetCertificateRequest) (_result *G
 	return _result, _err
 }
 
-/**
- * Description: 版权平台获取版权登记证书
- * Summary: 获取版权登记证书
- */
+// Description:
+//
+// Description: 版权平台获取版权登记证书
+//
+// Summary: 获取版权登记证书
 func (client *Client) GetCertificateEx(request *GetCertificateRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *GetCertificateResponse, _err error) {
 	_err = util.ValidateModel(request)
 	if _err != nil {
@@ -15751,10 +18629,11 @@ func (client *Client) GetCertificateEx(request *GetCertificateRequest, headers m
 	return _result, _err
 }
 
-/**
- * Description: 新增版权监测任务
- * Summary: 新增版权监测
- */
+// Description:
+//
+// Description: 新增版权监测任务
+//
+// Summary: 新增版权监测
 func (client *Client) CreateMonitorTask(request *CreateMonitorTaskRequest) (_result *CreateMonitorTaskResponse, _err error) {
 	runtime := &util.RuntimeOptions{}
 	headers := make(map[string]*string)
@@ -15767,10 +18646,11 @@ func (client *Client) CreateMonitorTask(request *CreateMonitorTaskRequest) (_res
 	return _result, _err
 }
 
-/**
- * Description: 新增版权监测任务
- * Summary: 新增版权监测
- */
+// Description:
+//
+// Description: 新增版权监测任务
+//
+// Summary: 新增版权监测
 func (client *Client) CreateMonitorTaskEx(request *CreateMonitorTaskRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *CreateMonitorTaskResponse, _err error) {
 	_err = util.ValidateModel(request)
 	if _err != nil {
@@ -15785,10 +18665,11 @@ func (client *Client) CreateMonitorTaskEx(request *CreateMonitorTaskRequest, hea
 	return _result, _err
 }
 
-/**
- * Description: 停止版权监测任务
- * Summary: 停止版权监测
- */
+// Description:
+//
+// Description: 停止版权监测任务
+//
+// Summary: 停止版权监测
 func (client *Client) StopMonitorTask(request *StopMonitorTaskRequest) (_result *StopMonitorTaskResponse, _err error) {
 	runtime := &util.RuntimeOptions{}
 	headers := make(map[string]*string)
@@ -15801,10 +18682,11 @@ func (client *Client) StopMonitorTask(request *StopMonitorTaskRequest) (_result 
 	return _result, _err
 }
 
-/**
- * Description: 停止版权监测任务
- * Summary: 停止版权监测
- */
+// Description:
+//
+// Description: 停止版权监测任务
+//
+// Summary: 停止版权监测
 func (client *Client) StopMonitorTaskEx(request *StopMonitorTaskRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *StopMonitorTaskResponse, _err error) {
 	_err = util.ValidateModel(request)
 	if _err != nil {
@@ -15819,10 +18701,11 @@ func (client *Client) StopMonitorTaskEx(request *StopMonitorTaskRequest, headers
 	return _result, _err
 }
 
-/**
- * Description: 查询版权监测任务
- * Summary: 查询版权监测
- */
+// Description:
+//
+// Description: 查询版权监测任务
+//
+// Summary: 查询版权监测
 func (client *Client) QueryMonitorTask(request *QueryMonitorTaskRequest) (_result *QueryMonitorTaskResponse, _err error) {
 	runtime := &util.RuntimeOptions{}
 	headers := make(map[string]*string)
@@ -15835,10 +18718,11 @@ func (client *Client) QueryMonitorTask(request *QueryMonitorTaskRequest) (_resul
 	return _result, _err
 }
 
-/**
- * Description: 查询版权监测任务
- * Summary: 查询版权监测
- */
+// Description:
+//
+// Description: 查询版权监测任务
+//
+// Summary: 查询版权监测
 func (client *Client) QueryMonitorTaskEx(request *QueryMonitorTaskRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *QueryMonitorTaskResponse, _err error) {
 	_err = util.ValidateModel(request)
 	if _err != nil {
@@ -15853,10 +18737,11 @@ func (client *Client) QueryMonitorTaskEx(request *QueryMonitorTaskRequest, heade
 	return _result, _err
 }
 
-/**
- * Description: 查询版权任务监测结果
- * Summary: 查询版权监测结果
- */
+// Description:
+//
+// Description: 查询版权任务监测结果
+//
+// Summary: 查询版权监测结果
 func (client *Client) QueryMonitorResult(request *QueryMonitorResultRequest) (_result *QueryMonitorResultResponse, _err error) {
 	runtime := &util.RuntimeOptions{}
 	headers := make(map[string]*string)
@@ -15869,10 +18754,11 @@ func (client *Client) QueryMonitorResult(request *QueryMonitorResultRequest) (_r
 	return _result, _err
 }
 
-/**
- * Description: 查询版权任务监测结果
- * Summary: 查询版权监测结果
- */
+// Description:
+//
+// Description: 查询版权任务监测结果
+//
+// Summary: 查询版权监测结果
 func (client *Client) QueryMonitorResultEx(request *QueryMonitorResultRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *QueryMonitorResultResponse, _err error) {
 	_err = util.ValidateModel(request)
 	if _err != nil {
@@ -15887,10 +18773,11 @@ func (client *Client) QueryMonitorResultEx(request *QueryMonitorResultRequest, h
 	return _result, _err
 }
 
-/**
- * Description: 获取传播监测能力服务商列表
- * Summary: 获取传播监测能力服务商列表
- */
+// Description:
+//
+// Description: 获取传播监测能力服务商列表
+//
+// Summary: 获取传播监测能力服务商列表
 func (client *Client) ListMonitorProvider(request *ListMonitorProviderRequest) (_result *ListMonitorProviderResponse, _err error) {
 	runtime := &util.RuntimeOptions{}
 	headers := make(map[string]*string)
@@ -15903,10 +18790,11 @@ func (client *Client) ListMonitorProvider(request *ListMonitorProviderRequest) (
 	return _result, _err
 }
 
-/**
- * Description: 获取传播监测能力服务商列表
- * Summary: 获取传播监测能力服务商列表
- */
+// Description:
+//
+// Description: 获取传播监测能力服务商列表
+//
+// Summary: 获取传播监测能力服务商列表
 func (client *Client) ListMonitorProviderEx(request *ListMonitorProviderRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *ListMonitorProviderResponse, _err error) {
 	_err = util.ValidateModel(request)
 	if _err != nil {
@@ -15921,10 +18809,11 @@ func (client *Client) ListMonitorProviderEx(request *ListMonitorProviderRequest,
 	return _result, _err
 }
 
-/**
- * Description: 创建录屏取证(废弃)
- * Summary: 创建录屏取证(废弃)
- */
+// Description:
+//
+// Description: 创建录屏取证(废弃)
+//
+// Summary: 创建录屏取证(废弃)
 func (client *Client) CreateRecodescreen(request *CreateRecodescreenRequest) (_result *CreateRecodescreenResponse, _err error) {
 	runtime := &util.RuntimeOptions{}
 	headers := make(map[string]*string)
@@ -15937,10 +18826,11 @@ func (client *Client) CreateRecodescreen(request *CreateRecodescreenRequest) (_r
 	return _result, _err
 }
 
-/**
- * Description: 创建录屏取证(废弃)
- * Summary: 创建录屏取证(废弃)
- */
+// Description:
+//
+// Description: 创建录屏取证(废弃)
+//
+// Summary: 创建录屏取证(废弃)
 func (client *Client) CreateRecodescreenEx(request *CreateRecodescreenRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *CreateRecodescreenResponse, _err error) {
 	_err = util.ValidateModel(request)
 	if _err != nil {
@@ -15955,10 +18845,11 @@ func (client *Client) CreateRecodescreenEx(request *CreateRecodescreenRequest, h
 	return _result, _err
 }
 
-/**
- * Description: 查询录屏取证(废弃)
- * Summary: 查询录屏取证(废弃)
- */
+// Description:
+//
+// Description: 查询录屏取证(废弃)
+//
+// Summary: 查询录屏取证(废弃)
 func (client *Client) QueryRecodescreen(request *QueryRecodescreenRequest) (_result *QueryRecodescreenResponse, _err error) {
 	runtime := &util.RuntimeOptions{}
 	headers := make(map[string]*string)
@@ -15971,10 +18862,11 @@ func (client *Client) QueryRecodescreen(request *QueryRecodescreenRequest) (_res
 	return _result, _err
 }
 
-/**
- * Description: 查询录屏取证(废弃)
- * Summary: 查询录屏取证(废弃)
- */
+// Description:
+//
+// Description: 查询录屏取证(废弃)
+//
+// Summary: 查询录屏取证(废弃)
 func (client *Client) QueryRecodescreenEx(request *QueryRecodescreenRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *QueryRecodescreenResponse, _err error) {
 	_err = util.ValidateModel(request)
 	if _err != nil {
@@ -15989,10 +18881,11 @@ func (client *Client) QueryRecodescreenEx(request *QueryRecodescreenRequest, hea
 	return _result, _err
 }
 
-/**
- * Description: 用户信息查询
- * Summary: 用户信息查询
- */
+// Description:
+//
+// Description: 用户信息查询
+//
+// Summary: 用户信息查询
 func (client *Client) QueryUser(request *QueryUserRequest) (_result *QueryUserResponse, _err error) {
 	runtime := &util.RuntimeOptions{}
 	headers := make(map[string]*string)
@@ -16005,10 +18898,11 @@ func (client *Client) QueryUser(request *QueryUserRequest) (_result *QueryUserRe
 	return _result, _err
 }
 
-/**
- * Description: 用户信息查询
- * Summary: 用户信息查询
- */
+// Description:
+//
+// Description: 用户信息查询
+//
+// Summary: 用户信息查询
 func (client *Client) QueryUserEx(request *QueryUserRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *QueryUserResponse, _err error) {
 	_err = util.ValidateModel(request)
 	if _err != nil {
@@ -16023,10 +18917,11 @@ func (client *Client) QueryUserEx(request *QueryUserRequest, headers map[string]
 	return _result, _err
 }
 
-/**
- * Description: 查询用户信息列表
- * Summary: 查询用户信息列表
- */
+// Description:
+//
+// Description: 查询用户信息列表
+//
+// Summary: 查询用户信息列表
 func (client *Client) QueryUserList(request *QueryUserListRequest) (_result *QueryUserListResponse, _err error) {
 	runtime := &util.RuntimeOptions{}
 	headers := make(map[string]*string)
@@ -16039,10 +18934,11 @@ func (client *Client) QueryUserList(request *QueryUserListRequest) (_result *Que
 	return _result, _err
 }
 
-/**
- * Description: 查询用户信息列表
- * Summary: 查询用户信息列表
- */
+// Description:
+//
+// Description: 查询用户信息列表
+//
+// Summary: 查询用户信息列表
 func (client *Client) QueryUserListEx(request *QueryUserListRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *QueryUserListResponse, _err error) {
 	_err = util.ValidateModel(request)
 	if _err != nil {
@@ -16057,10 +18953,11 @@ func (client *Client) QueryUserListEx(request *QueryUserListRequest, headers map
 	return _result, _err
 }
 
-/**
- * Description: 创建网页取证
- * Summary: 创建网页取证
- */
+// Description:
+//
+// Description: 创建网页取证
+//
+// Summary: 创建网页取证
 func (client *Client) CreateScreenshot(request *CreateScreenshotRequest) (_result *CreateScreenshotResponse, _err error) {
 	runtime := &util.RuntimeOptions{}
 	headers := make(map[string]*string)
@@ -16073,10 +18970,11 @@ func (client *Client) CreateScreenshot(request *CreateScreenshotRequest) (_resul
 	return _result, _err
 }
 
-/**
- * Description: 创建网页取证
- * Summary: 创建网页取证
- */
+// Description:
+//
+// Description: 创建网页取证
+//
+// Summary: 创建网页取证
 func (client *Client) CreateScreenshotEx(request *CreateScreenshotRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *CreateScreenshotResponse, _err error) {
 	_err = util.ValidateModel(request)
 	if _err != nil {
@@ -16091,10 +18989,11 @@ func (client *Client) CreateScreenshotEx(request *CreateScreenshotRequest, heade
 	return _result, _err
 }
 
-/**
- * Description: 查询网页取证
- * Summary: 查询网页取证
- */
+// Description:
+//
+// Description: 查询网页取证
+//
+// Summary: 查询网页取证
 func (client *Client) QueryScreenshot(request *QueryScreenshotRequest) (_result *QueryScreenshotResponse, _err error) {
 	runtime := &util.RuntimeOptions{}
 	headers := make(map[string]*string)
@@ -16107,10 +19006,11 @@ func (client *Client) QueryScreenshot(request *QueryScreenshotRequest) (_result 
 	return _result, _err
 }
 
-/**
- * Description: 查询网页取证
- * Summary: 查询网页取证
- */
+// Description:
+//
+// Description: 查询网页取证
+//
+// Summary: 查询网页取证
 func (client *Client) QueryScreenshotEx(request *QueryScreenshotRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *QueryScreenshotResponse, _err error) {
 	_err = util.ValidateModel(request)
 	if _err != nil {
@@ -16125,10 +19025,11 @@ func (client *Client) QueryScreenshotEx(request *QueryScreenshotRequest, headers
 	return _result, _err
 }
 
-/**
- * Description: 链上核验
- * Summary: 链上核验
- */
+// Description:
+//
+// Description: 链上核验
+//
+// Summary: 链上核验
 func (client *Client) VerifyBlockchain(request *VerifyBlockchainRequest) (_result *VerifyBlockchainResponse, _err error) {
 	runtime := &util.RuntimeOptions{}
 	headers := make(map[string]*string)
@@ -16141,10 +19042,11 @@ func (client *Client) VerifyBlockchain(request *VerifyBlockchainRequest) (_resul
 	return _result, _err
 }
 
-/**
- * Description: 链上核验
- * Summary: 链上核验
- */
+// Description:
+//
+// Description: 链上核验
+//
+// Summary: 链上核验
 func (client *Client) VerifyBlockchainEx(request *VerifyBlockchainRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *VerifyBlockchainResponse, _err error) {
 	_err = util.ValidateModel(request)
 	if _err != nil {
@@ -16159,10 +19061,11 @@ func (client *Client) VerifyBlockchainEx(request *VerifyBlockchainRequest, heade
 	return _result, _err
 }
 
-/**
- * Description: 创建录屏取证
- * Summary: 创建录屏取证
- */
+// Description:
+//
+// Description: 创建录屏取证
+//
+// Summary: 创建录屏取证
 func (client *Client) CreateRecordscreen(request *CreateRecordscreenRequest) (_result *CreateRecordscreenResponse, _err error) {
 	runtime := &util.RuntimeOptions{}
 	headers := make(map[string]*string)
@@ -16175,10 +19078,11 @@ func (client *Client) CreateRecordscreen(request *CreateRecordscreenRequest) (_r
 	return _result, _err
 }
 
-/**
- * Description: 创建录屏取证
- * Summary: 创建录屏取证
- */
+// Description:
+//
+// Description: 创建录屏取证
+//
+// Summary: 创建录屏取证
 func (client *Client) CreateRecordscreenEx(request *CreateRecordscreenRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *CreateRecordscreenResponse, _err error) {
 	_err = util.ValidateModel(request)
 	if _err != nil {
@@ -16193,10 +19097,11 @@ func (client *Client) CreateRecordscreenEx(request *CreateRecordscreenRequest, h
 	return _result, _err
 }
 
-/**
- * Description: 查询录屏取证
- * Summary: 查询录屏取证
- */
+// Description:
+//
+// Description: 查询录屏取证
+//
+// Summary: 查询录屏取证
 func (client *Client) QueryRecordscreen(request *QueryRecordscreenRequest) (_result *QueryRecordscreenResponse, _err error) {
 	runtime := &util.RuntimeOptions{}
 	headers := make(map[string]*string)
@@ -16209,10 +19114,11 @@ func (client *Client) QueryRecordscreen(request *QueryRecordscreenRequest) (_res
 	return _result, _err
 }
 
-/**
- * Description: 查询录屏取证
- * Summary: 查询录屏取证
- */
+// Description:
+//
+// Description: 查询录屏取证
+//
+// Summary: 查询录屏取证
 func (client *Client) QueryRecordscreenEx(request *QueryRecordscreenRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *QueryRecordscreenResponse, _err error) {
 	_err = util.ValidateModel(request)
 	if _err != nil {
@@ -16227,10 +19133,11 @@ func (client *Client) QueryRecordscreenEx(request *QueryRecordscreenRequest, hea
 	return _result, _err
 }
 
-/**
- * Description: 获取支持的公证处列表
- * Summary: 获取支持的公证处列表
- */
+// Description:
+//
+// Description: 获取支持的公证处列表
+//
+// Summary: 获取支持的公证处列表
 func (client *Client) ListNotary(request *ListNotaryRequest) (_result *ListNotaryResponse, _err error) {
 	runtime := &util.RuntimeOptions{}
 	headers := make(map[string]*string)
@@ -16243,10 +19150,11 @@ func (client *Client) ListNotary(request *ListNotaryRequest) (_result *ListNotar
 	return _result, _err
 }
 
-/**
- * Description: 获取支持的公证处列表
- * Summary: 获取支持的公证处列表
- */
+// Description:
+//
+// Description: 获取支持的公证处列表
+//
+// Summary: 获取支持的公证处列表
 func (client *Client) ListNotaryEx(request *ListNotaryRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *ListNotaryResponse, _err error) {
 	_err = util.ValidateModel(request)
 	if _err != nil {
@@ -16261,10 +19169,11 @@ func (client *Client) ListNotaryEx(request *ListNotaryRequest, headers map[strin
 	return _result, _err
 }
 
-/**
- * Description: 新增版权定向监测任务
- * Summary: 新增版权定向监测
- */
+// Description:
+//
+// Description: 新增版权定向监测任务
+//
+// Summary: 新增版权定向监测
 func (client *Client) CreateDirectmonitorTask(request *CreateDirectmonitorTaskRequest) (_result *CreateDirectmonitorTaskResponse, _err error) {
 	runtime := &util.RuntimeOptions{}
 	headers := make(map[string]*string)
@@ -16277,10 +19186,11 @@ func (client *Client) CreateDirectmonitorTask(request *CreateDirectmonitorTaskRe
 	return _result, _err
 }
 
-/**
- * Description: 新增版权定向监测任务
- * Summary: 新增版权定向监测
- */
+// Description:
+//
+// Description: 新增版权定向监测任务
+//
+// Summary: 新增版权定向监测
 func (client *Client) CreateDirectmonitorTaskEx(request *CreateDirectmonitorTaskRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *CreateDirectmonitorTaskResponse, _err error) {
 	_err = util.ValidateModel(request)
 	if _err != nil {
@@ -16295,10 +19205,11 @@ func (client *Client) CreateDirectmonitorTaskEx(request *CreateDirectmonitorTask
 	return _result, _err
 }
 
-/**
- * Description: 查询版权定向监测结果
- * Summary: 查询版权定向监测结果
- */
+// Description:
+//
+// Description: 查询版权定向监测结果
+//
+// Summary: 查询版权定向监测结果
 func (client *Client) QueryDirectmonitorResult(request *QueryDirectmonitorResultRequest) (_result *QueryDirectmonitorResultResponse, _err error) {
 	runtime := &util.RuntimeOptions{}
 	headers := make(map[string]*string)
@@ -16311,10 +19222,11 @@ func (client *Client) QueryDirectmonitorResult(request *QueryDirectmonitorResult
 	return _result, _err
 }
 
-/**
- * Description: 查询版权定向监测结果
- * Summary: 查询版权定向监测结果
- */
+// Description:
+//
+// Description: 查询版权定向监测结果
+//
+// Summary: 查询版权定向监测结果
 func (client *Client) QueryDirectmonitorResultEx(request *QueryDirectmonitorResultRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *QueryDirectmonitorResultResponse, _err error) {
 	_err = util.ValidateModel(request)
 	if _err != nil {
@@ -16329,10 +19241,11 @@ func (client *Client) QueryDirectmonitorResultEx(request *QueryDirectmonitorResu
 	return _result, _err
 }
 
-/**
- * Description: DCI预登记
- * Summary: dci预登记
- */
+// Description:
+//
+// Description: DCI预登记
+//
+// Summary: dci预登记
 func (client *Client) CreateDciPreregistration(request *CreateDciPreregistrationRequest) (_result *CreateDciPreregistrationResponse, _err error) {
 	runtime := &util.RuntimeOptions{}
 	headers := make(map[string]*string)
@@ -16345,10 +19258,11 @@ func (client *Client) CreateDciPreregistration(request *CreateDciPreregistration
 	return _result, _err
 }
 
-/**
- * Description: DCI预登记
- * Summary: dci预登记
- */
+// Description:
+//
+// Description: DCI预登记
+//
+// Summary: dci预登记
 func (client *Client) CreateDciPreregistrationEx(request *CreateDciPreregistrationRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *CreateDciPreregistrationResponse, _err error) {
 	_err = util.ValidateModel(request)
 	if _err != nil {
@@ -16363,10 +19277,11 @@ func (client *Client) CreateDciPreregistrationEx(request *CreateDciPreregistrati
 	return _result, _err
 }
 
-/**
- * Description: 查询dci预登记信息
- * Summary: 查询dci预登记信息
- */
+// Description:
+//
+// Description: 查询dci预登记信息
+//
+// Summary: 查询dci预登记信息
 func (client *Client) QueryDciPreregistration(request *QueryDciPreregistrationRequest) (_result *QueryDciPreregistrationResponse, _err error) {
 	runtime := &util.RuntimeOptions{}
 	headers := make(map[string]*string)
@@ -16379,10 +19294,11 @@ func (client *Client) QueryDciPreregistration(request *QueryDciPreregistrationRe
 	return _result, _err
 }
 
-/**
- * Description: 查询dci预登记信息
- * Summary: 查询dci预登记信息
- */
+// Description:
+//
+// Description: 查询dci预登记信息
+//
+// Summary: 查询dci预登记信息
 func (client *Client) QueryDciPreregistrationEx(request *QueryDciPreregistrationRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *QueryDciPreregistrationResponse, _err error) {
 	_err = util.ValidateModel(request)
 	if _err != nil {
@@ -16397,10 +19313,11 @@ func (client *Client) QueryDciPreregistrationEx(request *QueryDciPreregistration
 	return _result, _err
 }
 
-/**
- * Description: 注册dci账号
- * Summary: 注册dci账号
- */
+// Description:
+//
+// Description: 注册dci账号
+//
+// Summary: 注册dci账号
 func (client *Client) AddDciUser(request *AddDciUserRequest) (_result *AddDciUserResponse, _err error) {
 	runtime := &util.RuntimeOptions{}
 	headers := make(map[string]*string)
@@ -16413,10 +19330,11 @@ func (client *Client) AddDciUser(request *AddDciUserRequest) (_result *AddDciUse
 	return _result, _err
 }
 
-/**
- * Description: 注册dci账号
- * Summary: 注册dci账号
- */
+// Description:
+//
+// Description: 注册dci账号
+//
+// Summary: 注册dci账号
 func (client *Client) AddDciUserEx(request *AddDciUserRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *AddDciUserResponse, _err error) {
 	_err = util.ValidateModel(request)
 	if _err != nil {
@@ -16431,10 +19349,11 @@ func (client *Client) AddDciUserEx(request *AddDciUserRequest, headers map[strin
 	return _result, _err
 }
 
-/**
- * Description: dci预登记再确认
- * Summary: dci预登记再确认
- */
+// Description:
+//
+// Description: dci预登记再确认
+//
+// Summary: dci预登记再确认
 func (client *Client) RetryDciPreregistration(request *RetryDciPreregistrationRequest) (_result *RetryDciPreregistrationResponse, _err error) {
 	runtime := &util.RuntimeOptions{}
 	headers := make(map[string]*string)
@@ -16447,10 +19366,11 @@ func (client *Client) RetryDciPreregistration(request *RetryDciPreregistrationRe
 	return _result, _err
 }
 
-/**
- * Description: dci预登记再确认
- * Summary: dci预登记再确认
- */
+// Description:
+//
+// Description: dci预登记再确认
+//
+// Summary: dci预登记再确认
 func (client *Client) RetryDciPreregistrationEx(request *RetryDciPreregistrationRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *RetryDciPreregistrationResponse, _err error) {
 	_err = util.ValidateModel(request)
 	if _err != nil {
@@ -16465,10 +19385,11 @@ func (client *Client) RetryDciPreregistrationEx(request *RetryDciPreregistration
 	return _result, _err
 }
 
-/**
- * Description: 查询dci账号信息
- * Summary: 查询dci账号信息
- */
+// Description:
+//
+// Description: 查询dci账号信息
+//
+// Summary: 查询dci账号信息
 func (client *Client) QueryDciUser(request *QueryDciUserRequest) (_result *QueryDciUserResponse, _err error) {
 	runtime := &util.RuntimeOptions{}
 	headers := make(map[string]*string)
@@ -16481,10 +19402,11 @@ func (client *Client) QueryDciUser(request *QueryDciUserRequest) (_result *Query
 	return _result, _err
 }
 
-/**
- * Description: 查询dci账号信息
- * Summary: 查询dci账号信息
- */
+// Description:
+//
+// Description: 查询dci账号信息
+//
+// Summary: 查询dci账号信息
 func (client *Client) QueryDciUserEx(request *QueryDciUserRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *QueryDciUserResponse, _err error) {
 	_err = util.ValidateModel(request)
 	if _err != nil {
@@ -16499,10 +19421,11 @@ func (client *Client) QueryDciUserEx(request *QueryDciUserRequest, headers map[s
 	return _result, _err
 }
 
-/**
- * Description: Dci预登记公示地址查询
- * Summary: Dci预登记公示地址查询
- */
+// Description:
+//
+// Description: Dci预登记公示地址查询
+//
+// Summary: Dci预登记公示地址查询
 func (client *Client) QueryDciPreregpublication(request *QueryDciPreregpublicationRequest) (_result *QueryDciPreregpublicationResponse, _err error) {
 	runtime := &util.RuntimeOptions{}
 	headers := make(map[string]*string)
@@ -16515,10 +19438,11 @@ func (client *Client) QueryDciPreregpublication(request *QueryDciPreregpublicati
 	return _result, _err
 }
 
-/**
- * Description: Dci预登记公示地址查询
- * Summary: Dci预登记公示地址查询
- */
+// Description:
+//
+// Description: Dci预登记公示地址查询
+//
+// Summary: Dci预登记公示地址查询
 func (client *Client) QueryDciPreregpublicationEx(request *QueryDciPreregpublicationRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *QueryDciPreregpublicationResponse, _err error) {
 	_err = util.ValidateModel(request)
 	if _err != nil {
@@ -16533,10 +19457,11 @@ func (client *Client) QueryDciPreregpublicationEx(request *QueryDciPreregpublica
 	return _result, _err
 }
 
-/**
- * Description: 更新dci账号信息
- * Summary: 更新dci账号信息
- */
+// Description:
+//
+// Description: 更新dci账号信息
+//
+// Summary: 更新dci账号信息
 func (client *Client) UpdateDciUser(request *UpdateDciUserRequest) (_result *UpdateDciUserResponse, _err error) {
 	runtime := &util.RuntimeOptions{}
 	headers := make(map[string]*string)
@@ -16549,10 +19474,11 @@ func (client *Client) UpdateDciUser(request *UpdateDciUserRequest) (_result *Upd
 	return _result, _err
 }
 
-/**
- * Description: 更新dci账号信息
- * Summary: 更新dci账号信息
- */
+// Description:
+//
+// Description: 更新dci账号信息
+//
+// Summary: 更新dci账号信息
 func (client *Client) UpdateDciUserEx(request *UpdateDciUserRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *UpdateDciUserResponse, _err error) {
 	_err = util.ValidateModel(request)
 	if _err != nil {
@@ -16567,10 +19493,11 @@ func (client *Client) UpdateDciUserEx(request *UpdateDciUserRequest, headers map
 	return _result, _err
 }
 
-/**
- * Description: 发起数登申请
- * Summary: 发起数登申请
- */
+// Description:
+//
+// Description: 发起数登申请
+//
+// Summary: 发起数登申请
 func (client *Client) CreateDciRegistration(request *CreateDciRegistrationRequest) (_result *CreateDciRegistrationResponse, _err error) {
 	runtime := &util.RuntimeOptions{}
 	headers := make(map[string]*string)
@@ -16583,10 +19510,11 @@ func (client *Client) CreateDciRegistration(request *CreateDciRegistrationReques
 	return _result, _err
 }
 
-/**
- * Description: 发起数登申请
- * Summary: 发起数登申请
- */
+// Description:
+//
+// Description: 发起数登申请
+//
+// Summary: 发起数登申请
 func (client *Client) CreateDciRegistrationEx(request *CreateDciRegistrationRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *CreateDciRegistrationResponse, _err error) {
 	_err = util.ValidateModel(request)
 	if _err != nil {
@@ -16601,10 +19529,11 @@ func (client *Client) CreateDciRegistrationEx(request *CreateDciRegistrationRequ
 	return _result, _err
 }
 
-/**
- * Description: 已废弃接口
- * Summary: 已废弃接口
- */
+// Description:
+//
+// Description: 已废弃接口
+//
+// Summary: 已废弃接口
 func (client *Client) QueryDciRegistrationsubmit(request *QueryDciRegistrationsubmitRequest) (_result *QueryDciRegistrationsubmitResponse, _err error) {
 	runtime := &util.RuntimeOptions{}
 	headers := make(map[string]*string)
@@ -16617,10 +19546,11 @@ func (client *Client) QueryDciRegistrationsubmit(request *QueryDciRegistrationsu
 	return _result, _err
 }
 
-/**
- * Description: 已废弃接口
- * Summary: 已废弃接口
- */
+// Description:
+//
+// Description: 已废弃接口
+//
+// Summary: 已废弃接口
 func (client *Client) QueryDciRegistrationsubmitEx(request *QueryDciRegistrationsubmitRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *QueryDciRegistrationsubmitResponse, _err error) {
 	_err = util.ValidateModel(request)
 	if _err != nil {
@@ -16635,10 +19565,11 @@ func (client *Client) QueryDciRegistrationsubmitEx(request *QueryDciRegistration
 	return _result, _err
 }
 
-/**
- * Description: 查询数登结果
- * Summary: 查询数登结果
- */
+// Description:
+//
+// Description: 查询数登结果
+//
+// Summary: 查询数登结果
 func (client *Client) QueryDciRegistration(request *QueryDciRegistrationRequest) (_result *QueryDciRegistrationResponse, _err error) {
 	runtime := &util.RuntimeOptions{}
 	headers := make(map[string]*string)
@@ -16651,10 +19582,11 @@ func (client *Client) QueryDciRegistration(request *QueryDciRegistrationRequest)
 	return _result, _err
 }
 
-/**
- * Description: 查询数登结果
- * Summary: 查询数登结果
- */
+// Description:
+//
+// Description: 查询数登结果
+//
+// Summary: 查询数登结果
 func (client *Client) QueryDciRegistrationEx(request *QueryDciRegistrationRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *QueryDciRegistrationResponse, _err error) {
 	_err = util.ValidateModel(request)
 	if _err != nil {
@@ -16669,10 +19601,11 @@ func (client *Client) QueryDciRegistrationEx(request *QueryDciRegistrationReques
 	return _result, _err
 }
 
-/**
- * Description: 获取数登证书下载链接
- * Summary: 获取数登证书下载链接
- */
+// Description:
+//
+// Description: 获取数登证书下载链接
+//
+// Summary: 获取数登证书下载链接
 func (client *Client) GetDciRegistrationcert(request *GetDciRegistrationcertRequest) (_result *GetDciRegistrationcertResponse, _err error) {
 	runtime := &util.RuntimeOptions{}
 	headers := make(map[string]*string)
@@ -16685,10 +19618,11 @@ func (client *Client) GetDciRegistrationcert(request *GetDciRegistrationcertRequ
 	return _result, _err
 }
 
-/**
- * Description: 获取数登证书下载链接
- * Summary: 获取数登证书下载链接
- */
+// Description:
+//
+// Description: 获取数登证书下载链接
+//
+// Summary: 获取数登证书下载链接
 func (client *Client) GetDciRegistrationcertEx(request *GetDciRegistrationcertRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *GetDciRegistrationcertResponse, _err error) {
 	_err = util.ValidateModel(request)
 	if _err != nil {
@@ -16703,10 +19637,11 @@ func (client *Client) GetDciRegistrationcertEx(request *GetDciRegistrationcertRe
 	return _result, _err
 }
 
-/**
- * Description: 查询内容安全审核详情
- * Summary: 查询内容安全审核详情
- */
+// Description:
+//
+// Description: 查询内容安全审核详情
+//
+// Summary: 查询内容安全审核详情
 func (client *Client) QueryDciContentsecurity(request *QueryDciContentsecurityRequest) (_result *QueryDciContentsecurityResponse, _err error) {
 	runtime := &util.RuntimeOptions{}
 	headers := make(map[string]*string)
@@ -16719,10 +19654,11 @@ func (client *Client) QueryDciContentsecurity(request *QueryDciContentsecurityRe
 	return _result, _err
 }
 
-/**
- * Description: 查询内容安全审核详情
- * Summary: 查询内容安全审核详情
- */
+// Description:
+//
+// Description: 查询内容安全审核详情
+//
+// Summary: 查询内容安全审核详情
 func (client *Client) QueryDciContentsecurityEx(request *QueryDciContentsecurityRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *QueryDciContentsecurityResponse, _err error) {
 	_err = util.ValidateModel(request)
 	if _err != nil {
@@ -16737,10 +19673,11 @@ func (client *Client) QueryDciContentsecurityEx(request *QueryDciContentsecurity
 	return _result, _err
 }
 
-/**
- * Description: 创建数字登记证书
- * Summary: 创建数字登记证书
- */
+// Description:
+//
+// Description: 创建数字登记证书
+//
+// Summary: 创建数字登记证书
 func (client *Client) CreateDciRegistrationcert(request *CreateDciRegistrationcertRequest) (_result *CreateDciRegistrationcertResponse, _err error) {
 	runtime := &util.RuntimeOptions{}
 	headers := make(map[string]*string)
@@ -16753,10 +19690,11 @@ func (client *Client) CreateDciRegistrationcert(request *CreateDciRegistrationce
 	return _result, _err
 }
 
-/**
- * Description: 创建数字登记证书
- * Summary: 创建数字登记证书
- */
+// Description:
+//
+// Description: 创建数字登记证书
+//
+// Summary: 创建数字登记证书
 func (client *Client) CreateDciRegistrationcertEx(request *CreateDciRegistrationcertRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *CreateDciRegistrationcertResponse, _err error) {
 	_err = util.ValidateModel(request)
 	if _err != nil {
@@ -16771,10 +19709,11 @@ func (client *Client) CreateDciRegistrationcertEx(request *CreateDciRegistration
 	return _result, _err
 }
 
-/**
- * Description: 已废弃接口
- * Summary: 已废弃接口
- */
+// Description:
+//
+// Description: 已废弃接口
+//
+// Summary: 已废弃接口
 func (client *Client) QueryDciRegistrationcert(request *QueryDciRegistrationcertRequest) (_result *QueryDciRegistrationcertResponse, _err error) {
 	runtime := &util.RuntimeOptions{}
 	headers := make(map[string]*string)
@@ -16787,10 +19726,11 @@ func (client *Client) QueryDciRegistrationcert(request *QueryDciRegistrationcert
 	return _result, _err
 }
 
-/**
- * Description: 已废弃接口
- * Summary: 已废弃接口
- */
+// Description:
+//
+// Description: 已废弃接口
+//
+// Summary: 已废弃接口
 func (client *Client) QueryDciRegistrationcertEx(request *QueryDciRegistrationcertRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *QueryDciRegistrationcertResponse, _err error) {
 	_err = util.ValidateModel(request)
 	if _err != nil {
@@ -16805,10 +19745,11 @@ func (client *Client) QueryDciRegistrationcertEx(request *QueryDciRegistrationce
 	return _result, _err
 }
 
-/**
- * Description: 发起支付，获取支付链接
- * Summary: 数登支付-发起支付
- */
+// Description:
+//
+// Description: 发起支付，获取支付链接
+//
+// Summary: 数登支付-发起支付
 func (client *Client) GetDciPayurl(request *GetDciPayurlRequest) (_result *GetDciPayurlResponse, _err error) {
 	runtime := &util.RuntimeOptions{}
 	headers := make(map[string]*string)
@@ -16821,10 +19762,11 @@ func (client *Client) GetDciPayurl(request *GetDciPayurlRequest) (_result *GetDc
 	return _result, _err
 }
 
-/**
- * Description: 发起支付，获取支付链接
- * Summary: 数登支付-发起支付
- */
+// Description:
+//
+// Description: 发起支付，获取支付链接
+//
+// Summary: 数登支付-发起支付
 func (client *Client) GetDciPayurlEx(request *GetDciPayurlRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *GetDciPayurlResponse, _err error) {
 	_err = util.ValidateModel(request)
 	if _err != nil {
@@ -16839,10 +19781,11 @@ func (client *Client) GetDciPayurlEx(request *GetDciPayurlRequest, headers map[s
 	return _result, _err
 }
 
-/**
- * Description: 查询数登支付结果
- * Summary: 查询数登支付结果
- */
+// Description:
+//
+// Description: 查询数登支付结果
+//
+// Summary: 查询数登支付结果
 func (client *Client) QueryDciPay(request *QueryDciPayRequest) (_result *QueryDciPayResponse, _err error) {
 	runtime := &util.RuntimeOptions{}
 	headers := make(map[string]*string)
@@ -16855,10 +19798,11 @@ func (client *Client) QueryDciPay(request *QueryDciPayRequest) (_result *QueryDc
 	return _result, _err
 }
 
-/**
- * Description: 查询数登支付结果
- * Summary: 查询数登支付结果
- */
+// Description:
+//
+// Description: 查询数登支付结果
+//
+// Summary: 查询数登支付结果
 func (client *Client) QueryDciPayEx(request *QueryDciPayRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *QueryDciPayResponse, _err error) {
 	_err = util.ValidateModel(request)
 	if _err != nil {
@@ -16873,10 +19817,11 @@ func (client *Client) QueryDciPayEx(request *QueryDciPayRequest, headers map[str
 	return _result, _err
 }
 
-/**
- * Description: 支付结果回调
- * Summary: 数登支付-支付结果回调
- */
+// Description:
+//
+// Description: 支付结果回调
+//
+// Summary: 数登支付-支付结果回调
 func (client *Client) CallbackDciPayresult(request *CallbackDciPayresultRequest) (_result *CallbackDciPayresultResponse, _err error) {
 	runtime := &util.RuntimeOptions{}
 	headers := make(map[string]*string)
@@ -16889,10 +19834,11 @@ func (client *Client) CallbackDciPayresult(request *CallbackDciPayresultRequest)
 	return _result, _err
 }
 
-/**
- * Description: 支付结果回调
- * Summary: 数登支付-支付结果回调
- */
+// Description:
+//
+// Description: 支付结果回调
+//
+// Summary: 数登支付-支付结果回调
 func (client *Client) CallbackDciPayresultEx(request *CallbackDciPayresultRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *CallbackDciPayresultResponse, _err error) {
 	_err = util.ValidateModel(request)
 	if _err != nil {
@@ -16907,10 +19853,11 @@ func (client *Client) CallbackDciPayresultEx(request *CallbackDciPayresultReques
 	return _result, _err
 }
 
-/**
- * Description: 数登审核失败结果回调
- * Summary: 数登审核失败结果回调
- */
+// Description:
+//
+// Description: 数登审核失败结果回调
+//
+// Summary: 数登审核失败结果回调
 func (client *Client) RefuseDciRegistration(request *RefuseDciRegistrationRequest) (_result *RefuseDciRegistrationResponse, _err error) {
 	runtime := &util.RuntimeOptions{}
 	headers := make(map[string]*string)
@@ -16923,10 +19870,11 @@ func (client *Client) RefuseDciRegistration(request *RefuseDciRegistrationReques
 	return _result, _err
 }
 
-/**
- * Description: 数登审核失败结果回调
- * Summary: 数登审核失败结果回调
- */
+// Description:
+//
+// Description: 数登审核失败结果回调
+//
+// Summary: 数登审核失败结果回调
 func (client *Client) RefuseDciRegistrationEx(request *RefuseDciRegistrationRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *RefuseDciRegistrationResponse, _err error) {
 	_err = util.ValidateModel(request)
 	if _err != nil {
@@ -16941,10 +19889,11 @@ func (client *Client) RefuseDciRegistrationEx(request *RefuseDciRegistrationRequ
 	return _result, _err
 }
 
-/**
- * Description: 版权平台获取申办事由配置
- * Summary: 获取申办事由配置
- */
+// Description:
+//
+// Description: 版权平台获取申办事由配置
+//
+// Summary: 获取申办事由配置
 func (client *Client) QueryNotaryBidreason(request *QueryNotaryBidreasonRequest) (_result *QueryNotaryBidreasonResponse, _err error) {
 	runtime := &util.RuntimeOptions{}
 	headers := make(map[string]*string)
@@ -16957,10 +19906,11 @@ func (client *Client) QueryNotaryBidreason(request *QueryNotaryBidreasonRequest)
 	return _result, _err
 }
 
-/**
- * Description: 版权平台获取申办事由配置
- * Summary: 获取申办事由配置
- */
+// Description:
+//
+// Description: 版权平台获取申办事由配置
+//
+// Summary: 获取申办事由配置
 func (client *Client) QueryNotaryBidreasonEx(request *QueryNotaryBidreasonRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *QueryNotaryBidreasonResponse, _err error) {
 	_err = util.ValidateModel(request)
 	if _err != nil {
@@ -16975,10 +19925,11 @@ func (client *Client) QueryNotaryBidreasonEx(request *QueryNotaryBidreasonReques
 	return _result, _err
 }
 
-/**
- * Description: 获取签署文件
- * Summary: 获取签署文件
- */
+// Description:
+//
+// Description: 获取签署文件
+//
+// Summary: 获取签署文件
 func (client *Client) QueryNotaryDocumenttosign(request *QueryNotaryDocumenttosignRequest) (_result *QueryNotaryDocumenttosignResponse, _err error) {
 	runtime := &util.RuntimeOptions{}
 	headers := make(map[string]*string)
@@ -16991,10 +19942,11 @@ func (client *Client) QueryNotaryDocumenttosign(request *QueryNotaryDocumenttosi
 	return _result, _err
 }
 
-/**
- * Description: 获取签署文件
- * Summary: 获取签署文件
- */
+// Description:
+//
+// Description: 获取签署文件
+//
+// Summary: 获取签署文件
 func (client *Client) QueryNotaryDocumenttosignEx(request *QueryNotaryDocumenttosignRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *QueryNotaryDocumenttosignResponse, _err error) {
 	_err = util.ValidateModel(request)
 	if _err != nil {
@@ -17009,10 +19961,11 @@ func (client *Client) QueryNotaryDocumenttosignEx(request *QueryNotaryDocumentto
 	return _result, _err
 }
 
-/**
- * Description: 提交申办订单
- * Summary: 提交申办订单
- */
+// Description:
+//
+// Description: 提交申办订单
+//
+// Summary: 提交申办订单
 func (client *Client) ApplyNotaryOrder(request *ApplyNotaryOrderRequest) (_result *ApplyNotaryOrderResponse, _err error) {
 	runtime := &util.RuntimeOptions{}
 	headers := make(map[string]*string)
@@ -17025,10 +19978,11 @@ func (client *Client) ApplyNotaryOrder(request *ApplyNotaryOrderRequest) (_resul
 	return _result, _err
 }
 
-/**
- * Description: 提交申办订单
- * Summary: 提交申办订单
- */
+// Description:
+//
+// Description: 提交申办订单
+//
+// Summary: 提交申办订单
 func (client *Client) ApplyNotaryOrderEx(request *ApplyNotaryOrderRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *ApplyNotaryOrderResponse, _err error) {
 	_err = util.ValidateModel(request)
 	if _err != nil {
@@ -17043,10 +19997,11 @@ func (client *Client) ApplyNotaryOrderEx(request *ApplyNotaryOrderRequest, heade
 	return _result, _err
 }
 
-/**
- * Description: 公证出证重新获取支付链接
- * Summary: 重新获取支付链接
- */
+// Description:
+//
+// Description: 公证出证重新获取支付链接
+//
+// Summary: 重新获取支付链接
 func (client *Client) QueryNotaryPayurl(request *QueryNotaryPayurlRequest) (_result *QueryNotaryPayurlResponse, _err error) {
 	runtime := &util.RuntimeOptions{}
 	headers := make(map[string]*string)
@@ -17059,10 +20014,11 @@ func (client *Client) QueryNotaryPayurl(request *QueryNotaryPayurlRequest) (_res
 	return _result, _err
 }
 
-/**
- * Description: 公证出证重新获取支付链接
- * Summary: 重新获取支付链接
- */
+// Description:
+//
+// Description: 公证出证重新获取支付链接
+//
+// Summary: 重新获取支付链接
 func (client *Client) QueryNotaryPayurlEx(request *QueryNotaryPayurlRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *QueryNotaryPayurlResponse, _err error) {
 	_err = util.ValidateModel(request)
 	if _err != nil {
@@ -17077,10 +20033,11 @@ func (client *Client) QueryNotaryPayurlEx(request *QueryNotaryPayurlRequest, hea
 	return _result, _err
 }
 
-/**
- * Description: 公证出证获取收费标准和明细
- * Summary: 获取收费标准和明细
- */
+// Description:
+//
+// Description: 公证出证获取收费标准和明细
+//
+// Summary: 获取收费标准和明细
 func (client *Client) QueryNotaryFeedetail(request *QueryNotaryFeedetailRequest) (_result *QueryNotaryFeedetailResponse, _err error) {
 	runtime := &util.RuntimeOptions{}
 	headers := make(map[string]*string)
@@ -17093,10 +20050,11 @@ func (client *Client) QueryNotaryFeedetail(request *QueryNotaryFeedetailRequest)
 	return _result, _err
 }
 
-/**
- * Description: 公证出证获取收费标准和明细
- * Summary: 获取收费标准和明细
- */
+// Description:
+//
+// Description: 公证出证获取收费标准和明细
+//
+// Summary: 获取收费标准和明细
 func (client *Client) QueryNotaryFeedetailEx(request *QueryNotaryFeedetailRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *QueryNotaryFeedetailResponse, _err error) {
 	_err = util.ValidateModel(request)
 	if _err != nil {
@@ -17111,10 +20069,11 @@ func (client *Client) QueryNotaryFeedetailEx(request *QueryNotaryFeedetailReques
 	return _result, _err
 }
 
-/**
- * Description: 公证出证查询申办订单接口
- * Summary: 查询申办订单接口
- */
+// Description:
+//
+// Description: 公证出证查询申办订单接口
+//
+// Summary: 查询申办订单接口
 func (client *Client) QueryNotaryOrder(request *QueryNotaryOrderRequest) (_result *QueryNotaryOrderResponse, _err error) {
 	runtime := &util.RuntimeOptions{}
 	headers := make(map[string]*string)
@@ -17127,10 +20086,11 @@ func (client *Client) QueryNotaryOrder(request *QueryNotaryOrderRequest) (_resul
 	return _result, _err
 }
 
-/**
- * Description: 公证出证查询申办订单接口
- * Summary: 查询申办订单接口
- */
+// Description:
+//
+// Description: 公证出证查询申办订单接口
+//
+// Summary: 查询申办订单接口
 func (client *Client) QueryNotaryOrderEx(request *QueryNotaryOrderRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *QueryNotaryOrderResponse, _err error) {
 	_err = util.ValidateModel(request)
 	if _err != nil {
@@ -17145,10 +20105,11 @@ func (client *Client) QueryNotaryOrderEx(request *QueryNotaryOrderRequest, heade
 	return _result, _err
 }
 
-/**
- * Description: 公证出证申请出证材料补齐
- * Summary: 申请出证材料补齐
- */
+// Description:
+//
+// Description: 公证出证申请出证材料补齐
+//
+// Summary: 申请出证材料补齐
 func (client *Client) UploadNotaryAttachment(request *UploadNotaryAttachmentRequest) (_result *UploadNotaryAttachmentResponse, _err error) {
 	runtime := &util.RuntimeOptions{}
 	headers := make(map[string]*string)
@@ -17161,10 +20122,11 @@ func (client *Client) UploadNotaryAttachment(request *UploadNotaryAttachmentRequ
 	return _result, _err
 }
 
-/**
- * Description: 公证出证申请出证材料补齐
- * Summary: 申请出证材料补齐
- */
+// Description:
+//
+// Description: 公证出证申请出证材料补齐
+//
+// Summary: 申请出证材料补齐
 func (client *Client) UploadNotaryAttachmentEx(request *UploadNotaryAttachmentRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *UploadNotaryAttachmentResponse, _err error) {
 	_err = util.ValidateModel(request)
 	if _err != nil {
@@ -17179,10 +20141,11 @@ func (client *Client) UploadNotaryAttachmentEx(request *UploadNotaryAttachmentRe
 	return _result, _err
 }
 
-/**
- * Description: 公证出证更新申办状态
- * Summary: 更新申办状态
- */
+// Description:
+//
+// Description: 公证出证更新申办状态
+//
+// Summary: 更新申办状态
 func (client *Client) OperateNotaryOrder(request *OperateNotaryOrderRequest) (_result *OperateNotaryOrderResponse, _err error) {
 	runtime := &util.RuntimeOptions{}
 	headers := make(map[string]*string)
@@ -17195,10 +20158,11 @@ func (client *Client) OperateNotaryOrder(request *OperateNotaryOrderRequest) (_r
 	return _result, _err
 }
 
-/**
- * Description: 公证出证更新申办状态
- * Summary: 更新申办状态
- */
+// Description:
+//
+// Description: 公证出证更新申办状态
+//
+// Summary: 更新申办状态
 func (client *Client) OperateNotaryOrderEx(request *OperateNotaryOrderRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *OperateNotaryOrderResponse, _err error) {
 	_err = util.ValidateModel(request)
 	if _err != nil {
@@ -17213,10 +20177,11 @@ func (client *Client) OperateNotaryOrderEx(request *OperateNotaryOrderRequest, h
 	return _result, _err
 }
 
-/**
- * Description: 查询DCI作品预览结果
- * Summary: 查询DCI作品预览结果
- */
+// Description:
+//
+// Description: 查询DCI作品预览结果
+//
+// Summary: 查询DCI作品预览结果
 func (client *Client) QueryDciPreview(request *QueryDciPreviewRequest) (_result *QueryDciPreviewResponse, _err error) {
 	runtime := &util.RuntimeOptions{}
 	headers := make(map[string]*string)
@@ -17229,10 +20194,11 @@ func (client *Client) QueryDciPreview(request *QueryDciPreviewRequest) (_result 
 	return _result, _err
 }
 
-/**
- * Description: 查询DCI作品预览结果
- * Summary: 查询DCI作品预览结果
- */
+// Description:
+//
+// Description: 查询DCI作品预览结果
+//
+// Summary: 查询DCI作品预览结果
 func (client *Client) QueryDciPreviewEx(request *QueryDciPreviewRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *QueryDciPreviewResponse, _err error) {
 	_err = util.ValidateModel(request)
 	if _err != nil {
@@ -17247,10 +20213,11 @@ func (client *Client) QueryDciPreviewEx(request *QueryDciPreviewRequest, headers
 	return _result, _err
 }
 
-/**
- * Description: 补正数登申请
- * Summary: 补正数登申请
- */
+// Description:
+//
+// Description: 补正数登申请
+//
+// Summary: 补正数登申请
 func (client *Client) RetryDciRegistration(request *RetryDciRegistrationRequest) (_result *RetryDciRegistrationResponse, _err error) {
 	runtime := &util.RuntimeOptions{}
 	headers := make(map[string]*string)
@@ -17263,10 +20230,11 @@ func (client *Client) RetryDciRegistration(request *RetryDciRegistrationRequest)
 	return _result, _err
 }
 
-/**
- * Description: 补正数登申请
- * Summary: 补正数登申请
- */
+// Description:
+//
+// Description: 补正数登申请
+//
+// Summary: 补正数登申请
 func (client *Client) RetryDciRegistrationEx(request *RetryDciRegistrationRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *RetryDciRegistrationResponse, _err error) {
 	_err = util.ValidateModel(request)
 	if _err != nil {
@@ -17281,10 +20249,11 @@ func (client *Client) RetryDciRegistrationEx(request *RetryDciRegistrationReques
 	return _result, _err
 }
 
-/**
- * Description: 数登停止申请
- * Summary: 数登停止申请
- */
+// Description:
+//
+// Description: 数登停止申请
+//
+// Summary: 数登停止申请
 func (client *Client) CloseDciRegistration(request *CloseDciRegistrationRequest) (_result *CloseDciRegistrationResponse, _err error) {
 	runtime := &util.RuntimeOptions{}
 	headers := make(map[string]*string)
@@ -17297,10 +20266,11 @@ func (client *Client) CloseDciRegistration(request *CloseDciRegistrationRequest)
 	return _result, _err
 }
 
-/**
- * Description: 数登停止申请
- * Summary: 数登停止申请
- */
+// Description:
+//
+// Description: 数登停止申请
+//
+// Summary: 数登停止申请
 func (client *Client) CloseDciRegistrationEx(request *CloseDciRegistrationRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *CloseDciRegistrationResponse, _err error) {
 	_err = util.ValidateModel(request)
 	if _err != nil {
@@ -17315,10 +20285,11 @@ func (client *Client) CloseDciRegistrationEx(request *CloseDciRegistrationReques
 	return _result, _err
 }
 
-/**
- * Description: dci用户无需证件注册
- * Summary: dci用户无需证件注册
- */
+// Description:
+//
+// Description: dci用户无需证件注册
+//
+// Summary: dci用户无需证件注册
 func (client *Client) AddDciUsernocert(request *AddDciUsernocertRequest) (_result *AddDciUsernocertResponse, _err error) {
 	runtime := &util.RuntimeOptions{}
 	headers := make(map[string]*string)
@@ -17331,10 +20302,11 @@ func (client *Client) AddDciUsernocert(request *AddDciUsernocertRequest) (_resul
 	return _result, _err
 }
 
-/**
- * Description: dci用户无需证件注册
- * Summary: dci用户无需证件注册
- */
+// Description:
+//
+// Description: dci用户无需证件注册
+//
+// Summary: dci用户无需证件注册
 func (client *Client) AddDciUsernocertEx(request *AddDciUsernocertRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *AddDciUsernocertResponse, _err error) {
 	_err = util.ValidateModel(request)
 	if _err != nil {
@@ -17349,10 +20321,11 @@ func (client *Client) AddDciUsernocertEx(request *AddDciUsernocertRequest, heade
 	return _result, _err
 }
 
-/**
- * Description: 查询相似作品下载链接
- * Summary: 查询相似作品下载链接
- */
+// Description:
+//
+// Description: 查询相似作品下载链接
+//
+// Summary: 查询相似作品下载链接
 func (client *Client) QueryDciSimilarfile(request *QueryDciSimilarfileRequest) (_result *QueryDciSimilarfileResponse, _err error) {
 	runtime := &util.RuntimeOptions{}
 	headers := make(map[string]*string)
@@ -17365,10 +20338,11 @@ func (client *Client) QueryDciSimilarfile(request *QueryDciSimilarfileRequest) (
 	return _result, _err
 }
 
-/**
- * Description: 查询相似作品下载链接
- * Summary: 查询相似作品下载链接
- */
+// Description:
+//
+// Description: 查询相似作品下载链接
+//
+// Summary: 查询相似作品下载链接
 func (client *Client) QueryDciSimilarfileEx(request *QueryDciSimilarfileRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *QueryDciSimilarfileResponse, _err error) {
 	_err = util.ValidateModel(request)
 	if _err != nil {
@@ -17383,10 +20357,11 @@ func (client *Client) QueryDciSimilarfileEx(request *QueryDciSimilarfileRequest,
 	return _result, _err
 }
 
-/**
- * Description: 申请渠道推广
- * Summary: 申请渠道推广
- */
+// Description:
+//
+// Description: 申请渠道推广
+//
+// Summary: 申请渠道推广
 func (client *Client) ApplyDciPromotion(request *ApplyDciPromotionRequest) (_result *ApplyDciPromotionResponse, _err error) {
 	runtime := &util.RuntimeOptions{}
 	headers := make(map[string]*string)
@@ -17399,10 +20374,11 @@ func (client *Client) ApplyDciPromotion(request *ApplyDciPromotionRequest) (_res
 	return _result, _err
 }
 
-/**
- * Description: 申请渠道推广
- * Summary: 申请渠道推广
- */
+// Description:
+//
+// Description: 申请渠道推广
+//
+// Summary: 申请渠道推广
 func (client *Client) ApplyDciPromotionEx(request *ApplyDciPromotionRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *ApplyDciPromotionResponse, _err error) {
 	_err = util.ValidateModel(request)
 	if _err != nil {
@@ -17417,10 +20393,11 @@ func (client *Client) ApplyDciPromotionEx(request *ApplyDciPromotionRequest, hea
 	return _result, _err
 }
 
-/**
- * Description: 根据手机号查询dci用户
- * Summary: 根据手机号查询dci用户
- */
+// Description:
+//
+// Description: 根据手机号查询dci用户
+//
+// Summary: 根据手机号查询dci用户
 func (client *Client) QueryDciUserbyphone(request *QueryDciUserbyphoneRequest) (_result *QueryDciUserbyphoneResponse, _err error) {
 	runtime := &util.RuntimeOptions{}
 	headers := make(map[string]*string)
@@ -17433,10 +20410,11 @@ func (client *Client) QueryDciUserbyphone(request *QueryDciUserbyphoneRequest) (
 	return _result, _err
 }
 
-/**
- * Description: 根据手机号查询dci用户
- * Summary: 根据手机号查询dci用户
- */
+// Description:
+//
+// Description: 根据手机号查询dci用户
+//
+// Summary: 根据手机号查询dci用户
 func (client *Client) QueryDciUserbyphoneEx(request *QueryDciUserbyphoneRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *QueryDciUserbyphoneResponse, _err error) {
 	_err = util.ValidateModel(request)
 	if _err != nil {
@@ -17451,10 +20429,11 @@ func (client *Client) QueryDciUserbyphoneEx(request *QueryDciUserbyphoneRequest,
 	return _result, _err
 }
 
-/**
- * Description: 支持交易的已进行用途登记的商品查询
- * Summary: 支持交易的商品查询
- */
+// Description:
+//
+// Description: 支持交易的已进行用途登记的商品查询
+//
+// Summary: 支持交易的商品查询
 func (client *Client) QueryTradeSale(request *QueryTradeSaleRequest) (_result *QueryTradeSaleResponse, _err error) {
 	runtime := &util.RuntimeOptions{}
 	headers := make(map[string]*string)
@@ -17467,10 +20446,11 @@ func (client *Client) QueryTradeSale(request *QueryTradeSaleRequest) (_result *Q
 	return _result, _err
 }
 
-/**
- * Description: 支持交易的已进行用途登记的商品查询
- * Summary: 支持交易的商品查询
- */
+// Description:
+//
+// Description: 支持交易的已进行用途登记的商品查询
+//
+// Summary: 支持交易的商品查询
 func (client *Client) QueryTradeSaleEx(request *QueryTradeSaleRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *QueryTradeSaleResponse, _err error) {
 	_err = util.ValidateModel(request)
 	if _err != nil {
@@ -17485,10 +20465,11 @@ func (client *Client) QueryTradeSaleEx(request *QueryTradeSaleRequest, headers m
 	return _result, _err
 }
 
-/**
- * Description: 商品交易用途登记
- * Summary: 商品交易用途登记
- */
+// Description:
+//
+// Description: 商品交易用途登记
+//
+// Summary: 商品交易用途登记
 func (client *Client) RegisterTradeUsage(request *RegisterTradeUsageRequest) (_result *RegisterTradeUsageResponse, _err error) {
 	runtime := &util.RuntimeOptions{}
 	headers := make(map[string]*string)
@@ -17501,10 +20482,11 @@ func (client *Client) RegisterTradeUsage(request *RegisterTradeUsageRequest) (_r
 	return _result, _err
 }
 
-/**
- * Description: 商品交易用途登记
- * Summary: 商品交易用途登记
- */
+// Description:
+//
+// Description: 商品交易用途登记
+//
+// Summary: 商品交易用途登记
 func (client *Client) RegisterTradeUsageEx(request *RegisterTradeUsageRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *RegisterTradeUsageResponse, _err error) {
 	_err = util.ValidateModel(request)
 	if _err != nil {
@@ -17519,10 +20501,11 @@ func (client *Client) RegisterTradeUsageEx(request *RegisterTradeUsageRequest, h
 	return _result, _err
 }
 
-/**
- * Description: 创建取证用户
- * Summary: 创建取证用户
- */
+// Description:
+//
+// Description: 创建取证用户
+//
+// Summary: 创建取证用户
 func (client *Client) CreateEvidenceUser(request *CreateEvidenceUserRequest) (_result *CreateEvidenceUserResponse, _err error) {
 	runtime := &util.RuntimeOptions{}
 	headers := make(map[string]*string)
@@ -17535,10 +20518,11 @@ func (client *Client) CreateEvidenceUser(request *CreateEvidenceUserRequest) (_r
 	return _result, _err
 }
 
-/**
- * Description: 创建取证用户
- * Summary: 创建取证用户
- */
+// Description:
+//
+// Description: 创建取证用户
+//
+// Summary: 创建取证用户
 func (client *Client) CreateEvidenceUserEx(request *CreateEvidenceUserRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *CreateEvidenceUserResponse, _err error) {
 	_err = util.ValidateModel(request)
 	if _err != nil {
@@ -17553,10 +20537,11 @@ func (client *Client) CreateEvidenceUserEx(request *CreateEvidenceUserRequest, h
 	return _result, _err
 }
 
-/**
- * Description: 创建网页截图
- * Summary: 创建网页截图
- */
+// Description:
+//
+// Description: 创建网页截图
+//
+// Summary: 创建网页截图
 func (client *Client) CreateEvidenceScreenshot(request *CreateEvidenceScreenshotRequest) (_result *CreateEvidenceScreenshotResponse, _err error) {
 	runtime := &util.RuntimeOptions{}
 	headers := make(map[string]*string)
@@ -17569,10 +20554,11 @@ func (client *Client) CreateEvidenceScreenshot(request *CreateEvidenceScreenshot
 	return _result, _err
 }
 
-/**
- * Description: 创建网页截图
- * Summary: 创建网页截图
- */
+// Description:
+//
+// Description: 创建网页截图
+//
+// Summary: 创建网页截图
 func (client *Client) CreateEvidenceScreenshotEx(request *CreateEvidenceScreenshotRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *CreateEvidenceScreenshotResponse, _err error) {
 	_err = util.ValidateModel(request)
 	if _err != nil {
@@ -17587,10 +20573,11 @@ func (client *Client) CreateEvidenceScreenshotEx(request *CreateEvidenceScreensh
 	return _result, _err
 }
 
-/**
- * Description: 创建网页截图存证
- * Summary: 创建网页截图存证
- */
+// Description:
+//
+// Description: 创建网页截图存证
+//
+// Summary: 创建网页截图存证
 func (client *Client) CreateEvidenceRegister(request *CreateEvidenceRegisterRequest) (_result *CreateEvidenceRegisterResponse, _err error) {
 	runtime := &util.RuntimeOptions{}
 	headers := make(map[string]*string)
@@ -17603,10 +20590,11 @@ func (client *Client) CreateEvidenceRegister(request *CreateEvidenceRegisterRequ
 	return _result, _err
 }
 
-/**
- * Description: 创建网页截图存证
- * Summary: 创建网页截图存证
- */
+// Description:
+//
+// Description: 创建网页截图存证
+//
+// Summary: 创建网页截图存证
 func (client *Client) CreateEvidenceRegisterEx(request *CreateEvidenceRegisterRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *CreateEvidenceRegisterResponse, _err error) {
 	_err = util.ValidateModel(request)
 	if _err != nil {
@@ -17621,10 +20609,11 @@ func (client *Client) CreateEvidenceRegisterEx(request *CreateEvidenceRegisterRe
 	return _result, _err
 }
 
-/**
- * Description: 创建录屏取证
- * Summary: 创建录屏取证
- */
+// Description:
+//
+// Description: 创建录屏取证
+//
+// Summary: 创建录屏取证
 func (client *Client) CreateEvidenceRecordscreen(request *CreateEvidenceRecordscreenRequest) (_result *CreateEvidenceRecordscreenResponse, _err error) {
 	runtime := &util.RuntimeOptions{}
 	headers := make(map[string]*string)
@@ -17637,10 +20626,11 @@ func (client *Client) CreateEvidenceRecordscreen(request *CreateEvidenceRecordsc
 	return _result, _err
 }
 
-/**
- * Description: 创建录屏取证
- * Summary: 创建录屏取证
- */
+// Description:
+//
+// Description: 创建录屏取证
+//
+// Summary: 创建录屏取证
 func (client *Client) CreateEvidenceRecordscreenEx(request *CreateEvidenceRecordscreenRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *CreateEvidenceRecordscreenResponse, _err error) {
 	_err = util.ValidateModel(request)
 	if _err != nil {
@@ -17655,10 +20645,11 @@ func (client *Client) CreateEvidenceRecordscreenEx(request *CreateEvidenceRecord
 	return _result, _err
 }
 
-/**
- * Description: 商品交易用途撤销
- * Summary: 商品交易用途撤销
- */
+// Description:
+//
+// Description: 商品交易用途撤销
+//
+// Summary: 商品交易用途撤销
 func (client *Client) CancelTradeUsage(request *CancelTradeUsageRequest) (_result *CancelTradeUsageResponse, _err error) {
 	runtime := &util.RuntimeOptions{}
 	headers := make(map[string]*string)
@@ -17671,10 +20662,11 @@ func (client *Client) CancelTradeUsage(request *CancelTradeUsageRequest) (_resul
 	return _result, _err
 }
 
-/**
- * Description: 商品交易用途撤销
- * Summary: 商品交易用途撤销
- */
+// Description:
+//
+// Description: 商品交易用途撤销
+//
+// Summary: 商品交易用途撤销
 func (client *Client) CancelTradeUsageEx(request *CancelTradeUsageRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *CancelTradeUsageResponse, _err error) {
 	_err = util.ValidateModel(request)
 	if _err != nil {
@@ -17689,10 +20681,11 @@ func (client *Client) CancelTradeUsageEx(request *CancelTradeUsageRequest, heade
 	return _result, _err
 }
 
-/**
- * Description: 创建自动化直播录屏取证
- * Summary: 创建自动化直播取证
- */
+// Description:
+//
+// Description: 创建自动化直播录屏取证
+//
+// Summary: 创建自动化直播取证
 func (client *Client) CreateEvidenceLive(request *CreateEvidenceLiveRequest) (_result *CreateEvidenceLiveResponse, _err error) {
 	runtime := &util.RuntimeOptions{}
 	headers := make(map[string]*string)
@@ -17705,10 +20698,11 @@ func (client *Client) CreateEvidenceLive(request *CreateEvidenceLiveRequest) (_r
 	return _result, _err
 }
 
-/**
- * Description: 创建自动化直播录屏取证
- * Summary: 创建自动化直播取证
- */
+// Description:
+//
+// Description: 创建自动化直播录屏取证
+//
+// Summary: 创建自动化直播取证
 func (client *Client) CreateEvidenceLiveEx(request *CreateEvidenceLiveRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *CreateEvidenceLiveResponse, _err error) {
 	_err = util.ValidateModel(request)
 	if _err != nil {
@@ -17723,10 +20717,11 @@ func (client *Client) CreateEvidenceLiveEx(request *CreateEvidenceLiveRequest, h
 	return _result, _err
 }
 
-/**
- * Description: 根据点播网站url发起点播取证
- * Summary: 发起点播取证
- */
+// Description:
+//
+// Description: 根据点播网站url发起点播取证
+//
+// Summary: 发起点播取证
 func (client *Client) CreateEvidenceVod(request *CreateEvidenceVodRequest) (_result *CreateEvidenceVodResponse, _err error) {
 	runtime := &util.RuntimeOptions{}
 	headers := make(map[string]*string)
@@ -17739,10 +20734,11 @@ func (client *Client) CreateEvidenceVod(request *CreateEvidenceVodRequest) (_res
 	return _result, _err
 }
 
-/**
- * Description: 根据点播网站url发起点播取证
- * Summary: 发起点播取证
- */
+// Description:
+//
+// Description: 根据点播网站url发起点播取证
+//
+// Summary: 发起点播取证
 func (client *Client) CreateEvidenceVodEx(request *CreateEvidenceVodRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *CreateEvidenceVodResponse, _err error) {
 	_err = util.ValidateModel(request)
 	if _err != nil {
@@ -17757,10 +20753,11 @@ func (client *Client) CreateEvidenceVodEx(request *CreateEvidenceVodRequest, hea
 	return _result, _err
 }
 
-/**
- * Description: 商品交易用途登记结果查询，目前仅用于测试
- * Summary: 商品交易用途登记结果查询
- */
+// Description:
+//
+// Description: 商品交易用途登记结果查询，目前仅用于测试
+//
+// Summary: 商品交易用途登记结果查询
 func (client *Client) GetTradeUsage(request *GetTradeUsageRequest) (_result *GetTradeUsageResponse, _err error) {
 	runtime := &util.RuntimeOptions{}
 	headers := make(map[string]*string)
@@ -17773,10 +20770,11 @@ func (client *Client) GetTradeUsage(request *GetTradeUsageRequest) (_result *Get
 	return _result, _err
 }
 
-/**
- * Description: 商品交易用途登记结果查询，目前仅用于测试
- * Summary: 商品交易用途登记结果查询
- */
+// Description:
+//
+// Description: 商品交易用途登记结果查询，目前仅用于测试
+//
+// Summary: 商品交易用途登记结果查询
 func (client *Client) GetTradeUsageEx(request *GetTradeUsageRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *GetTradeUsageResponse, _err error) {
 	_err = util.ValidateModel(request)
 	if _err != nil {
@@ -17791,10 +20789,11 @@ func (client *Client) GetTradeUsageEx(request *GetTradeUsageRequest, headers map
 	return _result, _err
 }
 
-/**
- * Description: 查询取证信息
- * Summary: 查询取证信息
- */
+// Description:
+//
+// Description: 查询取证信息
+//
+// Summary: 查询取证信息
 func (client *Client) GetEvidenceInfo(request *GetEvidenceInfoRequest) (_result *GetEvidenceInfoResponse, _err error) {
 	runtime := &util.RuntimeOptions{}
 	headers := make(map[string]*string)
@@ -17807,10 +20806,11 @@ func (client *Client) GetEvidenceInfo(request *GetEvidenceInfoRequest) (_result 
 	return _result, _err
 }
 
-/**
- * Description: 查询取证信息
- * Summary: 查询取证信息
- */
+// Description:
+//
+// Description: 查询取证信息
+//
+// Summary: 查询取证信息
 func (client *Client) GetEvidenceInfoEx(request *GetEvidenceInfoRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *GetEvidenceInfoResponse, _err error) {
 	_err = util.ValidateModel(request)
 	if _err != nil {
@@ -17825,10 +20825,11 @@ func (client *Client) GetEvidenceInfoEx(request *GetEvidenceInfoRequest, headers
 	return _result, _err
 }
 
-/**
- * Description: DCI变更
- * Summary: DCI变更
- */
+// Description:
+//
+// Description: DCI变更
+//
+// Summary: DCI变更
 func (client *Client) ReplaceDci(request *ReplaceDciRequest) (_result *ReplaceDciResponse, _err error) {
 	runtime := &util.RuntimeOptions{}
 	headers := make(map[string]*string)
@@ -17841,10 +20842,11 @@ func (client *Client) ReplaceDci(request *ReplaceDciRequest) (_result *ReplaceDc
 	return _result, _err
 }
 
-/**
- * Description: DCI变更
- * Summary: DCI变更
- */
+// Description:
+//
+// Description: DCI变更
+//
+// Summary: DCI变更
 func (client *Client) ReplaceDciEx(request *ReplaceDciRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *ReplaceDciResponse, _err error) {
 	_err = util.ValidateModel(request)
 	if _err != nil {
@@ -17859,10 +20861,11 @@ func (client *Client) ReplaceDciEx(request *ReplaceDciRequest, headers map[strin
 	return _result, _err
 }
 
-/**
- * Description: 提交作品申诉
- * Summary: 提交作品申诉
- */
+// Description:
+//
+// Description: 提交作品申诉
+//
+// Summary: 提交作品申诉
 func (client *Client) SubmitDciFeedback(request *SubmitDciFeedbackRequest) (_result *SubmitDciFeedbackResponse, _err error) {
 	runtime := &util.RuntimeOptions{}
 	headers := make(map[string]*string)
@@ -17875,10 +20878,11 @@ func (client *Client) SubmitDciFeedback(request *SubmitDciFeedbackRequest) (_res
 	return _result, _err
 }
 
-/**
- * Description: 提交作品申诉
- * Summary: 提交作品申诉
- */
+// Description:
+//
+// Description: 提交作品申诉
+//
+// Summary: 提交作品申诉
 func (client *Client) SubmitDciFeedbackEx(request *SubmitDciFeedbackRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *SubmitDciFeedbackResponse, _err error) {
 	_err = util.ValidateModel(request)
 	if _err != nil {
@@ -17893,10 +20897,11 @@ func (client *Client) SubmitDciFeedbackEx(request *SubmitDciFeedbackRequest, hea
 	return _result, _err
 }
 
-/**
- * Description: 查询申诉结果
- * Summary: 查询申诉结果
- */
+// Description:
+//
+// Description: 查询申诉结果
+//
+// Summary: 查询申诉结果
 func (client *Client) QueryDciFeedback(request *QueryDciFeedbackRequest) (_result *QueryDciFeedbackResponse, _err error) {
 	runtime := &util.RuntimeOptions{}
 	headers := make(map[string]*string)
@@ -17909,10 +20914,11 @@ func (client *Client) QueryDciFeedback(request *QueryDciFeedbackRequest) (_resul
 	return _result, _err
 }
 
-/**
- * Description: 查询申诉结果
- * Summary: 查询申诉结果
- */
+// Description:
+//
+// Description: 查询申诉结果
+//
+// Summary: 查询申诉结果
 func (client *Client) QueryDciFeedbackEx(request *QueryDciFeedbackRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *QueryDciFeedbackResponse, _err error) {
 	_err = util.ValidateModel(request)
 	if _err != nil {
@@ -17927,10 +20933,11 @@ func (client *Client) QueryDciFeedbackEx(request *QueryDciFeedbackRequest, heade
 	return _result, _err
 }
 
-/**
- * Description: 交易商品抽取封面
- * Summary: 交易商品抽取封面
- */
+// Description:
+//
+// Description: 交易商品抽取封面
+//
+// Summary: 交易商品抽取封面
 func (client *Client) ExecTradeCover(request *ExecTradeCoverRequest) (_result *ExecTradeCoverResponse, _err error) {
 	runtime := &util.RuntimeOptions{}
 	headers := make(map[string]*string)
@@ -17943,10 +20950,11 @@ func (client *Client) ExecTradeCover(request *ExecTradeCoverRequest) (_result *E
 	return _result, _err
 }
 
-/**
- * Description: 交易商品抽取封面
- * Summary: 交易商品抽取封面
- */
+// Description:
+//
+// Description: 交易商品抽取封面
+//
+// Summary: 交易商品抽取封面
 func (client *Client) ExecTradeCoverEx(request *ExecTradeCoverRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *ExecTradeCoverResponse, _err error) {
 	_err = util.ValidateModel(request)
 	if _err != nil {
@@ -17961,10 +20969,11 @@ func (client *Client) ExecTradeCoverEx(request *ExecTradeCoverRequest, headers m
 	return _result, _err
 }
 
-/**
- * Description: 创建订单
- * Summary: 创建订单
- */
+// Description:
+//
+// Description: 创建订单
+//
+// Summary: 创建订单
 func (client *Client) CreateOrder(request *CreateOrderRequest) (_result *CreateOrderResponse, _err error) {
 	runtime := &util.RuntimeOptions{}
 	headers := make(map[string]*string)
@@ -17977,10 +20986,11 @@ func (client *Client) CreateOrder(request *CreateOrderRequest) (_result *CreateO
 	return _result, _err
 }
 
-/**
- * Description: 创建订单
- * Summary: 创建订单
- */
+// Description:
+//
+// Description: 创建订单
+//
+// Summary: 创建订单
 func (client *Client) CreateOrderEx(request *CreateOrderRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *CreateOrderResponse, _err error) {
 	_err = util.ValidateModel(request)
 	if _err != nil {
@@ -17995,10 +21005,11 @@ func (client *Client) CreateOrderEx(request *CreateOrderRequest, headers map[str
 	return _result, _err
 }
 
-/**
- * Description: 查询订单支付链接
- * Summary: 查询订单支付链接
- */
+// Description:
+//
+// Description: 查询订单支付链接
+//
+// Summary: 查询订单支付链接
 func (client *Client) QueryOrderPayurl(request *QueryOrderPayurlRequest) (_result *QueryOrderPayurlResponse, _err error) {
 	runtime := &util.RuntimeOptions{}
 	headers := make(map[string]*string)
@@ -18011,10 +21022,11 @@ func (client *Client) QueryOrderPayurl(request *QueryOrderPayurlRequest) (_resul
 	return _result, _err
 }
 
-/**
- * Description: 查询订单支付链接
- * Summary: 查询订单支付链接
- */
+// Description:
+//
+// Description: 查询订单支付链接
+//
+// Summary: 查询订单支付链接
 func (client *Client) QueryOrderPayurlEx(request *QueryOrderPayurlRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *QueryOrderPayurlResponse, _err error) {
 	_err = util.ValidateModel(request)
 	if _err != nil {
@@ -18029,10 +21041,11 @@ func (client *Client) QueryOrderPayurlEx(request *QueryOrderPayurlRequest, heade
 	return _result, _err
 }
 
-/**
- * Description: 版保完成数登证书回调
- * Summary: 版保完成数登证书回调
- */
+// Description:
+//
+// Description: 版保完成数登证书回调
+//
+// Summary: 版保完成数登证书回调
 func (client *Client) FinishDciRegistrationcert(request *FinishDciRegistrationcertRequest) (_result *FinishDciRegistrationcertResponse, _err error) {
 	runtime := &util.RuntimeOptions{}
 	headers := make(map[string]*string)
@@ -18045,10 +21058,11 @@ func (client *Client) FinishDciRegistrationcert(request *FinishDciRegistrationce
 	return _result, _err
 }
 
-/**
- * Description: 版保完成数登证书回调
- * Summary: 版保完成数登证书回调
- */
+// Description:
+//
+// Description: 版保完成数登证书回调
+//
+// Summary: 版保完成数登证书回调
 func (client *Client) FinishDciRegistrationcertEx(request *FinishDciRegistrationcertRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *FinishDciRegistrationcertResponse, _err error) {
 	_err = util.ValidateModel(request)
 	if _err != nil {
@@ -18063,10 +21077,11 @@ func (client *Client) FinishDciRegistrationcertEx(request *FinishDciRegistration
 	return _result, _err
 }
 
-/**
- * Description: 数登取消接口，目前在待支付状态下适用
- * Summary: 数登取消
- */
+// Description:
+//
+// Description: 数登取消接口，目前在待支付状态下适用
+//
+// Summary: 数登取消
 func (client *Client) CancelDciRegistration(request *CancelDciRegistrationRequest) (_result *CancelDciRegistrationResponse, _err error) {
 	runtime := &util.RuntimeOptions{}
 	headers := make(map[string]*string)
@@ -18079,10 +21094,11 @@ func (client *Client) CancelDciRegistration(request *CancelDciRegistrationReques
 	return _result, _err
 }
 
-/**
- * Description: 数登取消接口，目前在待支付状态下适用
- * Summary: 数登取消
- */
+// Description:
+//
+// Description: 数登取消接口，目前在待支付状态下适用
+//
+// Summary: 数登取消
 func (client *Client) CancelDciRegistrationEx(request *CancelDciRegistrationRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *CancelDciRegistrationResponse, _err error) {
 	_err = util.ValidateModel(request)
 	if _err != nil {
@@ -18097,10 +21113,11 @@ func (client *Client) CancelDciRegistrationEx(request *CancelDciRegistrationRequ
 	return _result, _err
 }
 
-/**
- * Description: 法信云网页取证
- * Summary: 法信云网页取证
- */
+// Description:
+//
+// Description: 法信云网页取证
+//
+// Summary: 法信云网页取证
 func (client *Client) CreateScreenshotNew(request *CreateScreenshotNewRequest) (_result *CreateScreenshotNewResponse, _err error) {
 	runtime := &util.RuntimeOptions{}
 	headers := make(map[string]*string)
@@ -18113,10 +21130,11 @@ func (client *Client) CreateScreenshotNew(request *CreateScreenshotNewRequest) (
 	return _result, _err
 }
 
-/**
- * Description: 法信云网页取证
- * Summary: 法信云网页取证
- */
+// Description:
+//
+// Description: 法信云网页取证
+//
+// Summary: 法信云网页取证
 func (client *Client) CreateScreenshotNewEx(request *CreateScreenshotNewRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *CreateScreenshotNewResponse, _err error) {
 	_err = util.ValidateModel(request)
 	if _err != nil {
@@ -18131,10 +21149,11 @@ func (client *Client) CreateScreenshotNewEx(request *CreateScreenshotNewRequest,
 	return _result, _err
 }
 
-/**
- * Description: 骑行保创建订单接口
- * Summary: 骑行保创建订单接口
- */
+// Description:
+//
+// Description: 骑行保创建订单接口
+//
+// Summary: 骑行保创建订单接口
 func (client *Client) CreateCyclinginsuranceServiceorder(request *CreateCyclinginsuranceServiceorderRequest) (_result *CreateCyclinginsuranceServiceorderResponse, _err error) {
 	runtime := &util.RuntimeOptions{}
 	headers := make(map[string]*string)
@@ -18147,10 +21166,11 @@ func (client *Client) CreateCyclinginsuranceServiceorder(request *CreateCyclingi
 	return _result, _err
 }
 
-/**
- * Description: 骑行保创建订单接口
- * Summary: 骑行保创建订单接口
- */
+// Description:
+//
+// Description: 骑行保创建订单接口
+//
+// Summary: 骑行保创建订单接口
 func (client *Client) CreateCyclinginsuranceServiceorderEx(request *CreateCyclinginsuranceServiceorderRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *CreateCyclinginsuranceServiceorderResponse, _err error) {
 	_err = util.ValidateModel(request)
 	if _err != nil {
@@ -18165,10 +21185,11 @@ func (client *Client) CreateCyclinginsuranceServiceorderEx(request *CreateCyclin
 	return _result, _err
 }
 
-/**
- * Description: 服务商作业人员服务库存查询
- * Summary: 服务商作业人员服务库存查询
- */
+// Description:
+//
+// Description: 服务商作业人员服务库存查询
+//
+// Summary: 服务商作业人员服务库存查询
 func (client *Client) QueryCyclinginsuranceServiceinventory(request *QueryCyclinginsuranceServiceinventoryRequest) (_result *QueryCyclinginsuranceServiceinventoryResponse, _err error) {
 	runtime := &util.RuntimeOptions{}
 	headers := make(map[string]*string)
@@ -18181,10 +21202,11 @@ func (client *Client) QueryCyclinginsuranceServiceinventory(request *QueryCyclin
 	return _result, _err
 }
 
-/**
- * Description: 服务商作业人员服务库存查询
- * Summary: 服务商作业人员服务库存查询
- */
+// Description:
+//
+// Description: 服务商作业人员服务库存查询
+//
+// Summary: 服务商作业人员服务库存查询
 func (client *Client) QueryCyclinginsuranceServiceinventoryEx(request *QueryCyclinginsuranceServiceinventoryRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *QueryCyclinginsuranceServiceinventoryResponse, _err error) {
 	_err = util.ValidateModel(request)
 	if _err != nil {
@@ -18199,10 +21221,11 @@ func (client *Client) QueryCyclinginsuranceServiceinventoryEx(request *QueryCycl
 	return _result, _err
 }
 
-/**
- * Description: 骑行保查询订单详情
- * Summary: 骑行保查询订单详情
- */
+// Description:
+//
+// Description: 骑行保查询订单详情
+//
+// Summary: 骑行保查询订单详情
 func (client *Client) QueryCyclinginsuranceOrderdetail(request *QueryCyclinginsuranceOrderdetailRequest) (_result *QueryCyclinginsuranceOrderdetailResponse, _err error) {
 	runtime := &util.RuntimeOptions{}
 	headers := make(map[string]*string)
@@ -18215,10 +21238,11 @@ func (client *Client) QueryCyclinginsuranceOrderdetail(request *QueryCyclinginsu
 	return _result, _err
 }
 
-/**
- * Description: 骑行保查询订单详情
- * Summary: 骑行保查询订单详情
- */
+// Description:
+//
+// Description: 骑行保查询订单详情
+//
+// Summary: 骑行保查询订单详情
 func (client *Client) QueryCyclinginsuranceOrderdetailEx(request *QueryCyclinginsuranceOrderdetailRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *QueryCyclinginsuranceOrderdetailResponse, _err error) {
 	_err = util.ValidateModel(request)
 	if _err != nil {
@@ -18233,10 +21257,11 @@ func (client *Client) QueryCyclinginsuranceOrderdetailEx(request *QueryCyclingin
 	return _result, _err
 }
 
-/**
- * Description: 骑行保取消订单接口
- * Summary: 骑行保取消订单接口
- */
+// Description:
+//
+// Description: 骑行保取消订单接口
+//
+// Summary: 骑行保取消订单接口
 func (client *Client) CancelCyclinginsuranceServiceorder(request *CancelCyclinginsuranceServiceorderRequest) (_result *CancelCyclinginsuranceServiceorderResponse, _err error) {
 	runtime := &util.RuntimeOptions{}
 	headers := make(map[string]*string)
@@ -18249,10 +21274,11 @@ func (client *Client) CancelCyclinginsuranceServiceorder(request *CancelCyclingi
 	return _result, _err
 }
 
-/**
- * Description: 骑行保取消订单接口
- * Summary: 骑行保取消订单接口
- */
+// Description:
+//
+// Description: 骑行保取消订单接口
+//
+// Summary: 骑行保取消订单接口
 func (client *Client) CancelCyclinginsuranceServiceorderEx(request *CancelCyclinginsuranceServiceorderRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *CancelCyclinginsuranceServiceorderResponse, _err error) {
 	_err = util.ValidateModel(request)
 	if _err != nil {
@@ -18267,10 +21293,11 @@ func (client *Client) CancelCyclinginsuranceServiceorderEx(request *CancelCyclin
 	return _result, _err
 }
 
-/**
- * Description: 骑行保租中换电审核结果回调
- * Summary: 骑行保租中换电审核结果回调
- */
+// Description:
+//
+// Description: 骑行保租中换电审核结果回调
+//
+// Summary: 骑行保租中换电审核结果回调
 func (client *Client) NotifyCyclinginsuranceMidchangeserviceorderaudit(request *NotifyCyclinginsuranceMidchangeserviceorderauditRequest) (_result *NotifyCyclinginsuranceMidchangeserviceorderauditResponse, _err error) {
 	runtime := &util.RuntimeOptions{}
 	headers := make(map[string]*string)
@@ -18283,10 +21310,11 @@ func (client *Client) NotifyCyclinginsuranceMidchangeserviceorderaudit(request *
 	return _result, _err
 }
 
-/**
- * Description: 骑行保租中换电审核结果回调
- * Summary: 骑行保租中换电审核结果回调
- */
+// Description:
+//
+// Description: 骑行保租中换电审核结果回调
+//
+// Summary: 骑行保租中换电审核结果回调
 func (client *Client) NotifyCyclinginsuranceMidchangeserviceorderauditEx(request *NotifyCyclinginsuranceMidchangeserviceorderauditRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *NotifyCyclinginsuranceMidchangeserviceorderauditResponse, _err error) {
 	_err = util.ValidateModel(request)
 	if _err != nil {
@@ -18301,10 +21329,11 @@ func (client *Client) NotifyCyclinginsuranceMidchangeserviceorderauditEx(request
 	return _result, _err
 }
 
-/**
- * Description: 数登初审
- * Summary: 数登初审
- */
+// Description:
+//
+// Description: 数登初审
+//
+// Summary: 数登初审
 func (client *Client) SubmitDigregPreliminaryreview(request *SubmitDigregPreliminaryreviewRequest) (_result *SubmitDigregPreliminaryreviewResponse, _err error) {
 	runtime := &util.RuntimeOptions{}
 	headers := make(map[string]*string)
@@ -18317,10 +21346,11 @@ func (client *Client) SubmitDigregPreliminaryreview(request *SubmitDigregPrelimi
 	return _result, _err
 }
 
-/**
- * Description: 数登初审
- * Summary: 数登初审
- */
+// Description:
+//
+// Description: 数登初审
+//
+// Summary: 数登初审
 func (client *Client) SubmitDigregPreliminaryreviewEx(request *SubmitDigregPreliminaryreviewRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *SubmitDigregPreliminaryreviewResponse, _err error) {
 	_err = util.ValidateModel(request)
 	if _err != nil {
@@ -18335,10 +21365,11 @@ func (client *Client) SubmitDigregPreliminaryreviewEx(request *SubmitDigregPreli
 	return _result, _err
 }
 
-/**
- * Description: 数登复审
- * Summary: 数登复审
- */
+// Description:
+//
+// Description: 数登复审
+//
+// Summary: 数登复审
 func (client *Client) SubmitDigregReview(request *SubmitDigregReviewRequest) (_result *SubmitDigregReviewResponse, _err error) {
 	runtime := &util.RuntimeOptions{}
 	headers := make(map[string]*string)
@@ -18351,10 +21382,11 @@ func (client *Client) SubmitDigregReview(request *SubmitDigregReviewRequest) (_r
 	return _result, _err
 }
 
-/**
- * Description: 数登复审
- * Summary: 数登复审
- */
+// Description:
+//
+// Description: 数登复审
+//
+// Summary: 数登复审
 func (client *Client) SubmitDigregReviewEx(request *SubmitDigregReviewRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *SubmitDigregReviewResponse, _err error) {
 	_err = util.ValidateModel(request)
 	if _err != nil {
@@ -18369,10 +21401,83 @@ func (client *Client) SubmitDigregReviewEx(request *SubmitDigregReviewRequest, h
 	return _result, _err
 }
 
-/**
- * Description: 添加发布视频内容
- * Summary: 发布视频内容
- */
+// Description:
+//
+// Description: 提交DCI凭证核验接口
+//
+// Summary: 提交DCI凭证核验接口
+func (client *Client) VerifyDciCertificate(request *VerifyDciCertificateRequest) (_result *VerifyDciCertificateResponse, _err error) {
+	runtime := &util.RuntimeOptions{}
+	headers := make(map[string]*string)
+	_result = &VerifyDciCertificateResponse{}
+	_body, _err := client.VerifyDciCertificateEx(request, headers, runtime)
+	if _err != nil {
+		return _result, _err
+	}
+	_result = _body
+	return _result, _err
+}
+
+// Description:
+//
+// Description: 提交DCI凭证核验接口
+//
+// Summary: 提交DCI凭证核验接口
+func (client *Client) VerifyDciCertificateEx(request *VerifyDciCertificateRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *VerifyDciCertificateResponse, _err error) {
+	_err = util.ValidateModel(request)
+	if _err != nil {
+		return _result, _err
+	}
+	_result = &VerifyDciCertificateResponse{}
+	_body, _err := client.DoRequest(tea.String("1.0"), tea.String("blockchain.bccr.dci.certificate.verify"), tea.String("HTTPS"), tea.String("POST"), tea.String("/gateway.do"), tea.ToMap(request), headers, runtime)
+	if _err != nil {
+		return _result, _err
+	}
+	_err = tea.Convert(_body, &_result)
+	return _result, _err
+}
+
+// Description:
+//
+// Description: 查询DCI凭证核验结果接口
+//
+// Summary: 查询DCI凭证核验结果接口
+func (client *Client) QueryDciCertificateresult(request *QueryDciCertificateresultRequest) (_result *QueryDciCertificateresultResponse, _err error) {
+	runtime := &util.RuntimeOptions{}
+	headers := make(map[string]*string)
+	_result = &QueryDciCertificateresultResponse{}
+	_body, _err := client.QueryDciCertificateresultEx(request, headers, runtime)
+	if _err != nil {
+		return _result, _err
+	}
+	_result = _body
+	return _result, _err
+}
+
+// Description:
+//
+// Description: 查询DCI凭证核验结果接口
+//
+// Summary: 查询DCI凭证核验结果接口
+func (client *Client) QueryDciCertificateresultEx(request *QueryDciCertificateresultRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *QueryDciCertificateresultResponse, _err error) {
+	_err = util.ValidateModel(request)
+	if _err != nil {
+		return _result, _err
+	}
+	_result = &QueryDciCertificateresultResponse{}
+	_body, _err := client.DoRequest(tea.String("1.0"), tea.String("blockchain.bccr.dci.certificateresult.query"), tea.String("HTTPS"), tea.String("POST"), tea.String("/gateway.do"), tea.ToMap(request), headers, runtime)
+	if _err != nil {
+		return _result, _err
+	}
+	_err = tea.Convert(_body, &_result)
+	return _result, _err
+}
+
+// Description:
+//
+// Description: 添加发布视频内容
+//
+// Summary: 发布视频内容
 func (client *Client) AddContent(request *AddContentRequest) (_result *AddContentResponse, _err error) {
 	runtime := &util.RuntimeOptions{}
 	headers := make(map[string]*string)
@@ -18385,10 +21490,11 @@ func (client *Client) AddContent(request *AddContentRequest) (_result *AddConten
 	return _result, _err
 }
 
-/**
- * Description: 添加发布视频内容
- * Summary: 发布视频内容
- */
+// Description:
+//
+// Description: 添加发布视频内容
+//
+// Summary: 发布视频内容
 func (client *Client) AddContentEx(request *AddContentRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *AddContentResponse, _err error) {
 	_err = util.ValidateModel(request)
 	if _err != nil {
@@ -18403,10 +21509,11 @@ func (client *Client) AddContentEx(request *AddContentRequest, headers map[strin
 	return _result, _err
 }
 
-/**
- * Description: 查询视频内容状态
- * Summary: 查询视频内容状态
- */
+// Description:
+//
+// Description: 查询视频内容状态
+//
+// Summary: 查询视频内容状态
 func (client *Client) QueryContentStatus(request *QueryContentStatusRequest) (_result *QueryContentStatusResponse, _err error) {
 	runtime := &util.RuntimeOptions{}
 	headers := make(map[string]*string)
@@ -18419,10 +21526,11 @@ func (client *Client) QueryContentStatus(request *QueryContentStatusRequest) (_r
 	return _result, _err
 }
 
-/**
- * Description: 查询视频内容状态
- * Summary: 查询视频内容状态
- */
+// Description:
+//
+// Description: 查询视频内容状态
+//
+// Summary: 查询视频内容状态
 func (client *Client) QueryContentStatusEx(request *QueryContentStatusRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *QueryContentStatusResponse, _err error) {
 	_err = util.ValidateModel(request)
 	if _err != nil {
@@ -18437,10 +21545,11 @@ func (client *Client) QueryContentStatusEx(request *QueryContentStatusRequest, h
 	return _result, _err
 }
 
-/**
- * Description: 查询视频内容统计数据
- * Summary: 查询视频内容统计
- */
+// Description:
+//
+// Description: 查询视频内容统计数据
+//
+// Summary: 查询视频内容统计
 func (client *Client) QueryContentStatistics(request *QueryContentStatisticsRequest) (_result *QueryContentStatisticsResponse, _err error) {
 	runtime := &util.RuntimeOptions{}
 	headers := make(map[string]*string)
@@ -18453,10 +21562,11 @@ func (client *Client) QueryContentStatistics(request *QueryContentStatisticsRequ
 	return _result, _err
 }
 
-/**
- * Description: 查询视频内容统计数据
- * Summary: 查询视频内容统计
- */
+// Description:
+//
+// Description: 查询视频内容统计数据
+//
+// Summary: 查询视频内容统计
 func (client *Client) QueryContentStatisticsEx(request *QueryContentStatisticsRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *QueryContentStatisticsResponse, _err error) {
 	_err = util.ValidateModel(request)
 	if _err != nil {
@@ -18471,10 +21581,11 @@ func (client *Client) QueryContentStatisticsEx(request *QueryContentStatisticsRe
 	return _result, _err
 }
 
-/**
- * Description: 批量查询视频内容统计数据
- * Summary: 批量查询视频统计信息
- */
+// Description:
+//
+// Description: 批量查询视频内容统计数据
+//
+// Summary: 批量查询视频统计信息
 func (client *Client) QueryContentBatchstatistics(request *QueryContentBatchstatisticsRequest) (_result *QueryContentBatchstatisticsResponse, _err error) {
 	runtime := &util.RuntimeOptions{}
 	headers := make(map[string]*string)
@@ -18487,10 +21598,11 @@ func (client *Client) QueryContentBatchstatistics(request *QueryContentBatchstat
 	return _result, _err
 }
 
-/**
- * Description: 批量查询视频内容统计数据
- * Summary: 批量查询视频统计信息
- */
+// Description:
+//
+// Description: 批量查询视频内容统计数据
+//
+// Summary: 批量查询视频统计信息
 func (client *Client) QueryContentBatchstatisticsEx(request *QueryContentBatchstatisticsRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *QueryContentBatchstatisticsResponse, _err error) {
 	_err = util.ValidateModel(request)
 	if _err != nil {
@@ -18505,10 +21617,11 @@ func (client *Client) QueryContentBatchstatisticsEx(request *QueryContentBatchst
 	return _result, _err
 }
 
-/**
- * Description: 商品发布
- * Summary: 商品发布
- */
+// Description:
+//
+// Description: 商品发布
+//
+// Summary: 商品发布
 func (client *Client) PublishGood(request *PublishGoodRequest) (_result *PublishGoodResponse, _err error) {
 	runtime := &util.RuntimeOptions{}
 	headers := make(map[string]*string)
@@ -18521,10 +21634,11 @@ func (client *Client) PublishGood(request *PublishGoodRequest) (_result *Publish
 	return _result, _err
 }
 
-/**
- * Description: 商品发布
- * Summary: 商品发布
- */
+// Description:
+//
+// Description: 商品发布
+//
+// Summary: 商品发布
 func (client *Client) PublishGoodEx(request *PublishGoodRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *PublishGoodResponse, _err error) {
 	_err = util.ValidateModel(request)
 	if _err != nil {
@@ -18539,10 +21653,11 @@ func (client *Client) PublishGoodEx(request *PublishGoodRequest, headers map[str
 	return _result, _err
 }
 
-/**
- * Description: 商品发布查询
- * Summary: 商品发布查询
- */
+// Description:
+//
+// Description: 商品发布查询
+//
+// Summary: 商品发布查询
 func (client *Client) QueryGoodsPublish(request *QueryGoodsPublishRequest) (_result *QueryGoodsPublishResponse, _err error) {
 	runtime := &util.RuntimeOptions{}
 	headers := make(map[string]*string)
@@ -18555,10 +21670,11 @@ func (client *Client) QueryGoodsPublish(request *QueryGoodsPublishRequest) (_res
 	return _result, _err
 }
 
-/**
- * Description: 商品发布查询
- * Summary: 商品发布查询
- */
+// Description:
+//
+// Description: 商品发布查询
+//
+// Summary: 商品发布查询
 func (client *Client) QueryGoodsPublishEx(request *QueryGoodsPublishRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *QueryGoodsPublishResponse, _err error) {
 	_err = util.ValidateModel(request)
 	if _err != nil {
@@ -18573,10 +21689,11 @@ func (client *Client) QueryGoodsPublishEx(request *QueryGoodsPublishRequest, hea
 	return _result, _err
 }
 
-/**
- * Description: 商品更新
- * Summary: 商品更新
- */
+// Description:
+//
+// Description: 商品更新
+//
+// Summary: 商品更新
 func (client *Client) UpdateGoods(request *UpdateGoodsRequest) (_result *UpdateGoodsResponse, _err error) {
 	runtime := &util.RuntimeOptions{}
 	headers := make(map[string]*string)
@@ -18589,10 +21706,11 @@ func (client *Client) UpdateGoods(request *UpdateGoodsRequest) (_result *UpdateG
 	return _result, _err
 }
 
-/**
- * Description: 商品更新
- * Summary: 商品更新
- */
+// Description:
+//
+// Description: 商品更新
+//
+// Summary: 商品更新
 func (client *Client) UpdateGoodsEx(request *UpdateGoodsRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *UpdateGoodsResponse, _err error) {
 	_err = util.ValidateModel(request)
 	if _err != nil {
@@ -18607,10 +21725,11 @@ func (client *Client) UpdateGoodsEx(request *UpdateGoodsRequest, headers map[str
 	return _result, _err
 }
 
-/**
- * Description: 商品查询
- * Summary: 商品查询
- */
+// Description:
+//
+// Description: 商品查询
+//
+// Summary: 商品查询
 func (client *Client) QueryGoods(request *QueryGoodsRequest) (_result *QueryGoodsResponse, _err error) {
 	runtime := &util.RuntimeOptions{}
 	headers := make(map[string]*string)
@@ -18623,10 +21742,11 @@ func (client *Client) QueryGoods(request *QueryGoodsRequest) (_result *QueryGood
 	return _result, _err
 }
 
-/**
- * Description: 商品查询
- * Summary: 商品查询
- */
+// Description:
+//
+// Description: 商品查询
+//
+// Summary: 商品查询
 func (client *Client) QueryGoodsEx(request *QueryGoodsRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *QueryGoodsResponse, _err error) {
 	_err = util.ValidateModel(request)
 	if _err != nil {
