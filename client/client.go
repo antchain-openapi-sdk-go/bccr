@@ -6499,363 +6499,6 @@ func (s *CompleteapplyformsealCopyrightregistrationDigitalregistrationResponse) 
 	return s
 }
 
-type QueryDigitalregistrationApplyformRequest struct {
-	// OAuth模式下的授权token
-	AuthToken         *string `json:"auth_token,omitempty" xml:"auth_token,omitempty"`
-	ProductInstanceId *string `json:"product_instance_id,omitempty" xml:"product_instance_id,omitempty"`
-	// 数登ID
-	DigitalRegisterId *string `json:"digital_register_id,omitempty" xml:"digital_register_id,omitempty" require:"true"`
-}
-
-func (s QueryDigitalregistrationApplyformRequest) String() string {
-	return tea.Prettify(s)
-}
-
-func (s QueryDigitalregistrationApplyformRequest) GoString() string {
-	return s.String()
-}
-
-func (s *QueryDigitalregistrationApplyformRequest) SetAuthToken(v string) *QueryDigitalregistrationApplyformRequest {
-	s.AuthToken = &v
-	return s
-}
-
-func (s *QueryDigitalregistrationApplyformRequest) SetProductInstanceId(v string) *QueryDigitalregistrationApplyformRequest {
-	s.ProductInstanceId = &v
-	return s
-}
-
-func (s *QueryDigitalregistrationApplyformRequest) SetDigitalRegisterId(v string) *QueryDigitalregistrationApplyformRequest {
-	s.DigitalRegisterId = &v
-	return s
-}
-
-type QueryDigitalregistrationApplyformResponse struct {
-	// 请求唯一ID，用于链路跟踪和问题排查
-	ReqMsgId *string `json:"req_msg_id,omitempty" xml:"req_msg_id,omitempty"`
-	// 结果码，一般OK表示调用成功
-	ResultCode *string `json:"result_code,omitempty" xml:"result_code,omitempty"`
-	// 异常信息的文本描述
-	ResultMsg *string `json:"result_msg,omitempty" xml:"result_msg,omitempty"`
-	// 数登申请表OSS下载链接
-	FileUrl *string `json:"file_url,omitempty" xml:"file_url,omitempty"`
-}
-
-func (s QueryDigitalregistrationApplyformResponse) String() string {
-	return tea.Prettify(s)
-}
-
-func (s QueryDigitalregistrationApplyformResponse) GoString() string {
-	return s.String()
-}
-
-func (s *QueryDigitalregistrationApplyformResponse) SetReqMsgId(v string) *QueryDigitalregistrationApplyformResponse {
-	s.ReqMsgId = &v
-	return s
-}
-
-func (s *QueryDigitalregistrationApplyformResponse) SetResultCode(v string) *QueryDigitalregistrationApplyformResponse {
-	s.ResultCode = &v
-	return s
-}
-
-func (s *QueryDigitalregistrationApplyformResponse) SetResultMsg(v string) *QueryDigitalregistrationApplyformResponse {
-	s.ResultMsg = &v
-	return s
-}
-
-func (s *QueryDigitalregistrationApplyformResponse) SetFileUrl(v string) *QueryDigitalregistrationApplyformResponse {
-	s.FileUrl = &v
-	return s
-}
-
-type QueryDigitalregistrationSealauthRequest struct {
-	// OAuth模式下的授权token
-	AuthToken         *string `json:"auth_token,omitempty" xml:"auth_token,omitempty"`
-	ProductInstanceId *string `json:"product_instance_id,omitempty" xml:"product_instance_id,omitempty"`
-	// 数登ID
-	DigitalRegisterId *string `json:"digital_register_id,omitempty" xml:"digital_register_id,omitempty" require:"true"`
-}
-
-func (s QueryDigitalregistrationSealauthRequest) String() string {
-	return tea.Prettify(s)
-}
-
-func (s QueryDigitalregistrationSealauthRequest) GoString() string {
-	return s.String()
-}
-
-func (s *QueryDigitalregistrationSealauthRequest) SetAuthToken(v string) *QueryDigitalregistrationSealauthRequest {
-	s.AuthToken = &v
-	return s
-}
-
-func (s *QueryDigitalregistrationSealauthRequest) SetProductInstanceId(v string) *QueryDigitalregistrationSealauthRequest {
-	s.ProductInstanceId = &v
-	return s
-}
-
-func (s *QueryDigitalregistrationSealauthRequest) SetDigitalRegisterId(v string) *QueryDigitalregistrationSealauthRequest {
-	s.DigitalRegisterId = &v
-	return s
-}
-
-type QueryDigitalregistrationSealauthResponse struct {
-	// 请求唯一ID，用于链路跟踪和问题排查
-	ReqMsgId *string `json:"req_msg_id,omitempty" xml:"req_msg_id,omitempty"`
-	// 结果码，一般OK表示调用成功
-	ResultCode *string `json:"result_code,omitempty" xml:"result_code,omitempty"`
-	// 异常信息的文本描述
-	ResultMsg *string `json:"result_msg,omitempty" xml:"result_msg,omitempty"`
-	// 是否支持静默授权
-	IsAutoSeal *bool `json:"is_auto_seal,omitempty" xml:"is_auto_seal,omitempty"`
-}
-
-func (s QueryDigitalregistrationSealauthResponse) String() string {
-	return tea.Prettify(s)
-}
-
-func (s QueryDigitalregistrationSealauthResponse) GoString() string {
-	return s.String()
-}
-
-func (s *QueryDigitalregistrationSealauthResponse) SetReqMsgId(v string) *QueryDigitalregistrationSealauthResponse {
-	s.ReqMsgId = &v
-	return s
-}
-
-func (s *QueryDigitalregistrationSealauthResponse) SetResultCode(v string) *QueryDigitalregistrationSealauthResponse {
-	s.ResultCode = &v
-	return s
-}
-
-func (s *QueryDigitalregistrationSealauthResponse) SetResultMsg(v string) *QueryDigitalregistrationSealauthResponse {
-	s.ResultMsg = &v
-	return s
-}
-
-func (s *QueryDigitalregistrationSealauthResponse) SetIsAutoSeal(v bool) *QueryDigitalregistrationSealauthResponse {
-	s.IsAutoSeal = &v
-	return s
-}
-
-type CreateDigitalregistrationApplyformsealflowRequest struct {
-	// OAuth模式下的授权token
-	AuthToken         *string `json:"auth_token,omitempty" xml:"auth_token,omitempty"`
-	ProductInstanceId *string `json:"product_instance_id,omitempty" xml:"product_instance_id,omitempty"`
-	// 数登ID
-	DigitalRegisterId *string `json:"digital_register_id,omitempty" xml:"digital_register_id,omitempty" require:"true"`
-	// ewrwrwerwr
-	ClientToken *string `json:"client_token,omitempty" xml:"client_token,omitempty" require:"true"`
-}
-
-func (s CreateDigitalregistrationApplyformsealflowRequest) String() string {
-	return tea.Prettify(s)
-}
-
-func (s CreateDigitalregistrationApplyformsealflowRequest) GoString() string {
-	return s.String()
-}
-
-func (s *CreateDigitalregistrationApplyformsealflowRequest) SetAuthToken(v string) *CreateDigitalregistrationApplyformsealflowRequest {
-	s.AuthToken = &v
-	return s
-}
-
-func (s *CreateDigitalregistrationApplyformsealflowRequest) SetProductInstanceId(v string) *CreateDigitalregistrationApplyformsealflowRequest {
-	s.ProductInstanceId = &v
-	return s
-}
-
-func (s *CreateDigitalregistrationApplyformsealflowRequest) SetDigitalRegisterId(v string) *CreateDigitalregistrationApplyformsealflowRequest {
-	s.DigitalRegisterId = &v
-	return s
-}
-
-func (s *CreateDigitalregistrationApplyformsealflowRequest) SetClientToken(v string) *CreateDigitalregistrationApplyformsealflowRequest {
-	s.ClientToken = &v
-	return s
-}
-
-type CreateDigitalregistrationApplyformsealflowResponse struct {
-	// 请求唯一ID，用于链路跟踪和问题排查
-	ReqMsgId *string `json:"req_msg_id,omitempty" xml:"req_msg_id,omitempty"`
-	// 结果码，一般OK表示调用成功
-	ResultCode *string `json:"result_code,omitempty" xml:"result_code,omitempty"`
-	// 异常信息的文本描述
-	ResultMsg *string `json:"result_msg,omitempty" xml:"result_msg,omitempty"`
-	// 是否创建签署流程成功
-	Completed *bool `json:"completed,omitempty" xml:"completed,omitempty"`
-}
-
-func (s CreateDigitalregistrationApplyformsealflowResponse) String() string {
-	return tea.Prettify(s)
-}
-
-func (s CreateDigitalregistrationApplyformsealflowResponse) GoString() string {
-	return s.String()
-}
-
-func (s *CreateDigitalregistrationApplyformsealflowResponse) SetReqMsgId(v string) *CreateDigitalregistrationApplyformsealflowResponse {
-	s.ReqMsgId = &v
-	return s
-}
-
-func (s *CreateDigitalregistrationApplyformsealflowResponse) SetResultCode(v string) *CreateDigitalregistrationApplyformsealflowResponse {
-	s.ResultCode = &v
-	return s
-}
-
-func (s *CreateDigitalregistrationApplyformsealflowResponse) SetResultMsg(v string) *CreateDigitalregistrationApplyformsealflowResponse {
-	s.ResultMsg = &v
-	return s
-}
-
-func (s *CreateDigitalregistrationApplyformsealflowResponse) SetCompleted(v bool) *CreateDigitalregistrationApplyformsealflowResponse {
-	s.Completed = &v
-	return s
-}
-
-type QueryDigitalregistrationApplyformsealurlRequest struct {
-	// OAuth模式下的授权token
-	AuthToken         *string `json:"auth_token,omitempty" xml:"auth_token,omitempty"`
-	ProductInstanceId *string `json:"product_instance_id,omitempty" xml:"product_instance_id,omitempty"`
-	// 数登ID
-	DigitalRegisterId *string `json:"digital_register_id,omitempty" xml:"digital_register_id,omitempty" require:"true"`
-}
-
-func (s QueryDigitalregistrationApplyformsealurlRequest) String() string {
-	return tea.Prettify(s)
-}
-
-func (s QueryDigitalregistrationApplyformsealurlRequest) GoString() string {
-	return s.String()
-}
-
-func (s *QueryDigitalregistrationApplyformsealurlRequest) SetAuthToken(v string) *QueryDigitalregistrationApplyformsealurlRequest {
-	s.AuthToken = &v
-	return s
-}
-
-func (s *QueryDigitalregistrationApplyformsealurlRequest) SetProductInstanceId(v string) *QueryDigitalregistrationApplyformsealurlRequest {
-	s.ProductInstanceId = &v
-	return s
-}
-
-func (s *QueryDigitalregistrationApplyformsealurlRequest) SetDigitalRegisterId(v string) *QueryDigitalregistrationApplyformsealurlRequest {
-	s.DigitalRegisterId = &v
-	return s
-}
-
-type QueryDigitalregistrationApplyformsealurlResponse struct {
-	// 请求唯一ID，用于链路跟踪和问题排查
-	ReqMsgId *string `json:"req_msg_id,omitempty" xml:"req_msg_id,omitempty"`
-	// 结果码，一般OK表示调用成功
-	ResultCode *string `json:"result_code,omitempty" xml:"result_code,omitempty"`
-	// 异常信息的文本描述
-	ResultMsg *string `json:"result_msg,omitempty" xml:"result_msg,omitempty"`
-	// 数登申请表签署url
-	SealUrl *string `json:"seal_url,omitempty" xml:"seal_url,omitempty"`
-}
-
-func (s QueryDigitalregistrationApplyformsealurlResponse) String() string {
-	return tea.Prettify(s)
-}
-
-func (s QueryDigitalregistrationApplyformsealurlResponse) GoString() string {
-	return s.String()
-}
-
-func (s *QueryDigitalregistrationApplyformsealurlResponse) SetReqMsgId(v string) *QueryDigitalregistrationApplyformsealurlResponse {
-	s.ReqMsgId = &v
-	return s
-}
-
-func (s *QueryDigitalregistrationApplyformsealurlResponse) SetResultCode(v string) *QueryDigitalregistrationApplyformsealurlResponse {
-	s.ResultCode = &v
-	return s
-}
-
-func (s *QueryDigitalregistrationApplyformsealurlResponse) SetResultMsg(v string) *QueryDigitalregistrationApplyformsealurlResponse {
-	s.ResultMsg = &v
-	return s
-}
-
-func (s *QueryDigitalregistrationApplyformsealurlResponse) SetSealUrl(v string) *QueryDigitalregistrationApplyformsealurlResponse {
-	s.SealUrl = &v
-	return s
-}
-
-type CompleteDigitalregistrationApplyformsealRequest struct {
-	// OAuth模式下的授权token
-	AuthToken         *string `json:"auth_token,omitempty" xml:"auth_token,omitempty"`
-	ProductInstanceId *string `json:"product_instance_id,omitempty" xml:"product_instance_id,omitempty"`
-	// 数登申请ID
-	DigitalRegisterId *string `json:"digital_register_id,omitempty" xml:"digital_register_id,omitempty" require:"true"`
-}
-
-func (s CompleteDigitalregistrationApplyformsealRequest) String() string {
-	return tea.Prettify(s)
-}
-
-func (s CompleteDigitalregistrationApplyformsealRequest) GoString() string {
-	return s.String()
-}
-
-func (s *CompleteDigitalregistrationApplyformsealRequest) SetAuthToken(v string) *CompleteDigitalregistrationApplyformsealRequest {
-	s.AuthToken = &v
-	return s
-}
-
-func (s *CompleteDigitalregistrationApplyformsealRequest) SetProductInstanceId(v string) *CompleteDigitalregistrationApplyformsealRequest {
-	s.ProductInstanceId = &v
-	return s
-}
-
-func (s *CompleteDigitalregistrationApplyformsealRequest) SetDigitalRegisterId(v string) *CompleteDigitalregistrationApplyformsealRequest {
-	s.DigitalRegisterId = &v
-	return s
-}
-
-type CompleteDigitalregistrationApplyformsealResponse struct {
-	// 请求唯一ID，用于链路跟踪和问题排查
-	ReqMsgId *string `json:"req_msg_id,omitempty" xml:"req_msg_id,omitempty"`
-	// 结果码，一般OK表示调用成功
-	ResultCode *string `json:"result_code,omitempty" xml:"result_code,omitempty"`
-	// 异常信息的文本描述
-	ResultMsg *string `json:"result_msg,omitempty" xml:"result_msg,omitempty"`
-	// 是否完成签署
-	Completed *bool `json:"completed,omitempty" xml:"completed,omitempty"`
-}
-
-func (s CompleteDigitalregistrationApplyformsealResponse) String() string {
-	return tea.Prettify(s)
-}
-
-func (s CompleteDigitalregistrationApplyformsealResponse) GoString() string {
-	return s.String()
-}
-
-func (s *CompleteDigitalregistrationApplyformsealResponse) SetReqMsgId(v string) *CompleteDigitalregistrationApplyformsealResponse {
-	s.ReqMsgId = &v
-	return s
-}
-
-func (s *CompleteDigitalregistrationApplyformsealResponse) SetResultCode(v string) *CompleteDigitalregistrationApplyformsealResponse {
-	s.ResultCode = &v
-	return s
-}
-
-func (s *CompleteDigitalregistrationApplyformsealResponse) SetResultMsg(v string) *CompleteDigitalregistrationApplyformsealResponse {
-	s.ResultMsg = &v
-	return s
-}
-
-func (s *CompleteDigitalregistrationApplyformsealResponse) SetCompleted(v bool) *CompleteDigitalregistrationApplyformsealResponse {
-	s.Completed = &v
-	return s
-}
-
 type GetUploadurlRequest struct {
 	// OAuth模式下的授权token
 	AuthToken         *string `json:"auth_token,omitempty" xml:"auth_token,omitempty"`
@@ -16953,6 +16596,377 @@ func (s *QueryDciCertificateresultResponse) SetStatus(v string) *QueryDciCertifi
 	return s
 }
 
+type QueryDigitalregistrationApplyformRequest struct {
+	// OAuth模式下的授权token
+	AuthToken         *string `json:"auth_token,omitempty" xml:"auth_token,omitempty"`
+	ProductInstanceId *string `json:"product_instance_id,omitempty" xml:"product_instance_id,omitempty"`
+	// 数登ID
+	DigitalRegisterId *string `json:"digital_register_id,omitempty" xml:"digital_register_id,omitempty" require:"true"`
+}
+
+func (s QueryDigitalregistrationApplyformRequest) String() string {
+	return tea.Prettify(s)
+}
+
+func (s QueryDigitalregistrationApplyformRequest) GoString() string {
+	return s.String()
+}
+
+func (s *QueryDigitalregistrationApplyformRequest) SetAuthToken(v string) *QueryDigitalregistrationApplyformRequest {
+	s.AuthToken = &v
+	return s
+}
+
+func (s *QueryDigitalregistrationApplyformRequest) SetProductInstanceId(v string) *QueryDigitalregistrationApplyformRequest {
+	s.ProductInstanceId = &v
+	return s
+}
+
+func (s *QueryDigitalregistrationApplyformRequest) SetDigitalRegisterId(v string) *QueryDigitalregistrationApplyformRequest {
+	s.DigitalRegisterId = &v
+	return s
+}
+
+type QueryDigitalregistrationApplyformResponse struct {
+	// 请求唯一ID，用于链路跟踪和问题排查
+	ReqMsgId *string `json:"req_msg_id,omitempty" xml:"req_msg_id,omitempty"`
+	// 结果码，一般OK表示调用成功
+	ResultCode *string `json:"result_code,omitempty" xml:"result_code,omitempty"`
+	// 异常信息的文本描述
+	ResultMsg *string `json:"result_msg,omitempty" xml:"result_msg,omitempty"`
+	// 数登申请表OSS下载链接
+	FileUrl *string `json:"file_url,omitempty" xml:"file_url,omitempty"`
+}
+
+func (s QueryDigitalregistrationApplyformResponse) String() string {
+	return tea.Prettify(s)
+}
+
+func (s QueryDigitalregistrationApplyformResponse) GoString() string {
+	return s.String()
+}
+
+func (s *QueryDigitalregistrationApplyformResponse) SetReqMsgId(v string) *QueryDigitalregistrationApplyformResponse {
+	s.ReqMsgId = &v
+	return s
+}
+
+func (s *QueryDigitalregistrationApplyformResponse) SetResultCode(v string) *QueryDigitalregistrationApplyformResponse {
+	s.ResultCode = &v
+	return s
+}
+
+func (s *QueryDigitalregistrationApplyformResponse) SetResultMsg(v string) *QueryDigitalregistrationApplyformResponse {
+	s.ResultMsg = &v
+	return s
+}
+
+func (s *QueryDigitalregistrationApplyformResponse) SetFileUrl(v string) *QueryDigitalregistrationApplyformResponse {
+	s.FileUrl = &v
+	return s
+}
+
+type QueryDigitalregistrationSealauthRequest struct {
+	// OAuth模式下的授权token
+	AuthToken         *string `json:"auth_token,omitempty" xml:"auth_token,omitempty"`
+	ProductInstanceId *string `json:"product_instance_id,omitempty" xml:"product_instance_id,omitempty"`
+	// 数登ID
+	DigitalRegisterId *string `json:"digital_register_id,omitempty" xml:"digital_register_id,omitempty" require:"true"`
+}
+
+func (s QueryDigitalregistrationSealauthRequest) String() string {
+	return tea.Prettify(s)
+}
+
+func (s QueryDigitalregistrationSealauthRequest) GoString() string {
+	return s.String()
+}
+
+func (s *QueryDigitalregistrationSealauthRequest) SetAuthToken(v string) *QueryDigitalregistrationSealauthRequest {
+	s.AuthToken = &v
+	return s
+}
+
+func (s *QueryDigitalregistrationSealauthRequest) SetProductInstanceId(v string) *QueryDigitalregistrationSealauthRequest {
+	s.ProductInstanceId = &v
+	return s
+}
+
+func (s *QueryDigitalregistrationSealauthRequest) SetDigitalRegisterId(v string) *QueryDigitalregistrationSealauthRequest {
+	s.DigitalRegisterId = &v
+	return s
+}
+
+type QueryDigitalregistrationSealauthResponse struct {
+	// 请求唯一ID，用于链路跟踪和问题排查
+	ReqMsgId *string `json:"req_msg_id,omitempty" xml:"req_msg_id,omitempty"`
+	// 结果码，一般OK表示调用成功
+	ResultCode *string `json:"result_code,omitempty" xml:"result_code,omitempty"`
+	// 异常信息的文本描述
+	ResultMsg *string `json:"result_msg,omitempty" xml:"result_msg,omitempty"`
+	// 是否支持静默授权
+	IsAutoSeal *bool `json:"is_auto_seal,omitempty" xml:"is_auto_seal,omitempty"`
+}
+
+func (s QueryDigitalregistrationSealauthResponse) String() string {
+	return tea.Prettify(s)
+}
+
+func (s QueryDigitalregistrationSealauthResponse) GoString() string {
+	return s.String()
+}
+
+func (s *QueryDigitalregistrationSealauthResponse) SetReqMsgId(v string) *QueryDigitalregistrationSealauthResponse {
+	s.ReqMsgId = &v
+	return s
+}
+
+func (s *QueryDigitalregistrationSealauthResponse) SetResultCode(v string) *QueryDigitalregistrationSealauthResponse {
+	s.ResultCode = &v
+	return s
+}
+
+func (s *QueryDigitalregistrationSealauthResponse) SetResultMsg(v string) *QueryDigitalregistrationSealauthResponse {
+	s.ResultMsg = &v
+	return s
+}
+
+func (s *QueryDigitalregistrationSealauthResponse) SetIsAutoSeal(v bool) *QueryDigitalregistrationSealauthResponse {
+	s.IsAutoSeal = &v
+	return s
+}
+
+type CreateDigitalregistrationApplyformsealflowRequest struct {
+	// OAuth模式下的授权token
+	AuthToken         *string `json:"auth_token,omitempty" xml:"auth_token,omitempty"`
+	ProductInstanceId *string `json:"product_instance_id,omitempty" xml:"product_instance_id,omitempty"`
+	// 数登ID
+	DigitalRegisterId *string `json:"digital_register_id,omitempty" xml:"digital_register_id,omitempty" require:"true"`
+	// ewrwrwerwr
+	ClientToken *string `json:"client_token,omitempty" xml:"client_token,omitempty" require:"true"`
+	// 签章经办人身份证号（数登申请人是企业的场景下必填）
+	AgentCertNo *string `json:"agent_cert_no,omitempty" xml:"agent_cert_no,omitempty"`
+	// 签章经办人姓名（数登申请人是企业的场景下必填）
+	AgentCertMame *string `json:"agent_cert_mame,omitempty" xml:"agent_cert_mame,omitempty"`
+}
+
+func (s CreateDigitalregistrationApplyformsealflowRequest) String() string {
+	return tea.Prettify(s)
+}
+
+func (s CreateDigitalregistrationApplyformsealflowRequest) GoString() string {
+	return s.String()
+}
+
+func (s *CreateDigitalregistrationApplyformsealflowRequest) SetAuthToken(v string) *CreateDigitalregistrationApplyformsealflowRequest {
+	s.AuthToken = &v
+	return s
+}
+
+func (s *CreateDigitalregistrationApplyformsealflowRequest) SetProductInstanceId(v string) *CreateDigitalregistrationApplyformsealflowRequest {
+	s.ProductInstanceId = &v
+	return s
+}
+
+func (s *CreateDigitalregistrationApplyformsealflowRequest) SetDigitalRegisterId(v string) *CreateDigitalregistrationApplyformsealflowRequest {
+	s.DigitalRegisterId = &v
+	return s
+}
+
+func (s *CreateDigitalregistrationApplyformsealflowRequest) SetClientToken(v string) *CreateDigitalregistrationApplyformsealflowRequest {
+	s.ClientToken = &v
+	return s
+}
+
+func (s *CreateDigitalregistrationApplyformsealflowRequest) SetAgentCertNo(v string) *CreateDigitalregistrationApplyformsealflowRequest {
+	s.AgentCertNo = &v
+	return s
+}
+
+func (s *CreateDigitalregistrationApplyformsealflowRequest) SetAgentCertMame(v string) *CreateDigitalregistrationApplyformsealflowRequest {
+	s.AgentCertMame = &v
+	return s
+}
+
+type CreateDigitalregistrationApplyformsealflowResponse struct {
+	// 请求唯一ID，用于链路跟踪和问题排查
+	ReqMsgId *string `json:"req_msg_id,omitempty" xml:"req_msg_id,omitempty"`
+	// 结果码，一般OK表示调用成功
+	ResultCode *string `json:"result_code,omitempty" xml:"result_code,omitempty"`
+	// 异常信息的文本描述
+	ResultMsg *string `json:"result_msg,omitempty" xml:"result_msg,omitempty"`
+	// 是否创建签署流程成功
+	Completed *bool `json:"completed,omitempty" xml:"completed,omitempty"`
+}
+
+func (s CreateDigitalregistrationApplyformsealflowResponse) String() string {
+	return tea.Prettify(s)
+}
+
+func (s CreateDigitalregistrationApplyformsealflowResponse) GoString() string {
+	return s.String()
+}
+
+func (s *CreateDigitalregistrationApplyformsealflowResponse) SetReqMsgId(v string) *CreateDigitalregistrationApplyformsealflowResponse {
+	s.ReqMsgId = &v
+	return s
+}
+
+func (s *CreateDigitalregistrationApplyformsealflowResponse) SetResultCode(v string) *CreateDigitalregistrationApplyformsealflowResponse {
+	s.ResultCode = &v
+	return s
+}
+
+func (s *CreateDigitalregistrationApplyformsealflowResponse) SetResultMsg(v string) *CreateDigitalregistrationApplyformsealflowResponse {
+	s.ResultMsg = &v
+	return s
+}
+
+func (s *CreateDigitalregistrationApplyformsealflowResponse) SetCompleted(v bool) *CreateDigitalregistrationApplyformsealflowResponse {
+	s.Completed = &v
+	return s
+}
+
+type QueryDigitalregistrationApplyformsealurlRequest struct {
+	// OAuth模式下的授权token
+	AuthToken         *string `json:"auth_token,omitempty" xml:"auth_token,omitempty"`
+	ProductInstanceId *string `json:"product_instance_id,omitempty" xml:"product_instance_id,omitempty"`
+	// 数登ID
+	DigitalRegisterId *string `json:"digital_register_id,omitempty" xml:"digital_register_id,omitempty" require:"true"`
+}
+
+func (s QueryDigitalregistrationApplyformsealurlRequest) String() string {
+	return tea.Prettify(s)
+}
+
+func (s QueryDigitalregistrationApplyformsealurlRequest) GoString() string {
+	return s.String()
+}
+
+func (s *QueryDigitalregistrationApplyformsealurlRequest) SetAuthToken(v string) *QueryDigitalregistrationApplyformsealurlRequest {
+	s.AuthToken = &v
+	return s
+}
+
+func (s *QueryDigitalregistrationApplyformsealurlRequest) SetProductInstanceId(v string) *QueryDigitalregistrationApplyformsealurlRequest {
+	s.ProductInstanceId = &v
+	return s
+}
+
+func (s *QueryDigitalregistrationApplyformsealurlRequest) SetDigitalRegisterId(v string) *QueryDigitalregistrationApplyformsealurlRequest {
+	s.DigitalRegisterId = &v
+	return s
+}
+
+type QueryDigitalregistrationApplyformsealurlResponse struct {
+	// 请求唯一ID，用于链路跟踪和问题排查
+	ReqMsgId *string `json:"req_msg_id,omitempty" xml:"req_msg_id,omitempty"`
+	// 结果码，一般OK表示调用成功
+	ResultCode *string `json:"result_code,omitempty" xml:"result_code,omitempty"`
+	// 异常信息的文本描述
+	ResultMsg *string `json:"result_msg,omitempty" xml:"result_msg,omitempty"`
+	// 数登申请表签署url
+	SealUrl *string `json:"seal_url,omitempty" xml:"seal_url,omitempty"`
+}
+
+func (s QueryDigitalregistrationApplyformsealurlResponse) String() string {
+	return tea.Prettify(s)
+}
+
+func (s QueryDigitalregistrationApplyformsealurlResponse) GoString() string {
+	return s.String()
+}
+
+func (s *QueryDigitalregistrationApplyformsealurlResponse) SetReqMsgId(v string) *QueryDigitalregistrationApplyformsealurlResponse {
+	s.ReqMsgId = &v
+	return s
+}
+
+func (s *QueryDigitalregistrationApplyformsealurlResponse) SetResultCode(v string) *QueryDigitalregistrationApplyformsealurlResponse {
+	s.ResultCode = &v
+	return s
+}
+
+func (s *QueryDigitalregistrationApplyformsealurlResponse) SetResultMsg(v string) *QueryDigitalregistrationApplyformsealurlResponse {
+	s.ResultMsg = &v
+	return s
+}
+
+func (s *QueryDigitalregistrationApplyformsealurlResponse) SetSealUrl(v string) *QueryDigitalregistrationApplyformsealurlResponse {
+	s.SealUrl = &v
+	return s
+}
+
+type CompleteDigitalregistrationApplyformsealRequest struct {
+	// OAuth模式下的授权token
+	AuthToken         *string `json:"auth_token,omitempty" xml:"auth_token,omitempty"`
+	ProductInstanceId *string `json:"product_instance_id,omitempty" xml:"product_instance_id,omitempty"`
+	// 数登申请ID
+	DigitalRegisterId *string `json:"digital_register_id,omitempty" xml:"digital_register_id,omitempty" require:"true"`
+}
+
+func (s CompleteDigitalregistrationApplyformsealRequest) String() string {
+	return tea.Prettify(s)
+}
+
+func (s CompleteDigitalregistrationApplyformsealRequest) GoString() string {
+	return s.String()
+}
+
+func (s *CompleteDigitalregistrationApplyformsealRequest) SetAuthToken(v string) *CompleteDigitalregistrationApplyformsealRequest {
+	s.AuthToken = &v
+	return s
+}
+
+func (s *CompleteDigitalregistrationApplyformsealRequest) SetProductInstanceId(v string) *CompleteDigitalregistrationApplyformsealRequest {
+	s.ProductInstanceId = &v
+	return s
+}
+
+func (s *CompleteDigitalregistrationApplyformsealRequest) SetDigitalRegisterId(v string) *CompleteDigitalregistrationApplyformsealRequest {
+	s.DigitalRegisterId = &v
+	return s
+}
+
+type CompleteDigitalregistrationApplyformsealResponse struct {
+	// 请求唯一ID，用于链路跟踪和问题排查
+	ReqMsgId *string `json:"req_msg_id,omitempty" xml:"req_msg_id,omitempty"`
+	// 结果码，一般OK表示调用成功
+	ResultCode *string `json:"result_code,omitempty" xml:"result_code,omitempty"`
+	// 异常信息的文本描述
+	ResultMsg *string `json:"result_msg,omitempty" xml:"result_msg,omitempty"`
+	// 是否完成签署
+	Completed *bool `json:"completed,omitempty" xml:"completed,omitempty"`
+}
+
+func (s CompleteDigitalregistrationApplyformsealResponse) String() string {
+	return tea.Prettify(s)
+}
+
+func (s CompleteDigitalregistrationApplyformsealResponse) GoString() string {
+	return s.String()
+}
+
+func (s *CompleteDigitalregistrationApplyformsealResponse) SetReqMsgId(v string) *CompleteDigitalregistrationApplyformsealResponse {
+	s.ReqMsgId = &v
+	return s
+}
+
+func (s *CompleteDigitalregistrationApplyformsealResponse) SetResultCode(v string) *CompleteDigitalregistrationApplyformsealResponse {
+	s.ResultCode = &v
+	return s
+}
+
+func (s *CompleteDigitalregistrationApplyformsealResponse) SetResultMsg(v string) *CompleteDigitalregistrationApplyformsealResponse {
+	s.ResultMsg = &v
+	return s
+}
+
+func (s *CompleteDigitalregistrationApplyformsealResponse) SetCompleted(v bool) *CompleteDigitalregistrationApplyformsealResponse {
+	s.Completed = &v
+	return s
+}
+
 type AddContentRequest struct {
 	// OAuth模式下的授权token
 	AuthToken         *string `json:"auth_token,omitempty" xml:"auth_token,omitempty"`
@@ -17923,7 +17937,7 @@ func (client *Client) DoRequest(version *string, action *string, protocol *strin
 				"req_msg_id":       antchainutil.GetNonce(),
 				"access_key":       client.AccessKeyId,
 				"base_sdk_version": tea.String("TeaSDK-2.0"),
-				"sdk_version":      tea.String("1.21.2"),
+				"sdk_version":      tea.String("1.21.4"),
 				"_prod_code":       tea.String("BCCR"),
 				"_prod_channel":    tea.String("undefined"),
 			}
@@ -18226,186 +18240,6 @@ func (client *Client) CompleteapplyformsealCopyrightregistrationDigitalregistrat
 	}
 	_result = &CompleteapplyformsealCopyrightregistrationDigitalregistrationResponse{}
 	_body, _err := client.DoRequest(tea.String("1.0"), tea.String("blockchain.bccr.copyrightregistration.digitalregistration.completeapplyformseal"), tea.String("HTTPS"), tea.String("POST"), tea.String("/gateway.do"), tea.ToMap(request), headers, runtime)
-	if _err != nil {
-		return _result, _err
-	}
-	_err = tea.Convert(_body, &_result)
-	return _result, _err
-}
-
-// Description:
-//
-// Description: 版权登记-数登申请-查询数登申请表
-//
-// Summary: 版权登记-数登申请-查询数登申请表
-func (client *Client) QueryDigitalregistrationApplyform(request *QueryDigitalregistrationApplyformRequest) (_result *QueryDigitalregistrationApplyformResponse, _err error) {
-	runtime := &util.RuntimeOptions{}
-	headers := make(map[string]*string)
-	_result = &QueryDigitalregistrationApplyformResponse{}
-	_body, _err := client.QueryDigitalregistrationApplyformEx(request, headers, runtime)
-	if _err != nil {
-		return _result, _err
-	}
-	_result = _body
-	return _result, _err
-}
-
-// Description:
-//
-// Description: 版权登记-数登申请-查询数登申请表
-//
-// Summary: 版权登记-数登申请-查询数登申请表
-func (client *Client) QueryDigitalregistrationApplyformEx(request *QueryDigitalregistrationApplyformRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *QueryDigitalregistrationApplyformResponse, _err error) {
-	_err = util.ValidateModel(request)
-	if _err != nil {
-		return _result, _err
-	}
-	_result = &QueryDigitalregistrationApplyformResponse{}
-	_body, _err := client.DoRequest(tea.String("1.0"), tea.String("blockchain.bccr.digitalregistration.applyform.query"), tea.String("HTTPS"), tea.String("POST"), tea.String("/gateway.do"), tea.ToMap(request), headers, runtime)
-	if _err != nil {
-		return _result, _err
-	}
-	_err = tea.Convert(_body, &_result)
-	return _result, _err
-}
-
-// Description:
-//
-// Description: 数登申请表签章静默授权查询
-//
-// Summary: 数登申请表签章静默授权查询
-func (client *Client) QueryDigitalregistrationSealauth(request *QueryDigitalregistrationSealauthRequest) (_result *QueryDigitalregistrationSealauthResponse, _err error) {
-	runtime := &util.RuntimeOptions{}
-	headers := make(map[string]*string)
-	_result = &QueryDigitalregistrationSealauthResponse{}
-	_body, _err := client.QueryDigitalregistrationSealauthEx(request, headers, runtime)
-	if _err != nil {
-		return _result, _err
-	}
-	_result = _body
-	return _result, _err
-}
-
-// Description:
-//
-// Description: 数登申请表签章静默授权查询
-//
-// Summary: 数登申请表签章静默授权查询
-func (client *Client) QueryDigitalregistrationSealauthEx(request *QueryDigitalregistrationSealauthRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *QueryDigitalregistrationSealauthResponse, _err error) {
-	_err = util.ValidateModel(request)
-	if _err != nil {
-		return _result, _err
-	}
-	_result = &QueryDigitalregistrationSealauthResponse{}
-	_body, _err := client.DoRequest(tea.String("1.0"), tea.String("blockchain.bccr.digitalregistration.sealauth.query"), tea.String("HTTPS"), tea.String("POST"), tea.String("/gateway.do"), tea.ToMap(request), headers, runtime)
-	if _err != nil {
-		return _result, _err
-	}
-	_err = tea.Convert(_body, &_result)
-	return _result, _err
-}
-
-// Description:
-//
-// Description: 数登申请表创建签署流程
-//
-// Summary: 数登申请表创建签署流程
-func (client *Client) CreateDigitalregistrationApplyformsealflow(request *CreateDigitalregistrationApplyformsealflowRequest) (_result *CreateDigitalregistrationApplyformsealflowResponse, _err error) {
-	runtime := &util.RuntimeOptions{}
-	headers := make(map[string]*string)
-	_result = &CreateDigitalregistrationApplyformsealflowResponse{}
-	_body, _err := client.CreateDigitalregistrationApplyformsealflowEx(request, headers, runtime)
-	if _err != nil {
-		return _result, _err
-	}
-	_result = _body
-	return _result, _err
-}
-
-// Description:
-//
-// Description: 数登申请表创建签署流程
-//
-// Summary: 数登申请表创建签署流程
-func (client *Client) CreateDigitalregistrationApplyformsealflowEx(request *CreateDigitalregistrationApplyformsealflowRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *CreateDigitalregistrationApplyformsealflowResponse, _err error) {
-	_err = util.ValidateModel(request)
-	if _err != nil {
-		return _result, _err
-	}
-	_result = &CreateDigitalregistrationApplyformsealflowResponse{}
-	_body, _err := client.DoRequest(tea.String("1.0"), tea.String("blockchain.bccr.digitalregistration.applyformsealflow.create"), tea.String("HTTPS"), tea.String("POST"), tea.String("/gateway.do"), tea.ToMap(request), headers, runtime)
-	if _err != nil {
-		return _result, _err
-	}
-	_err = tea.Convert(_body, &_result)
-	return _result, _err
-}
-
-// Description:
-//
-// Description: 查询数登申请表签章url
-//
-// Summary: 查询数登申请表签章url
-func (client *Client) QueryDigitalregistrationApplyformsealurl(request *QueryDigitalregistrationApplyformsealurlRequest) (_result *QueryDigitalregistrationApplyformsealurlResponse, _err error) {
-	runtime := &util.RuntimeOptions{}
-	headers := make(map[string]*string)
-	_result = &QueryDigitalregistrationApplyformsealurlResponse{}
-	_body, _err := client.QueryDigitalregistrationApplyformsealurlEx(request, headers, runtime)
-	if _err != nil {
-		return _result, _err
-	}
-	_result = _body
-	return _result, _err
-}
-
-// Description:
-//
-// Description: 查询数登申请表签章url
-//
-// Summary: 查询数登申请表签章url
-func (client *Client) QueryDigitalregistrationApplyformsealurlEx(request *QueryDigitalregistrationApplyformsealurlRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *QueryDigitalregistrationApplyformsealurlResponse, _err error) {
-	_err = util.ValidateModel(request)
-	if _err != nil {
-		return _result, _err
-	}
-	_result = &QueryDigitalregistrationApplyformsealurlResponse{}
-	_body, _err := client.DoRequest(tea.String("1.0"), tea.String("blockchain.bccr.digitalregistration.applyformsealurl.query"), tea.String("HTTPS"), tea.String("POST"), tea.String("/gateway.do"), tea.ToMap(request), headers, runtime)
-	if _err != nil {
-		return _result, _err
-	}
-	_err = tea.Convert(_body, &_result)
-	return _result, _err
-}
-
-// Description:
-//
-// Description: 完成数登申请表签署
-//
-// Summary: 完成数登申请表签署
-func (client *Client) CompleteDigitalregistrationApplyformseal(request *CompleteDigitalregistrationApplyformsealRequest) (_result *CompleteDigitalregistrationApplyformsealResponse, _err error) {
-	runtime := &util.RuntimeOptions{}
-	headers := make(map[string]*string)
-	_result = &CompleteDigitalregistrationApplyformsealResponse{}
-	_body, _err := client.CompleteDigitalregistrationApplyformsealEx(request, headers, runtime)
-	if _err != nil {
-		return _result, _err
-	}
-	_result = _body
-	return _result, _err
-}
-
-// Description:
-//
-// Description: 完成数登申请表签署
-//
-// Summary: 完成数登申请表签署
-func (client *Client) CompleteDigitalregistrationApplyformsealEx(request *CompleteDigitalregistrationApplyformsealRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *CompleteDigitalregistrationApplyformsealResponse, _err error) {
-	_err = util.ValidateModel(request)
-	if _err != nil {
-		return _result, _err
-	}
-	_result = &CompleteDigitalregistrationApplyformsealResponse{}
-	_body, _err := client.DoRequest(tea.String("1.0"), tea.String("blockchain.bccr.digitalregistration.applyformseal.complete"), tea.String("HTTPS"), tea.String("POST"), tea.String("/gateway.do"), tea.ToMap(request), headers, runtime)
 	if _err != nil {
 		return _result, _err
 	}
@@ -21466,6 +21300,186 @@ func (client *Client) QueryDciCertificateresultEx(request *QueryDciCertificatere
 	}
 	_result = &QueryDciCertificateresultResponse{}
 	_body, _err := client.DoRequest(tea.String("1.0"), tea.String("blockchain.bccr.dci.certificateresult.query"), tea.String("HTTPS"), tea.String("POST"), tea.String("/gateway.do"), tea.ToMap(request), headers, runtime)
+	if _err != nil {
+		return _result, _err
+	}
+	_err = tea.Convert(_body, &_result)
+	return _result, _err
+}
+
+// Description:
+//
+// Description: 版权登记-数登申请-查询数登申请表
+//
+// Summary: 版权登记-数登申请-查询数登申请表
+func (client *Client) QueryDigitalregistrationApplyform(request *QueryDigitalregistrationApplyformRequest) (_result *QueryDigitalregistrationApplyformResponse, _err error) {
+	runtime := &util.RuntimeOptions{}
+	headers := make(map[string]*string)
+	_result = &QueryDigitalregistrationApplyformResponse{}
+	_body, _err := client.QueryDigitalregistrationApplyformEx(request, headers, runtime)
+	if _err != nil {
+		return _result, _err
+	}
+	_result = _body
+	return _result, _err
+}
+
+// Description:
+//
+// Description: 版权登记-数登申请-查询数登申请表
+//
+// Summary: 版权登记-数登申请-查询数登申请表
+func (client *Client) QueryDigitalregistrationApplyformEx(request *QueryDigitalregistrationApplyformRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *QueryDigitalregistrationApplyformResponse, _err error) {
+	_err = util.ValidateModel(request)
+	if _err != nil {
+		return _result, _err
+	}
+	_result = &QueryDigitalregistrationApplyformResponse{}
+	_body, _err := client.DoRequest(tea.String("1.0"), tea.String("blockchain.bccr.digitalregistration.applyform.query"), tea.String("HTTPS"), tea.String("POST"), tea.String("/gateway.do"), tea.ToMap(request), headers, runtime)
+	if _err != nil {
+		return _result, _err
+	}
+	_err = tea.Convert(_body, &_result)
+	return _result, _err
+}
+
+// Description:
+//
+// Description: 数登申请表签章静默授权查询
+//
+// Summary: 数登申请表签章静默授权查询
+func (client *Client) QueryDigitalregistrationSealauth(request *QueryDigitalregistrationSealauthRequest) (_result *QueryDigitalregistrationSealauthResponse, _err error) {
+	runtime := &util.RuntimeOptions{}
+	headers := make(map[string]*string)
+	_result = &QueryDigitalregistrationSealauthResponse{}
+	_body, _err := client.QueryDigitalregistrationSealauthEx(request, headers, runtime)
+	if _err != nil {
+		return _result, _err
+	}
+	_result = _body
+	return _result, _err
+}
+
+// Description:
+//
+// Description: 数登申请表签章静默授权查询
+//
+// Summary: 数登申请表签章静默授权查询
+func (client *Client) QueryDigitalregistrationSealauthEx(request *QueryDigitalregistrationSealauthRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *QueryDigitalregistrationSealauthResponse, _err error) {
+	_err = util.ValidateModel(request)
+	if _err != nil {
+		return _result, _err
+	}
+	_result = &QueryDigitalregistrationSealauthResponse{}
+	_body, _err := client.DoRequest(tea.String("1.0"), tea.String("blockchain.bccr.digitalregistration.sealauth.query"), tea.String("HTTPS"), tea.String("POST"), tea.String("/gateway.do"), tea.ToMap(request), headers, runtime)
+	if _err != nil {
+		return _result, _err
+	}
+	_err = tea.Convert(_body, &_result)
+	return _result, _err
+}
+
+// Description:
+//
+// Description: 数登申请表创建签署流程
+//
+// Summary: 数登申请表创建签署流程
+func (client *Client) CreateDigitalregistrationApplyformsealflow(request *CreateDigitalregistrationApplyformsealflowRequest) (_result *CreateDigitalregistrationApplyformsealflowResponse, _err error) {
+	runtime := &util.RuntimeOptions{}
+	headers := make(map[string]*string)
+	_result = &CreateDigitalregistrationApplyformsealflowResponse{}
+	_body, _err := client.CreateDigitalregistrationApplyformsealflowEx(request, headers, runtime)
+	if _err != nil {
+		return _result, _err
+	}
+	_result = _body
+	return _result, _err
+}
+
+// Description:
+//
+// Description: 数登申请表创建签署流程
+//
+// Summary: 数登申请表创建签署流程
+func (client *Client) CreateDigitalregistrationApplyformsealflowEx(request *CreateDigitalregistrationApplyformsealflowRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *CreateDigitalregistrationApplyformsealflowResponse, _err error) {
+	_err = util.ValidateModel(request)
+	if _err != nil {
+		return _result, _err
+	}
+	_result = &CreateDigitalregistrationApplyformsealflowResponse{}
+	_body, _err := client.DoRequest(tea.String("1.0"), tea.String("blockchain.bccr.digitalregistration.applyformsealflow.create"), tea.String("HTTPS"), tea.String("POST"), tea.String("/gateway.do"), tea.ToMap(request), headers, runtime)
+	if _err != nil {
+		return _result, _err
+	}
+	_err = tea.Convert(_body, &_result)
+	return _result, _err
+}
+
+// Description:
+//
+// Description: 查询数登申请表签章url
+//
+// Summary: 查询数登申请表签章url
+func (client *Client) QueryDigitalregistrationApplyformsealurl(request *QueryDigitalregistrationApplyformsealurlRequest) (_result *QueryDigitalregistrationApplyformsealurlResponse, _err error) {
+	runtime := &util.RuntimeOptions{}
+	headers := make(map[string]*string)
+	_result = &QueryDigitalregistrationApplyformsealurlResponse{}
+	_body, _err := client.QueryDigitalregistrationApplyformsealurlEx(request, headers, runtime)
+	if _err != nil {
+		return _result, _err
+	}
+	_result = _body
+	return _result, _err
+}
+
+// Description:
+//
+// Description: 查询数登申请表签章url
+//
+// Summary: 查询数登申请表签章url
+func (client *Client) QueryDigitalregistrationApplyformsealurlEx(request *QueryDigitalregistrationApplyformsealurlRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *QueryDigitalregistrationApplyformsealurlResponse, _err error) {
+	_err = util.ValidateModel(request)
+	if _err != nil {
+		return _result, _err
+	}
+	_result = &QueryDigitalregistrationApplyformsealurlResponse{}
+	_body, _err := client.DoRequest(tea.String("1.0"), tea.String("blockchain.bccr.digitalregistration.applyformsealurl.query"), tea.String("HTTPS"), tea.String("POST"), tea.String("/gateway.do"), tea.ToMap(request), headers, runtime)
+	if _err != nil {
+		return _result, _err
+	}
+	_err = tea.Convert(_body, &_result)
+	return _result, _err
+}
+
+// Description:
+//
+// Description: 完成数登申请表签署
+//
+// Summary: 完成数登申请表签署
+func (client *Client) CompleteDigitalregistrationApplyformseal(request *CompleteDigitalregistrationApplyformsealRequest) (_result *CompleteDigitalregistrationApplyformsealResponse, _err error) {
+	runtime := &util.RuntimeOptions{}
+	headers := make(map[string]*string)
+	_result = &CompleteDigitalregistrationApplyformsealResponse{}
+	_body, _err := client.CompleteDigitalregistrationApplyformsealEx(request, headers, runtime)
+	if _err != nil {
+		return _result, _err
+	}
+	_result = _body
+	return _result, _err
+}
+
+// Description:
+//
+// Description: 完成数登申请表签署
+//
+// Summary: 完成数登申请表签署
+func (client *Client) CompleteDigitalregistrationApplyformsealEx(request *CompleteDigitalregistrationApplyformsealRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *CompleteDigitalregistrationApplyformsealResponse, _err error) {
+	_err = util.ValidateModel(request)
+	if _err != nil {
+		return _result, _err
+	}
+	_result = &CompleteDigitalregistrationApplyformsealResponse{}
+	_body, _err := client.DoRequest(tea.String("1.0"), tea.String("blockchain.bccr.digitalregistration.applyformseal.complete"), tea.String("HTTPS"), tea.String("POST"), tea.String("/gateway.do"), tea.ToMap(request), headers, runtime)
 	if _err != nil {
 		return _result, _err
 	}
