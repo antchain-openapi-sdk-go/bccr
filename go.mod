@@ -1,4 +1,4 @@
-module github.com/alipay/bccr
+module github.com/antchain-openapi-sdk-go/bccr
 
 go 1.22.1
 

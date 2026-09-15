@@ -6499,6 +6499,83 @@ func (s *CompleteapplyformsealCopyrightregistrationDigitalregistrationResponse) 
 	return s
 }
 
+type ReturnbackRegistrationRequest struct {
+	// OAuth模式下的授权token
+	AuthToken         *string `json:"auth_token,omitempty" xml:"auth_token,omitempty"`
+	ProductInstanceId *string `json:"product_instance_id,omitempty" xml:"product_instance_id,omitempty"`
+	// 数登流水号
+	TaskId *string `json:"task_id,omitempty" xml:"task_id,omitempty" require:"true"`
+	// 拒绝退费原因
+	ReturnBackReason *string `json:"return_back_reason,omitempty" xml:"return_back_reason,omitempty" require:"true"`
+	// 幂等
+	ClientToken *string `json:"client_token,omitempty" xml:"client_token,omitempty" require:"true"`
+}
+
+func (s ReturnbackRegistrationRequest) String() string {
+	return tea.Prettify(s)
+}
+
+func (s ReturnbackRegistrationRequest) GoString() string {
+	return s.String()
+}
+
+func (s *ReturnbackRegistrationRequest) SetAuthToken(v string) *ReturnbackRegistrationRequest {
+	s.AuthToken = &v
+	return s
+}
+
+func (s *ReturnbackRegistrationRequest) SetProductInstanceId(v string) *ReturnbackRegistrationRequest {
+	s.ProductInstanceId = &v
+	return s
+}
+
+func (s *ReturnbackRegistrationRequest) SetTaskId(v string) *ReturnbackRegistrationRequest {
+	s.TaskId = &v
+	return s
+}
+
+func (s *ReturnbackRegistrationRequest) SetReturnBackReason(v string) *ReturnbackRegistrationRequest {
+	s.ReturnBackReason = &v
+	return s
+}
+
+func (s *ReturnbackRegistrationRequest) SetClientToken(v string) *ReturnbackRegistrationRequest {
+	s.ClientToken = &v
+	return s
+}
+
+type ReturnbackRegistrationResponse struct {
+	// 请求唯一ID，用于链路跟踪和问题排查
+	ReqMsgId *string `json:"req_msg_id,omitempty" xml:"req_msg_id,omitempty"`
+	// 结果码，一般OK表示调用成功
+	ResultCode *string `json:"result_code,omitempty" xml:"result_code,omitempty"`
+	// 异常信息的文本描述
+	ResultMsg *string `json:"result_msg,omitempty" xml:"result_msg,omitempty"`
+}
+
+func (s ReturnbackRegistrationResponse) String() string {
+	return tea.Prettify(s)
+}
+
+func (s ReturnbackRegistrationResponse) GoString() string {
+	return s.String()
+}
+
+func (s *ReturnbackRegistrationResponse) SetReqMsgId(v string) *ReturnbackRegistrationResponse {
+	s.ReqMsgId = &v
+	return s
+}
+
+func (s *ReturnbackRegistrationResponse) SetResultCode(v string) *ReturnbackRegistrationResponse {
+	s.ResultCode = &v
+	return s
+}
+
+func (s *ReturnbackRegistrationResponse) SetResultMsg(v string) *ReturnbackRegistrationResponse {
+	s.ResultMsg = &v
+	return s
+}
+
 type GetUploadurlRequest struct {
 	// OAuth模式下的授权token
 	AuthToken         *string `json:"auth_token,omitempty" xml:"auth_token,omitempty"`
@@ -10895,6 +10972,8 @@ type QueryDciRegistrationResponse struct {
 	ApplyFormUrl *string `json:"apply_form_url,omitempty" xml:"apply_form_url,omitempty"`
 	// 数登流水号
 	FlowNumber *string `json:"flow_number,omitempty" xml:"flow_number,omitempty"`
+	// 数登拒绝退费理由
+	RefundRejectInfo *string `json:"refund_reject_info,omitempty" xml:"refund_reject_info,omitempty"`
 }
 
 func (s QueryDciRegistrationResponse) String() string {
@@ -11047,6 +11126,11 @@ func (s *QueryDciRegistrationResponse) SetApplyFormUrl(v string) *QueryDciRegist
 
 func (s *QueryDciRegistrationResponse) SetFlowNumber(v string) *QueryDciRegistrationResponse {
 	s.FlowNumber = &v
+	return s
+}
+
+func (s *QueryDciRegistrationResponse) SetRefundRejectInfo(v string) *QueryDciRegistrationResponse {
+	s.RefundRejectInfo = &v
 	return s
 }
 
@@ -17937,7 +18021,7 @@ func (client *Client) DoRequest(version *string, action *string, protocol *strin
 				"req_msg_id":       antchainutil.GetNonce(),
 				"access_key":       client.AccessKeyId,
 				"base_sdk_version": tea.String("TeaSDK-2.0"),
-				"sdk_version":      tea.String("1.21.6"),
+				"sdk_version":      tea.String("1.21.9"),
 				"_prod_code":       tea.String("BCCR"),
 				"_prod_channel":    tea.String("undefined"),
 			}
@@ -18240,6 +18324,42 @@ func (client *Client) CompleteapplyformsealCopyrightregistrationDigitalregistrat
 	}
 	_result = &CompleteapplyformsealCopyrightregistrationDigitalregistrationResponse{}
 	_body, _err := client.DoRequest(tea.String("1.0"), tea.String("blockchain.bccr.copyrightregistration.digitalregistration.completeapplyformseal"), tea.String("HTTPS"), tea.String("POST"), tea.String("/gateway.do"), tea.ToMap(request), headers, runtime)
+	if _err != nil {
+		return _result, _err
+	}
+	_err = tea.Convert(_body, &_result)
+	return _result, _err
+}
+
+// Description:
+//
+// Description: 版保中心拒绝退费回调接口
+//
+// Summary: 版保中心拒绝退费回调接口
+func (client *Client) ReturnbackRegistration(request *ReturnbackRegistrationRequest) (_result *ReturnbackRegistrationResponse, _err error) {
+	runtime := &util.RuntimeOptions{}
+	headers := make(map[string]*string)
+	_result = &ReturnbackRegistrationResponse{}
+	_body, _err := client.ReturnbackRegistrationEx(request, headers, runtime)
+	if _err != nil {
+		return _result, _err
+	}
+	_result = _body
+	return _result, _err
+}
+
+// Description:
+//
+// Description: 版保中心拒绝退费回调接口
+//
+// Summary: 版保中心拒绝退费回调接口
+func (client *Client) ReturnbackRegistrationEx(request *ReturnbackRegistrationRequest, headers map[string]*string, runtime *util.RuntimeOptions) (_result *ReturnbackRegistrationResponse, _err error) {
+	_err = util.ValidateModel(request)
+	if _err != nil {
+		return _result, _err
+	}
+	_result = &ReturnbackRegistrationResponse{}
+	_body, _err := client.DoRequest(tea.String("1.0"), tea.String("blockchain.bccr.registration.returnback"), tea.String("HTTPS"), tea.String("POST"), tea.String("/gateway.do"), tea.ToMap(request), headers, runtime)
 	if _err != nil {
 		return _result, _err
 	}
