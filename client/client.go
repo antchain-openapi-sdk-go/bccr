@@ -10972,8 +10972,6 @@ type QueryDciRegistrationResponse struct {
 	ApplyFormUrl *string `json:"apply_form_url,omitempty" xml:"apply_form_url,omitempty"`
 	// 数登流水号
 	FlowNumber *string `json:"flow_number,omitempty" xml:"flow_number,omitempty"`
-	// 数登拒绝退费理由
-	RefundRejectInfo *string `json:"refund_reject_info,omitempty" xml:"refund_reject_info,omitempty"`
 }
 
 func (s QueryDciRegistrationResponse) String() string {
@@ -11126,11 +11124,6 @@ func (s *QueryDciRegistrationResponse) SetApplyFormUrl(v string) *QueryDciRegist
 
 func (s *QueryDciRegistrationResponse) SetFlowNumber(v string) *QueryDciRegistrationResponse {
 	s.FlowNumber = &v
-	return s
-}
-
-func (s *QueryDciRegistrationResponse) SetRefundRejectInfo(v string) *QueryDciRegistrationResponse {
-	s.RefundRejectInfo = &v
 	return s
 }
 
@@ -18021,7 +18014,7 @@ func (client *Client) DoRequest(version *string, action *string, protocol *strin
 				"req_msg_id":       antchainutil.GetNonce(),
 				"access_key":       client.AccessKeyId,
 				"base_sdk_version": tea.String("TeaSDK-2.0"),
-				"sdk_version":      tea.String("1.21.9"),
+				"sdk_version":      tea.String("1.21.10"),
 				"_prod_code":       tea.String("BCCR"),
 				"_prod_channel":    tea.String("undefined"),
 			}
